@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archipelago Adventure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="style.css">
+</head>
+<body class="flex items-center justify-center h-screen bg-cover bg-center" style="background-image: url('gameptiasset/assets/5bd170bb4655992be36d6034b35224fd.jpg');">
+    <div class="text-center bg-white bg-opacity-70 p-8 rounded-lg shadow-lg">
+        <h1 id="title" class="text-4xl font-bold text-green-800 mb-6">Archipelago Adventure!</h1>
+        <button onclick="startGame()" 
+            class="px-6 py-3 text-lg font-semibold text-white bg-green-500 rounded-lg shadow-md hover:bg-green-600 transition">
+            Start Game
+        </button>
+    </div>
+
+    <script>
+        function startGame() {
+            window.location.href = 'pickchar.html'; 
+        }
+
+   
+        document.addEventListener("DOMContentLoaded", function () {
+            let title = document.getElementById("title");
+            title.style.opacity = 0;
+            title.style.transform = "translateY(-20px)";
+            setTimeout(() => {
+                title.style.transition = "opacity 2s ease-in, transform 2s ease-in";
+                title.style.opacity = 1;
+                title.style.transform = "translateY(0)";
+            }, 500);
+        });
+    </script>
+</body>
+</html>
+
+
