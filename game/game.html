@@ -16,6 +16,7 @@
       class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20"
     >
       <span><strong>Archipelago Adventure</strong></span>
+      <span id="game-time"></span>
     </div>
     <div class="flex items-center gap-2 mt-10">
       <span class="mt-5">❤</span>
@@ -94,10 +95,25 @@
           playerImg.src = selectedCharacterImage;
         }
       });
+      
+      function updateDateTime() {
+        let gameTime = new Date();
+            gameTime.setSeconds(gameTime.getSeconds() + 60); 
+
+            const options = { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', 
+                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true 
+            };
+
+            document.getElementById("game-time").textContent = gameTime.toLocaleDateString("en-US", options);
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
 
       let position = { x: 50, y: 50 };
       let isFlipped = false;
-      const step = 30; // Movement distance
+      const step = 30; 
 
       function move(direction) {
             let player = document.getElementById("player");
