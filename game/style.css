@@ -19,3 +19,6 @@
     100% { transform: translateY(0px); }
 }
 
+.status-bar{
+    height: 80px;
+}

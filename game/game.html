@@ -9,9 +9,14 @@
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center" 
       style="background-image: url('gameptiasset/assets/5bd170bb4655992be36d6034b35224fd.jpg');">
-  
-    <div class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20">
+
+  <div>
+    <div class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg">
         <span><strong>Archipelago Adventure</strong></span>
+        <span class="mt-5 mr-3" id="greeting-message"></span> 
+        <div class="fixed top-2 right-4 text-white p-2 rounded-lg shadow-lg">
+          <span id="game-time"></span>
+        </div>
     </div>
 
     <div class="flex flex-row items-center mt-16 space-x-8">
