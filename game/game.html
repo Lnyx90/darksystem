@@ -46,9 +46,11 @@
         <div class="relative w-[850px] h-[600px]">
             <img src="gameptiasset/assets/map.jpg" class="w-full h-full rounded-lg shadow-lg">
             
-            <div id="player" class="absolute text-white font-bold transition-all" style="left: 50px; top: 50px; z-index: 10;">
+            <div id="player" class="absolute text-white font-bold transition-all text-center" style="left: 50px; top: 50px; z-index: 10;">
+              <p id="player-name" class=" text-black px-2 py-1 rounded-lg "></p>
               <img id="player-img" src="" width="40" class="rounded-full">
           </div>
+          
           
           <img src="gameptiasset/assets/bromo.png" class="absolute w-16 h-16" style="left: 760px; top: 470px; z-index: 5;">
           <img src="gameptiasset/assets/kuta.png" class="absolute w-16 h-16" style="left: 270px; top: 445px; z-index: 5;">
@@ -85,16 +87,20 @@
     
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        let selectedCharacterImage =
-          localStorage.getItem("selectedCharacterImage") ||
-          "gameptiasset/assets/wayang1.png";
-        let playerImg = document.getElementById("player-img");
+   document.addEventListener("DOMContentLoaded", function () {
+    let selectedCharacterImage =
+        localStorage.getItem("selectedCharacterImage") ||
+        "gameptiasset/assets/wayang1.png";
+    let playerImg = document.getElementById("player-img");
+    let playerName = localStorage.getItem("playerName") || "Player"; 
 
-        if (playerImg) {
-          playerImg.src = selectedCharacterImage;
-        }
-      });
+    if (playerImg) {
+        playerImg.src = selectedCharacterImage;
+    }
+
+    document.getElementById("player-name").textContent = playerName;
+});
+
       
       function updateDateTime() {
         let gameTime = new Date();
