@@ -106,7 +106,60 @@
       >
         ⬇
       </button>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center" 
+      style="background-image: url('gameptiasset/assets/5bd170bb4655992be36d6034b35224fd.jpg');">
+
+  <div>
+    <div class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg">
+        <span><strong>Archipelago Adventure</strong></span>
+        <span class="mt-5 mr-3" id="greeting-message"></span> 
+        <div class="fixed top-2 right-4 text-white p-2 rounded-lg shadow-lg">
+          <span id="game-time"></span>
+        </div>
     </div>
+
+    <div class="flex flex-row items-center mt-16 space-x-8">
+        <div class="relative w-[850px] h-[600px]">
+            <img src="gameptiasset/assets/map.jpg" class="w-full h-full rounded-lg shadow-lg">
+            
+            <div id="player" class="absolute text-white font-bold transition-all" style="left: 50px; top: 50px;">
+                <img id="player-img" src="" width="40" class="rounded-full">
+            </div>
+            
+            <img src="gameptiasset/assets/gunung bromo-Photoroom.png" class="absolute w-16 h-16" style="left: 760px; top: 470px;">
+            <img src="gameptiasset/assets/pantai kuta-Photoroom.png" class="absolute w-16 h-16" style="left: 270px; top: 445px;">
+            <img src="gameptiasset/assets/borobudur-removebg-preview.png" class="absolute w-16 h-16" style="left: 680px; top: 240px;">
+            <img src="gameptiasset/assets/laketoba-Photoroom.png" class="absolute w-16 h-16" style="left: 380px; top: 60px;">
+        </div>
+
+        <div id="location" class="w-64 bg-white p-4 rounded-lg shadow-lg">
+            <div id="location-text" class="text-lg font-bold mb-4">You're at Home</div>
+            <button id="action1" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action2" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action3" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action4" class="w-full bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600"></button>
+            <div class="gift bg-yellow-300 p-2 rounded-lg mt-2 text-center"></div>
+            <div class="mt-6 flex flex-col items-center">
+                <button onclick="move('up')">
+                    <img src="gameptiasset/assets/top-removebg-preview.png" alt="up" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
+                </button>
+                <div class="flex space-x-4 mt-2">
+                    <button onclick="move('left')">
+                        <img src="gameptiasset/assets/left-removebg-preview.png" alt="left" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
+                    </button>
+                    <button onclick="move('right')">
+                        <img src="gameptiasset/assets/right-removebg-preview.png" alt="right" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200 ml-5">
+                    </button>
+                </div>
+                <button onclick="move('down')">
+                    <img src="gameptiasset/assets/down-removebg-preview.png" alt="down" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
+                </button>
+            </div>
+        </div>
+    </div>
+    
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
