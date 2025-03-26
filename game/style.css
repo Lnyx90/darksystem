@@ -144,4 +144,24 @@ body {
     transform: scale(1); 
     transition: opacity 0.3s ease-in, transform 0.3s ease-in; 
 }
+.choosetext h1{
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
 
+}
+
+@media (max-width: 768px) {
+    .choosetext h1{
+        font-size: 2rem; 
+        top: 3%;
+    }
+}
+@media (max-width: 480px) {
+    .choosetext {
+        font-size: 1.5rem;
+        white-space: normal; 
+    }
+}
