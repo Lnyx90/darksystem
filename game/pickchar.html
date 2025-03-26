@@ -6,30 +6,41 @@
     <title>Choose Your Character</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        .fade-out { opacity: 0; transition: opacity 0.3s ease-out; }
-        .fade-in { opacity: 1; transition: opacity 0.3s ease-in; }
+        body {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center h-screen bg-cover bg-center" style="background-image: url('gameptiasset/assets/5bd170bb4655992be36d6034b35224fd.jpg');">
+<body class="flex flex-col items-center justify-center h-screen bg-cover bg-center" style="background-image: url('gameptiasset/assets/IMG_6068.JPG');">
+    <h1 class="text-3xl sm:text-5xl mt-10 ml-28 text-blue-900" style="font-family: 'Press Start 2P', cursive;">
+        Choose Your <span class="ml-3 inline-block">Character</span>
+    </h1>
     
-    <h1 class="text-5xl sm:text-7xl font-bold drop-shadow-lg absolute top-6 text-blue-900">Choose Your Character</h1>
-
-    <div class="flex flex-col items-center space-y-8 mt-20">
+    <div class="flex flex-col items-center mt-28">
         <div class="flex items-center space-x-6">
-            <button onclick="prevCharacter()" class="px-6 py-3 bg-blue-800 text-white text-lg rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-110">❮</button>
+            <button onclick="prevCharacter()" 
+                    class="px-6 py-3 bg-blue-800 text-white text-lg rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-110">❮</button>
             <img id="character" src="gameptiasset/assets/wayang1-removebg-preview.png" 
                  alt="Character" class="w-40 h-50 floating fade-in">
-            <button onclick="nextCharacter()" class="px-6 py-3 bg-blue-800 text-white text-lg rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-110">❯</button>
+            <button onclick="nextCharacter()" 
+                    class="px-6 py-3 bg-blue-800 text-white text-lg rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-110">❯</button>
         </div>
-
+        <input type="text" id="playerName" placeholder="Enter Your Name" 
+           class="mt-6 px-4 py-2 text-lg border-2 border-blue-800 rounded-md text-center focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 placeholder:text-xs">
         <button onclick="selectCharacter()" 
-                class="px-8 py-4 bg-blue-800 text-white text-xl rounded-full shadow-lg hover:bg-blue-500 transition transform hover:scale-110">
-             Select Character
+                class="mt-4 px-8 py-4 bg-blue-800 text-white text-xl rounded-full shadow-lg hover:bg-blue-500 transition transform hover:scale-110">
+            Select Character
         </button>
     </div>
 
     <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '1';
+        });
+
         let characters = [
             "gameptiasset/assets/wayang1-removebg-preview.png",
             "gameptiasset/assets/wayang2-removebg-preview.png",
@@ -41,7 +52,6 @@
 
         function updateCharacter() {
             characterImg.classList.add("fade-out"); 
-
             setTimeout(() => {
                 characterImg.src = characters[currentIndex];
                 characterImg.classList.remove("fade-out");
@@ -64,6 +74,5 @@
             window.location.href = 'game.html'; // Go to game page
         }
     </script>
-
 </body>
 </html>
