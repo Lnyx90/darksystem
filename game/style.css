@@ -144,7 +144,6 @@ body {
     transform: scale(1); 
     transition: opacity 0.3s ease-in, transform 0.3s ease-in; 
 }
-
 .choosetext h1{
     position: absolute;
     top: 5%;

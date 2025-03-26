@@ -18,25 +18,25 @@
       <span><strong>Archipelago Adventure</strong></span>
       <span id="game-time"></span>
     </div>
-    <div class="flex items-center gap-2 mt-20">
-      <span class="mt-5">❤</span>
+    <div class="flex items-center gap-2 mt-5 mb-5">
+      <span class="mt-5">💓</span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
           <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
       </div>
       <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-28">❤</span>
+      <span class="mt-5 ml-20">🛏</span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
-          <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
+          <div id="energy-bar" class="h-full bg-yellow-300 transition-all" style="width: 100%;"></div>
       </div>
       <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-28">❤</span>
+      <span class="mt-5 ml-20">🧖🏻‍♀</span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
-          <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
+          <div id="hygiene-bar" class="h-full bg-blue-400 transition-all" style="width: 100%;"></div>
       </div>
       <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-28">❤</span>
+      <span class="mt-5 ml-20">🧏🏻‍♀</span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
-          <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
+          <div id="happines-bar" class="h-full bg-pink-400 transition-all" style="width: 100%;"></div>
       </div>
       <span id="health-text" class="mt-5">100%</span>
   </div>
@@ -60,7 +60,7 @@
         </div>
 
         <div id="location" class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg">
-            <div id="location-text" class="text-lg font-bold mb-4">You're at Home</div>
+            <div id="location-text" class="text-lg font-bold mb-4">Welcome to Archipelago</div>
             <button id="action1" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
             <button id="action2" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
             <button id="action3" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
@@ -119,24 +119,53 @@
         setInterval(updateDateTime, 1000);
         updateDateTime();
 
-      let position = { x: 50, y: 50 };
+      let position = { x: 60, y: 90 };
       let isFlipped = false;
       const step = 30; 
 
       function move(direction) {
+            const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
             let player = document.getElementById("player");
             let playerImg = document.getElementById("player-img");
+            let prevX = position.x;
+            let prevY = position.y;
             if (!player) return;
 
             switch (direction) {
-                case 'up': position.y -= step; break;
-                case 'down': position.y += step; break;
-                case 'left': position.x -= step; playerImg.style.transform = "scaleX(-1)"; break;
-                case 'right': position.x += step; playerImg.style.transform = "scaleX(1)"; break;
+              case 'up': 
+                  if (position.y - step >= mapBounds.top) position.y -= step; 
+                  break;
+              case 'down': 
+                  if (position.y + step <= mapBounds.bottom) position.y += step; 
+                  break;
+              case 'left': 
+                  if (position.x - step >= mapBounds.left) position.x -= step;
+                  playerImg.style.transform = "scaleX(-1)"; 
+                  break;
+              case 'right': 
+                  if (position.x + step <= mapBounds.right) position.x += step;
+                  playerImg.style.transform = "scaleX(1)"; 
+                  break;
             }
+            if (position.x === prevX && position.y === prevY) {
+                player.style.animation = "shake 0.2s";
+                setTimeout(() => player.style.animation = "", 200);
+            }
+
 
             player.style.left = position.x + "px";
             player.style.top = position.y + "px";
+            const style = document.createElement('style');
+            style.innerHTML = `
+              @keyframes shake {
+                0% { transform: translateX(0); }
+                25% { transform: translateX(-3px); }
+                50% { transform: translateX(3px); }
+                75% { transform: translateX(-3px); }
+                100% { transform: translateX(0); }
+              }
+                `;
+            document.head.appendChild(style);
             updateLocationButtons();
         }
 
@@ -144,8 +173,8 @@
             let locationText = document.getElementById("location-text");
             let actions = ["action1", "action2", "action3", "action4"].map(id => document.getElementById(id));
 
-            if (Math.abs(position.x - 50) < 50 && Math.abs(position.y - 50) < 50) {
-                locationText.innerHTML = "You're at Home";
+            if (Math.abs(position.x - 60) < 50 && Math.abs(position.y - 90) < 50) {
+                locationText.innerHTML = "You're at Tangerang";
                 actions[0].innerHTML = "Get Some Meal";
                 actions[1].innerHTML = "Take a Bath";
                 actions[2].innerHTML = "Sleep";
