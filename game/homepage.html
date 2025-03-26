@@ -7,6 +7,29 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+    <style>
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px #00ff00; }
+            50% { text-shadow: 0 0 20px #00ff00; }
+            100% { text-shadow: 0 0 10px #00ff00; }
+        }
+        .glow-text {
+            animation: glow 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .pulse-button {
+            animation: pulse 1s infinite;
+            transition: background-color 0.2s;
+        }
+        .pulse-button:hover {
+            background-color: #2d7a39;
+        }
+    </style>
+
 </head>
 <body class="flex items-center justify-center h-screen bg-cover bg-center text-green-800 text-center transition-opacity" 
       style="background-image: url('gameptiasset/assets/IMG_6068.JPG');">
@@ -26,9 +49,13 @@
             const gameContainer = document.getElementById('gameContainer');
             gameContainer.classList.add('fade-out');
             setTimeout(() => {
-                window.location.href = 'pickchar.html';
+
+                window.location.href ="pickchar.html";
+
             }, 1000);
         }
     </script>
 </body>
+
 </html>
+
