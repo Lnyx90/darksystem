@@ -9,20 +9,33 @@
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center" 
       style="background-image: url('gameptiasset/assets/5bd170bb4655992be36d6034b35224fd.jpg');">
-  
-    <div class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20">
+
+  <div>
+    <div class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg">
         <span><strong>Archipelago Adventure</strong></span>
+        <span class="mt-5 mr-3" id="greeting-message"></span> 
+        <div class="fixed top-2 right-4 text-white p-2 rounded-lg shadow-lg">
+          <span id="game-time"></span>
+        </div>
     </div>
 
-    <div class="flex w-full max-w-4xl mt-16 space-x-4 relative b-green-800 w-400 h-500 "> 
-        <div class=" flex-1 bg-green-600 p-6 rounded-lg shadow-lg relative overflow-hidden ">
-            
-            <div class="bg-green-600 grid grid-cols-3 gap-6 place-items-center mt-4 relative h-64">
+    <div class="flex items-center gap-2 mt-20">
+        <span class="mt-10">❤️</span>
+        <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-10">
+            <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
+        </div>
+        <span id="health-text" class="mt-10">100%</span>
+    </div>
+
+    <div class="flex w-full max-w-6xl mt-10 space-x-4 relative">
+        <div class="flex-1 bg-green-600 p-6 rounded-lg shadow-lg relative overflow-hidden">
+            <div class="grid grid-cols-3 gap-6 place-items-center mt-4 relative h-64">
                 <div class="w-24 h-24 flex items-center justify-center rounded-full">
                     <img src="gameptiasset/assets/laketoba-Photoroom.png">
                 </div>
-                <div id="player" class="w-24 h-24 absolute text-white font-bold transition-all" style="left: 50px; top: 50px;">
-                    <img id="player-img" src="" width="40" class="rounded-full">
+                <!-- Fixed player position -->
+                <div id="player" class="w-24 h-24 absolute text-white font-bold transition-all" style="left: 100px; top: 100px;">
+                    <img id="player-img" src="" width="60" class="rounded-full">
                 </div>
                 <div class="w-24 h-24 flex items-center justify-center rounded-full">
                     <img src="gameptiasset/assets/pantai kuta-Photoroom.png">
@@ -42,12 +55,11 @@
             <button class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600">Take a Bath</button>
             <button class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600">Sleep</button>
             <button class="w-full bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600">🛈 Do Chores</button>
-            
             <div class="bg-yellow-300 p-2 rounded-lg mt-2 text-center">You will get 500 for helping the house clean</div>
         </div>
     </div>
     
-    <div class="mt-6 flex flex-col items-center ">
+    <div class="mt-6 flex flex-col items-center">
         <button onclick="move('up')" class="bg-gray-500 text-white p-3 rounded-full mb-2 hover:bg-gray-600">⬆</button>
         <div class="flex space-x-4 gap-10">
             <button onclick="move('left')" class="bg-gray-500 text-white p-3 rounded-full hover:bg-gray-600">⬅</button>
@@ -56,7 +68,64 @@
         <button onclick="move('down')" class="bg-gray-500 text-white p-3 rounded-full mt-2 hover:bg-gray-600">⬇</button>
     </div>
 
-    <script>
+<script>
+    function updateGameTime() {
+        let realNow = new Date(); 
+
+        let gameMinutes = realNow.getSeconds();  
+        let gameHours = realNow.getMinutes();    
+        let gameDay = realNow.getDate();        
+        let gameMonth = realNow.getMonth() + 1;  
+        let gameYear = realNow.getFullYear();
+
+        let period = gameHours >= 12 ? "PM" : "AM";
+        let displayHour = gameHours % 12 || 12; 
+        let displayMinute = gameMinutes.toString().padStart(2, "0"); 
+
+        document.getElementById("game-time").textContent = 
+            `📅 ${gameDay}/${gameMonth}/${gameYear} - 🕒 ${displayHour}:${displayMinute} ${period}`;
+
+        updateGreeting(gameHours);
+    }
+    function updateGameTime() {
+    let realNow = new Date(); 
+
+    let gameMinutes = realNow.getSeconds();  
+    let gameHours = realNow.getHours();  
+    let gameDay = realNow.getDate();        
+    let gameMonth = realNow.getMonth() + 1;  
+    let gameYear = realNow.getFullYear();
+
+    
+    let period = gameHours >= 12 ? "PM" : "AM";
+    let displayHour = gameHours % 12 || 12; 
+    let displayMinute = gameMinutes.toString().padStart(2, "0");
+
+    document.getElementById("game-time").textContent = 
+        `📅 ${gameDay}/${gameMonth}/${gameYear} - 🕒 ${displayHour}:${displayMinute} ${period}`;
+
+    updateGreeting(gameHours);
+}
+
+function updateGreeting(gameHour) {
+    let greetingMessage = document.getElementById("greeting-message");
+
+    if (gameHour >= 5 && gameHour < 12) {
+        greetingMessage.textContent = "Good Morning !";
+    } else if (gameHour >= 12 && gameHour < 15) {
+        greetingMessage.textContent = "Good Afternoon!";
+    } else {
+        greetingMessage.textContent = "Good Evening!";
+    }
+}
+
+setInterval(updateGameTime, 1000);
+updateGameTime();
+
+
+    setInterval(updateGameTime, 1000);
+    updateGameTime();
+
     document.addEventListener("DOMContentLoaded", function () {
         let selectedCharacterImage = localStorage.getItem("selectedCharacterImage") || "gameptiasset/assets/wayang1-removebg-preview.png";
         let playerImg = document.getElementById("player-img");
@@ -66,9 +135,9 @@
         }
     });
 
-    let position = { x: 50, y: 50 };
+    let position = { x: 100, y: 100 }; 
     let isFlipped = false;
-    const step = 30; // Movement distance
+    const step = 30;
 
     function move(direction) {
         let player = document.getElementById("player");
@@ -88,7 +157,6 @@
                 break;
         }
 
-        // Apply movement and flipping
         player.style.left = position.x + "px";
         player.style.top = position.y + "px";
         player.style.transform = `scaleX(${isFlipped ? -1 : 1})`;
@@ -102,7 +170,7 @@
             case "ArrowRight": move('right'); break;
         }
     });
-    </script>
+</script>
 
 </body>
 </html>
