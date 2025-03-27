@@ -29,26 +29,26 @@
     <div
       class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20 ">
       <span><strong>Archipelago Adventure</strong></span>
-      <span id="game-time" style="font-size: 15px;"></span>
+      <span id="game-day" style="font-size: 15x;"></span>
     </div>
 
     <div class="flex items-center gap-2 mt-5 mb-5">
-      <span class="mt-5">💓</span>
+      <span class="mt-5"><img src="./gameptiasset/assets/heart.webp" class="w-5 h-5"></span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
           <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
       </div>
       <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-20">🛏</span>
+      <span class="mt-5 ml-20"><img src="./gameptiasset/assets/energi.png" class="w-5 h-5"></span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
           <div id="energy-bar" class="h-full bg-yellow-300 transition-all" style="width: 100%;"></div>
       </div>
       <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-20">🧖🏻‍♀</span>
+      <span class="mt-5 ml-20"><img src="./gameptiasset/assets/hygine.png" class="w-9 h-9"></span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
           <div id="hygiene-bar" class="h-full bg-blue-400 transition-all" style="width: 100%;"></div>
       </div>
       <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-20">🧏🏻‍♀</span>
+      <span class="mt-5 ml-20"><img src="./gameptiasset/assets/happy.webp" class="w-5 h-5"></span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
           <div id="happines-bar" class="h-full bg-pink-400 transition-all" style="width: 100%;"></div>
       </div>
@@ -74,13 +74,14 @@
         </div>
 
         <div id="location" class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg ">
-            <div id="location-text" class="text-lg font-bold mb-4">Welcome to Archipelago</div>
-            <button id="action1" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
-            <button id="action2" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
-            <button id="action3" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
-            <button id="action4" class="w-full bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600"></button>
-            <div class="gift bg-yellow-300 p-2 rounded-lg mt-2 text-center"></div>
-            <div class="mt-6 flex flex-col items-center">
+            <div id="location-text" class="justify-center text-center ml-4 text-m font-semibold mb-4">Welcome to Archipelago</div>
+            <span id="game-time" style="margin-left: 15px; font-size: 105x; margin-bottom: 10px;"></span>
+            <button id="action1" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action2" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action3" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action4" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg hover:bg-yellow-600"></button>
+            <div class="gift bg-yellow-300 p-2 rounded-lg mt-4 text-center mb-12"></div>
+            <div class="mt-15 flex flex-col items-center">
                 <button onclick="move('up')">
                     <img src="gameptiasset/assets/top.png" alt="up" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
                 </button>
