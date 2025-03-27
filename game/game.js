@@ -29,15 +29,31 @@ setTimeout(() => {
 function closePopup() {
   document.getElementById("welcome-popup").style.display = "none";
 
-  // Efek karakter muncul dari hole
   setTimeout(() => {
     player.style.opacity = "1";
     player.style.animation = "emergeFromHole 0.5s forwards";
   }, 500);
 }
 
-function updateDateTime() {
+function updateTime() {
   let gameTime = new Date();
+  const optionsTime = {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  };
+
+  while (optionsTime == true) {
+    gameTime.setSeconds(gameTime.getSeconds() + 3600);
+  }
+
+  document.getElementById("game-time").innerHTML = `
+                ${gameTime.toLocaleTimeString("en-US", optionsTime)}
+            `;
+}
+function updateDate() {
+  let gameDate = new Date();
 
   const optionsDate = {
     weekday: "long",
@@ -46,14 +62,7 @@ function updateDateTime() {
     day: "numeric",
   };
 
-  const optionsTime = {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true,
-  };
-
-  let hours = gameTime.getHours();
+  let hours = gameDate.getHours();
   let greeting;
 
   if (hours < 12) {
@@ -64,21 +73,21 @@ function updateDateTime() {
     greeting = "Good Evening!";
   }
 
-  document.getElementById("game-time").innerHTML = `
-                <strong>${gameTime.toLocaleDateString(
-                  "en-US",
-                  optionsDate
-                )}</strong><br>
-                ${gameTime.toLocaleTimeString("en-US", optionsTime)}<br>
-                ${greeting}
-            `;
+  document.getElementById("game-day1").innerHTML = `
+                  ${gameDate.toLocaleDateString("en-US", optionsDate)}
+              `;
+  document.getElementById("game-day2").innerHTML = `
+                  ${greeting}
+              `;
 }
 
-setInterval(updateDateTime, 1000);
-updateDateTime();
+setInterval(updateTime, 1000);
+setInterval(updateDate, 1000);
+updateTime();
+updateDate();
 
 function move(direction) {
-  const mapBounds = { left: 0, right: 850, top: 0, bottom: 600 };
+  const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
   let player = document.getElementById("player");
   let playerImg = document.getElementById("player-img");
   let prevX = position.x;
@@ -105,6 +114,7 @@ function move(direction) {
     player.style.animation = "shake 0.2s";
     setTimeout(() => (player.style.animation = ""), 200);
   }
+
   if (Math.abs(position.x - 435) > 10 || Math.abs(position.y - 260) > 10) {
     hole.style.transition = "opacity 0.5s";
     hole.style.opacity = "0";
@@ -116,15 +126,18 @@ function move(direction) {
   const style = document.createElement("style");
 
   style.innerHTML = `
-      @keyframes shake {
-        0% { transform: translateX(0); }
-        25% { transform: translateX(-3px); }
-        50% { transform: translateX(3px); }
-        75% { transform: translateX(-3px); }
-        100% { transform: translateX(0); }
-      }
-        `;
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-3px); }
+      50% { transform: translateX(3px); }
+      75% { transform: translateX(-3px); }
+      100% { transform: translateX(0); }
+    }
+      `;
   document.head.appendChild(style);
+  setTimeout(() => {
+    player.style.transform = "scale(1)";
+  }, 200);
   updateLocationButtons();
 }
 
@@ -309,3 +322,4 @@ document.addEventListener("keydown", function (event) {
   };
   if (keyMap[event.key]) move(keyMap[event.key]);
 });
+
