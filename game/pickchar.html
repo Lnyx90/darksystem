@@ -1,100 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Choose Your Character</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-</head>
-<body class="flex flex-col items-center justify-center h-screen bg-cover bg-center" style="background-image: url('gameptiasset/assets/homepage.JPG');">
-    
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="flex flex-col items-center justify-center h-screen bg-cover bg-center"
+    style="background-image: url('gameptiasset/assets/homepage.JPG')"
+  >
     <div class="choosetext w-full flex justify-center mt-[-50px] sm:mt-[-70px]">
-        <h1 class="text-xl sm:text-3xl md:text-5xl text-blue-900 text-center leading-tight"
-            style="font-family: 'Press Start 2P', cursive;">
-            Choose Your <br> Character
-        </h1>
+      <h1
+        class="text-xl sm:text-3xl md:text-5xl text-blue-900 text-center leading-tight"
+        style="font-family: 'Press Start 2P', cursive"
+      >
+        Choose Your <br />
+        Character
+      </h1>
     </div>
-    
-    <div class="flex flex-col items-center mt-30 sm:mt-32 w-full max-w-md md:max-w-lg">
-        <div class="flex items-center space-x-4 sm:space-x-6">
-            <button onclick="prevCharacter()" 
-                    class="px-3 sm:px-6 py-2 sm:py-3 bg-blue-800 text-white text-sm sm:text-lg rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-110">❮</button>
-            <img id="character" src="gameptiasset/assets/wayang1.png" 
-                 alt="Character" class="w-24 sm:w-32 md:w-40 h-auto floating fade-in">
-            <button onclick="nextCharacter()" 
-                    class="px-3 sm:px-6 py-2 sm:py-3 bg-blue-800 text-white text-sm sm:text-lg rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-110">❯</button>
-        </div>
-        <input type="text" id="playerName" placeholder="Enter Your Name" 
-           class="mt-6 px-3 sm:px-4 py-2 text-sm sm:text-lg border-2 border-blue-800 rounded-md text-center focus:outline-none focus:ring-2 focus:ring-blue-500 w-40 sm:w-64 md:w-72 placeholder:text-xs sm:placeholder:text-sm">
-        <button onclick="selectCharacter()" 
-                class="mt-4 px-5 sm:px-8 py-2 sm:py-4 bg-blue-800 text-white text-sm sm:text-xl rounded-full shadow-lg hover:bg-blue-500 transition transform hover:scale-110">
-            Select Character
+
+    <div
+      class="flex flex-col items-center mt-30 sm:mt-32 w-full max-w-md md:max-w-lg"
+    >
+      <div class="flex items-center space-x-4 sm:space-x-6">
+        <button
+          onclick="prevCharacter()"
+          class="px-3 sm:px-6 py-2 sm:py-3 bg-blue-800 text-white text-sm sm:text-lg rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-110"
+        >
+          ❮
         </button>
+        <img
+          id="character"
+          src="gameptiasset/assets/wayang1.png"
+          alt="Character"
+          class="w-24 sm:w-32 md:w-40 h-auto floating fade-in"
+        />
+        <button
+          onclick="nextCharacter()"
+          class="px-3 sm:px-6 py-2 sm:py-3 bg-blue-800 text-white text-sm sm:text-lg rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-110"
+        >
+          ❯
+        </button>
+      </div>
+      <input
+        type="text"
+        id="playerName"
+        placeholder="Enter Your Name"
+        class="mt-6 px-3 sm:px-4 py-2 text-sm sm:text-lg border-2 border-blue-800 rounded-md text-center focus:outline-none focus:ring-2 focus:ring-blue-500 w-40 sm:w-64 md:w-72 placeholder:text-xs sm:placeholder:text-sm"
+      />
+      <button
+        onclick="selectCharacter()"
+        class="mt-4 px-5 sm:px-8 py-2 sm:py-4 bg-blue-800 text-white text-sm sm:text-xl rounded-full shadow-lg hover:bg-blue-500 transition transform hover:scale-110"
+      >
+        Select Character
+      </button>
     </div>
 
     <!-- Cute Pop-up Notification -->
-    <div id="notification" class="hidden fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded-md shadow-lg transition-opacity duration-300">
-        ⚠️ Please enter your name!
+    <div
+      id="notification"
+      class="hidden fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded-md shadow-lg transition-opacity duration-300"
+    >
+      ⚠️ Please enter your name!
     </div>
 
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            document.body.style.opacity = '1';
-        });
+      window.addEventListener("DOMContentLoaded", () => {
+        document.body.style.opacity = "1";
+      });
 
-        let characters = [
-            "gameptiasset/assets/wayang1.png",
-            "gameptiasset/assets/wayang2.png",
-            "gameptiasset/assets/wayang3.png"
-        ];
-        
-        let currentIndex = 0;
-        let characterImg = document.getElementById("character");
+      let characters = [
+        "gameptiasset/assets/wayang1.png",
+        "gameptiasset/assets/wayang2.png",
+        "gameptiasset/assets/wayang3.png",
+      ];
 
-        function updateCharacter() {
-            characterImg.classList.add("fade-out"); 
-            setTimeout(() => {
-                characterImg.src = characters[currentIndex];
-                characterImg.classList.remove("fade-out");
-                characterImg.classList.add("fade-in");
-            }, 300);
+      let currentIndex = 0;
+      let characterImg = document.getElementById("character");
+
+      function updateCharacter() {
+        characterImg.classList.add("fade-out");
+        setTimeout(() => {
+          characterImg.src = characters[currentIndex];
+          characterImg.classList.remove("fade-out");
+          characterImg.classList.add("fade-in");
+        }, 300);
+      }
+
+      function prevCharacter() {
+        currentIndex =
+          (currentIndex - 1 + characters.length) % characters.length;
+        updateCharacter();
+      }
+      function prevCharacter() {
+        currentIndex =
+          (currentIndex - 1 + characters.length) % characters.length;
+        updateCharacter();
+      }
+
+      function nextCharacter() {
+        currentIndex = (currentIndex + 1) % characters.length;
+        updateCharacter();
+      }
+
+      function showNotification(message) {
+        let notification = document.getElementById("notification");
+        notification.textContent = message;
+        notification.classList.remove("hidden");
+        notification.classList.add("opacity-100");
+
+        // Hide notification after 2 seconds
+        setTimeout(() => {
+          notification.classList.add("hidden");
+          notification.classList.remove("opacity-100");
+        }, 2000);
+      }
+
+      function selectCharacter() {
+        let playerName = document.getElementById("playerName").value.trim();
+        if (playerName === "") {
+          showNotification("⚠️ Please enter your name!");
+          return;
         }
-
-        function prevCharacter() {
-            currentIndex = (currentIndex - 1 + characters.length) % characters.length;
-            updateCharacter();
-        }
-
-        function nextCharacter() {
-            currentIndex = (currentIndex + 1) % characters.length;
-            updateCharacter();
-        }
-
-        function showNotification(message) {
-            let notification = document.getElementById("notification");
-            notification.textContent = message;
-            notification.classList.remove("hidden");
-            notification.classList.add("opacity-100");
-
-            // Hide notification after 2 seconds
-            setTimeout(() => {
-                notification.classList.add("hidden");
-                notification.classList.remove("opacity-100");
-            }, 2000);
-        }
-
-        function selectCharacter() {
-            let playerName = document.getElementById("playerName").value.trim();
-            if (playerName === "") {
-                showNotification("⚠️ Please enter your name!");
-                return;
-            }
-            localStorage.setItem("selectedCharacterImage", characters[currentIndex]); 
-            localStorage.setItem("playerName", playerName); 
-            window.location.href = 'game.html'; 
-        }
+        localStorage.setItem(
+          "selectedCharacterImage",
+          characters[currentIndex]
+        );
+        localStorage.setItem("playerName", playerName);
+        window.location.href = "game.html";
+      }
     </script>
-</body>
+  </body>
 </html>
