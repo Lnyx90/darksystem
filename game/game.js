@@ -82,7 +82,7 @@ updateDateTime();
 
 
 function move(direction) {
-    const mapBounds = { left: 0, right: 850, top: 0, bottom: 600 };
+    const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
     let player = document.getElementById("player");
     let playerImg = document.getElementById("player-img");
     let prevX = position.x;
@@ -98,17 +98,18 @@ function move(direction) {
           break;
       case 'left': 
           if (position.x - step >= mapBounds.left) position.x -= step;
-          playerImg.style.transform = "scaleX(-1)"; 
+             playerImg.style.transform = "scaleX(-1)"; 
           break;
       case 'right': 
           if (position.x + step <= mapBounds.right) position.x += step;
-          playerImg.style.transform = "scaleX(1)"; 
+            playerImg.style.transform = "scaleX(1)"; 
           break;
     }
     if (position.x === prevX && position.y === prevY) {
         player.style.animation = "shake 0.2s";
         setTimeout(() => player.style.animation = "", 200);
     }
+
     if (Math.abs(position.x - 435) > 10 || Math.abs(position.y - 260) > 10) {
         hole.style.transition = "opacity 0.5s";
         hole.style.opacity = "0";
@@ -130,6 +131,9 @@ function move(direction) {
       }
         `;
     document.head.appendChild(style);
+    setTimeout(() => {
+        player.style.transform = "scale(1)";
+    }, 200);
     updateLocationButtons();
 }
 
