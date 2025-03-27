@@ -34,6 +34,11 @@
         </button>
     </div>
 
+    <!-- Cute Pop-up Notification -->
+    <div id="notification" class="hidden fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded-md shadow-lg transition-opacity duration-300">
+        ⚠️ Please enter your name!
+    </div>
+
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
@@ -67,10 +72,23 @@
             updateCharacter();
         }
 
+        function showNotification(message) {
+            let notification = document.getElementById("notification");
+            notification.textContent = message;
+            notification.classList.remove("hidden");
+            notification.classList.add("opacity-100");
+
+            // Hide notification after 2 seconds
+            setTimeout(() => {
+                notification.classList.add("hidden");
+                notification.classList.remove("opacity-100");
+            }, 2000);
+        }
+
         function selectCharacter() {
             let playerName = document.getElementById("playerName").value.trim();
             if (playerName === "") {
-                alert("Please enter your name!");
+                showNotification("⚠️ Please enter your name!");
                 return;
             }
             localStorage.setItem("selectedCharacterImage", characters[currentIndex]); 
