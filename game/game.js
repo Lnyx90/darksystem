@@ -1,16 +1,28 @@
 document.addEventListener("DOMContentLoaded", function () {
-  let selectedCharacterImage =
-    localStorage.getItem("selectedCharacterImage") ||
-    "gameptiasset/assets/wayang1.png";
-  let playerImg = document.getElementById("player-img");
-  let playerName = localStorage.getItem("playerName") || "Player";
+       
+  let playerName = localStorage.getItem("playerName");
+  let selectedCharacterImage = localStorage.getItem("selectedCharacterImage");
 
-  if (playerImg) {
-    playerImg.src = selectedCharacterImage;
+ 
+  if (!playerName) {
+      playerName = "Player";
   }
 
+
+  if (!selectedCharacterImage) {
+      selectedCharacterImage = "gameptiasset/assets/wayang1.png";
+  }
+
+
   document.getElementById("player-name").textContent = playerName;
+  document.getElementById("player-welcome-name").textContent = playerName;
+  document.getElementById("player-img").src = selectedCharacterImage;
 });
+
+function closePopup() {
+  document.getElementById("welcome-popup").style.display = "none";
+}
+
 
 function updateDateTime() {
   let gameTime = new Date();
