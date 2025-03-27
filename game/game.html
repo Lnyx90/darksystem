@@ -13,42 +13,29 @@
     style="
       background-image: url('gameptiasset/assets/PageGame.jpg'); overflow: hidden;
     ">
-
-    <div id="welcome-popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center w-80">
-            <h2 class="text-l font-bold mb-2">Welcome, <span id="player-welcome-name"></span>!</h2>
-            <p class="mb-4">Get ready for an exciting adventure!</p>
-            <button onclick="closePopup()"
-                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                Play Now
-            </button>
-        </div>
-    </div>
-
-
     <div
       class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20 ">
       <span><strong>Archipelago Adventure</strong></span>
-      <span id="game-day" style="font-size: 15x;"></span>
+      <span id="game-time" ></span>
     </div>
 
-    <div class="flex items-center gap-2 mt-5 mb-5">
-      <span class="mt-5"><img src="./gameptiasset/assets/heart.webp" class="w-5 h-5"></span>
+    <div class="flex items-center gap-2 mt-20 ">
+      <span class="mt-5">💓</span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
           <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
       </div>
       <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-20"><img src="./gameptiasset/assets/energi.png" class="w-5 h-5"></span>
+      <span class="mt-5 ml-20">🛏</span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
           <div id="energy-bar" class="h-full bg-yellow-300 transition-all" style="width: 100%;"></div>
       </div>
       <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-20"><img src="./gameptiasset/assets/hygine.png" class="w-9 h-9"></span>
+      <span class="mt-5 ml-20">🧖🏻‍♀</span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
           <div id="hygiene-bar" class="h-full bg-blue-400 transition-all" style="width: 100%;"></div>
       </div>
       <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-20"><img src="./gameptiasset/assets/happy.webp" class="w-5 h-5"></span>
+      <span class="mt-5 ml-20">🧏🏻‍♀</span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
           <div id="happines-bar" class="h-full bg-pink-400 transition-all" style="width: 100%;"></div>
       </div>
@@ -59,13 +46,12 @@
     <div class="flex flex-row items-center mt-2 space-x-8">
         <div class="relative w-[850px] h-[600px]">
             <img src="gameptiasset/assets/map.jpg" class="w-full h-700 rounded-lg shadow-lg">
-            <div id="player" class="absolute text-white font-bold transition-all text-center" style=" left: 435px; top: 260px; z-index: 10;">
+            <div id="player" class="absolute text-white font-bold transition-all text-center" style="  top: 20px; z-index: 50;">
               <p id="player-name" class=" text-blue-900 px-1 py-1 fade-in rounded-lg  " style="left: 50%; transform: translateX(-50%); position: absolute; bottom: 100%; font-family: 'Press Start 2P'; font-size: 10px;"></p>
               <img id="player-img" src="" width="40" class="rounded-full">
           </div>
           
-          <img src="gameptiasset/assets/hole.png" class="absolute w-16 h-16" style="left: 425px; top: 300px; z-index: 5;">
-          <img src="gameptiasset/assets/home.png" class="absolute w-16 h-16" style="left: 60px; top: 90px; z-index: 5;">
+          
           <img src="gameptiasset/assets/bromo.png" class="absolute w-16 h-16" style="left: 760px; top: 470px; z-index: 5;">
           <img src="gameptiasset/assets/kuta.png" class="absolute w-16 h-16" style="left: 270px; top: 445px; z-index: 5;">
           <img src="gameptiasset/assets/borobudur.png" class="absolute w-16 h-16" style="left: 680px; top: 240px; z-index: 5;">
@@ -74,14 +60,13 @@
         </div>
 
         <div id="location" class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg ">
-            <div id="location-text" class="justify-center text-center ml-4 text-m font-semibold mb-4">Welcome to Archipelago</div>
-            <span id="game-time" style="margin-left: 15px; font-size: 105x; margin-bottom: 10px;"></span>
-            <button id="action1" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
-            <button id="action2" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
-            <button id="action3" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
-            <button id="action4" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg hover:bg-yellow-600"></button>
-            <div class="gift bg-yellow-300 p-2 rounded-lg mt-4 text-center mb-12"></div>
-            <div class="mt-15 flex flex-col items-center">
+            <div id="location-text" class="text-lg font-bold mb-4">Welcome to Archipelago</div>
+            <button id="action1" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action2" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action3" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action4" class="w-full bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600"></button>
+            <div class="gift bg-yellow-300 p-2 rounded-lg mt-2 text-center"></div>
+            <div class="mt-6 flex flex-col items-center">
                 <button onclick="move('up')">
                     <img src="gameptiasset/assets/top.png" alt="up" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
                 </button>
@@ -100,6 +85,177 @@
         </div>
     </div>
     
-    <script src="./game.js"></script>
+
+    <script>
+   document.addEventListener("DOMContentLoaded", function () {
+    let selectedCharacterImage =
+        localStorage.getItem("selectedCharacterImage") ||
+        "gameptiasset/assets/wayang1.png";
+    let playerImg = document.getElementById("player-img");
+    let playerName = localStorage.getItem("playerName") || "Player"; 
+
+    if (playerImg) {
+        playerImg.src = selectedCharacterImage;
+    }
+
+    document.getElementById("player-name").textContent = playerName;
+});
+
+
+
+
+    let realNow = new Date(); 
+    let gameHours = realNow.getHours();  
+    let gameMinutes = realNow.getMinutes(); 
+    let gameDay = realNow.getDate(); 
+    let gameMonthIndex = realNow.getMonth();
+    let gameYear = realNow.getFullYear();
+
+   
+    let monthNames = [
+        "January", "February", "March", "April", "May", "June", 
+        "July", "August", "September", "October", "November", "December"
+    ];
+    let gameMonth = monthNames[gameMonthIndex];
+
+    
+    function updateGameTime() {
+        gameMinutes++; 
+
+        if (gameMinutes >= 60) {
+            gameMinutes = 0;
+            gameHours++;
+        }
+        if (gameHours >= 24) {
+            gameHours = 0;
+            gameDay++; 
+        }
+
+        let dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        let currentDay = dayNames[new Date(gameYear, gameMonthIndex, gameDay).getDay()];
+
+        
+        let period = gameHours >= 12 ? "PM" : "AM";
+        let displayHour = gameHours % 12 || 12;
+        let displayMinute = String(gameMinutes).padStart(2, "0");
+
+     
+        let greeting = gameHours >= 5 && gameHours < 12 ? "Good Morning! " :
+                       gameHours >= 12 && gameHours < 18 ? "Good Afternoon! " :
+                       gameHours >= 18 && gameHours < 21 ? "Good Evening! " :
+                       "Good Night! ";
+
+       
+        document.getElementById("game-time").innerHTML = `
+            <strong>${greeting}</strong><br>
+            📅 ${currentDay}, ${gameDay} ${gameMonth} ${gameYear} <br>
+            🕒 ${displayHour}:${displayMinute} ${period}
+        `;
+    }
+
+    setInterval(updateGameTime, 1000);
+    updateGameTime();
+
+      let position = { x: 60, y: 90 };
+      let isFlipped = false;
+      const step = 30; 
+
+      function move(direction) {
+            const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
+            let player = document.getElementById("player");
+            let playerImg = document.getElementById("player-img");
+            let prevX = position.x;
+            let prevY = position.y;
+            if (!player) return;
+
+            switch (direction) {
+              case 'up': 
+                  if (position.y - step >= mapBounds.top) position.y -= step; 
+                  break;
+              case 'down': 
+                  if (position.y + step <= mapBounds.bottom) position.y += step; 
+                  break;
+              case 'left': 
+                  if (position.x - step >= mapBounds.left) position.x -= step;
+                  playerImg.style.transform = "scaleX(-1)"; 
+                  break;
+              case 'right': 
+                  if (position.x + step <= mapBounds.right) position.x += step;
+                  playerImg.style.transform = "scaleX(1)"; 
+                  break;
+            }
+            if (position.x === prevX && position.y === prevY) {
+                player.style.animation = "shake 0.2s";
+                setTimeout(() => player.style.animation = "", 200);
+            }
+
+
+            player.style.left = position.x + "px";
+            player.style.top = position.y + "px";
+            const style = document.createElement('style');
+            style.innerHTML = `
+              @keyframes shake {
+                0% { transform: translateX(0); }
+                25% { transform: translateX(-3px); }
+                50% { transform: translateX(3px); }
+                75% { transform: translateX(-3px); }
+                100% { transform: translateX(0); }
+              }
+                `;
+            document.head.appendChild(style);
+            updateLocationButtons();
+        }
+
+        function updateLocationButtons() {
+            let locationText = document.getElementById("location-text");
+            let actions = ["action1", "action2", "action3", "action4"].map(id => document.getElementById(id));
+
+            if (Math.abs(position.x - 60) < 50 && Math.abs(position.y - 90) < 50) {
+                locationText.innerHTML = "You're at Tangerang";
+                actions[0].innerHTML = "Get Some Meal";
+                actions[1].innerHTML = "Take a Bath";
+                actions[2].innerHTML = "Sleep";
+                actions[3].innerHTML = "🛈 Do Chores";
+                document.getElementsByClassName("gift");
+            } else if (Math.abs(position.x - 280) < 60 && Math.abs(position.y - 440) < 60) {
+                locationText.innerHTML = "You're at Kuta Beach";
+                actions[0].innerHTML = "Sand Play";
+                actions[1].innerHTML = "🛈 Buy Drink";
+                actions[2].innerHTML = "🛈 Buy Snack";
+                actions[3].innerHTML = "🛈 Pick-up Trash";
+                document.getElementsByClassName("gift");
+            } else if (Math.abs(position.x - 690) < 60 && Math.abs(position.y - 210) < 60) {
+                locationText.innerHTML = "You're at Borobudur Temple";
+                actions[0].innerHTML = "Take a Picture";
+                actions[1].innerHTML = "🛈 Buy Local Food";
+                actions[2].innerHTML = "🛈 Buy Souvenir";
+                actions[3].innerHTML = "🛈 Rent Local Costum";
+                document.getElementsByClassName("gift");
+            } else if (Math.abs(position.x - 770) < 60 && Math.abs(position.y - 460) < 60) {
+                locationText.innerHTML = "You're at Bromo Mountain";
+                actions[0].innerHTML = "Make a Cinematic Video";
+                actions[1].innerHTML = "🛈 Buy Drink";
+                actions[2].innerHTML = "🛈 Plant a Flag";
+                actions[3].innerHTML = "Pray to God";
+                document.getElementsByClassName("gift");
+            } else if (Math.abs(position.x - 390) < 60 && Math.abs(position.y - 70) < 60) {
+                locationText.innerHTML = "You're at Toba Lake";
+                actions[0].innerHTML = "Take a Shower";
+                actions[1].innerHTML = "Catch a Fish";
+                actions[2].innerHTML = "Take a Picture";
+                actions[3].innerHTML = "Washing Chlotes";
+                document.getElementsByClassName("gift");
+            } else {
+                locationText.innerHTML = "You're Lost!";
+                actions.forEach(action => action.innerHTML = "");
+            }
+        }
+
+        document.addEventListener("keydown", function(event) {
+            const keyMap = { "ArrowUp": 'up', "ArrowDown": 'down', "ArrowLeft": 'left', "ArrowRight": 'right' };
+            if (keyMap[event.key]) move(keyMap[event.key]);
+        });
+    </script>
+
   </body>
 </html>

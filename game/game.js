@@ -1,45 +1,52 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let playerName = localStorage.getItem("playerName");
-            let selectedCharacterImage = localStorage.getItem("selectedCharacterImage");
+  let playerName = localStorage.getItem("playerName");
+  let selectedCharacterImage = localStorage.getItem("selectedCharacterImage");
 
-           
-            if (!playerName) {
-                playerName = "Player";
-            }
+  if (!playerName) {
+    playerName = "Player";
+  }
 
-        
-            if (!selectedCharacterImage) {
-                selectedCharacterImage = "gameptiasset/assets/wayang1.png";
-            }
+  if (!selectedCharacterImage) {
+    selectedCharacterImage = "gameptiasset/assets/wayang1.png";
+  }
 
-          
-            document.getElementById("player-name").textContent = playerName;
-            document.getElementById("player-welcome-name").textContent = playerName;
-            document.getElementById("player-img").src = selectedCharacterImage;
-        });
+  document.getElementById("player-name").textContent = playerName;
+  document.getElementById("player-welcome-name").textContent = playerName;
+  document.getElementById("player-img").src = selectedCharacterImage;
+});
 
-        let position = { x: 435, y: 260 }; 
-        let step = 30;
-        let hole = document.querySelector("img[src='gameptiasset/assets/hole.png']");
-        let player = document.getElementById("player");
-        player.style.opacity = "0";
-        player.style.transform = "scale(0.2) translateY(20px)";
-        
-        setTimeout(() => {
-            player.style.animation = "emerge 0.5s forwards";
-        }, 500);
+let position = { x: 435, y: 260 };
+let step = 30;
+let hole = document.querySelector("img[src='gameptiasset/assets/hole.png']");
+let player = document.getElementById("player");
+player.style.opacity = "0";
+player.style.transform = "scale(0.2) translateY(20px)";
 
-        function closePopup() {
-            document.getElementById("welcome-popup").style.display = "none";
+setTimeout(() => {
+  player.style.animation = "emerge 0.5s forwards";
+}, 500);
 
-            setTimeout(() => {
-                player.style.opacity = "1";
-                player.style.animation = "emergeFromHole 0.5s forwards";
-            }, 500);
-        }
+function closePopup() {
+  document.getElementById("welcome-popup").style.display = "none";
 
-function updateTime() {
+  // Efek karakter muncul dari hole
+  setTimeout(() => {
+    player.style.opacity = "1";
+    player.style.animation = "emergeFromHole 0.5s forwards";
+  }, 500);
+}
+
+function updateDateTime() {
   let gameTime = new Date();
+
+  const optionsDate = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
+
   const optionsTime = {
     hour: "2-digit",
     minute: "2-digit",
@@ -47,91 +54,69 @@ function updateTime() {
     hour12: true,
   };
 
-  while(optionsTime==true){
-    gameTime.setSeconds(gameTime.getSeconds() + 3600);
+  let hours = gameTime.getHours();
+  let greeting;
+
+  if (hours < 12) {
+    greeting = "Good Morning!";
+  } else if (hours < 18) {
+    greeting = "Good Afternoon!";
+  } else {
+    greeting = "Good Evening!";
   }
 
   document.getElementById("game-time").innerHTML = `
+                <strong>${gameTime.toLocaleDateString(
+                  "en-US",
+                  optionsDate
+                )}</strong><br>
                 ${gameTime.toLocaleTimeString("en-US", optionsTime)}<br>
+                ${greeting}
             `;
 }
-function updateDate() {
-    let gameDate = new Date();
-  
-    const optionsDate = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-  
-    let hours = gameDate.getHours();
-    let greeting;
-  
-    if (hours < 12) {
-      greeting = "Good Morning!";
-    } else if (hours < 18) {
-      greeting = "Good Afternoon!";
-    } else {
-      greeting = "Good Evening!";
-    }
-  
-    document.getElementById("game-day").innerHTML = `
-                  ${gameDate.toLocaleDateString(
-                    "en-US",
-                    optionsDate
-                  )}<br>
-                  ${greeting}
-              `;
-  }
 
-setInterval(updateTime, 1000);
-setInterval(updateDate, 1000);
-updateTime();
-updateDate();
-
+setInterval(updateDateTime, 1000);
+updateDateTime();
 
 function move(direction) {
-    const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
-    let player = document.getElementById("player");
-    let playerImg = document.getElementById("player-img");
-    let prevX = position.x;
-    let prevY = position.y;
-    if (!player) return;
+  const mapBounds = { left: 0, right: 850, top: 0, bottom: 600 };
+  let player = document.getElementById("player");
+  let playerImg = document.getElementById("player-img");
+  let prevX = position.x;
+  let prevY = position.y;
+  if (!player) return;
 
-    switch (direction) {
-      case 'up': 
-          if (position.y - step >= mapBounds.top) position.y -= step; 
-          break;
-      case 'down': 
-          if (position.y + step <= mapBounds.bottom) position.y += step; 
-          break;
-      case 'left': 
-          if (position.x - step >= mapBounds.left) position.x -= step;
-             playerImg.style.transform = "scaleX(-1)"; 
-          break;
-      case 'right': 
-          if (position.x + step <= mapBounds.right) position.x += step;
-            playerImg.style.transform = "scaleX(1)"; 
-          break;
-    }
-    if (position.x === prevX && position.y === prevY) {
-        player.style.animation = "shake 0.2s";
-        setTimeout(() => player.style.animation = "", 200);
-    }
+  switch (direction) {
+    case "up":
+      if (position.y - step >= mapBounds.top) position.y -= step;
+      break;
+    case "down":
+      if (position.y + step <= mapBounds.bottom) position.y += step;
+      break;
+    case "left":
+      if (position.x - step >= mapBounds.left) position.x -= step;
+      playerImg.style.transform = "scaleX(-1)";
+      break;
+    case "right":
+      if (position.x + step <= mapBounds.right) position.x += step;
+      playerImg.style.transform = "scaleX(1)";
+      break;
+  }
+  if (position.x === prevX && position.y === prevY) {
+    player.style.animation = "shake 0.2s";
+    setTimeout(() => (player.style.animation = ""), 200);
+  }
+  if (Math.abs(position.x - 435) > 10 || Math.abs(position.y - 260) > 10) {
+    hole.style.transition = "opacity 0.5s";
+    hole.style.opacity = "0";
+    setTimeout(() => hole.remove(), 500);
+  }
 
-    if (Math.abs(position.x - 435) > 10 || Math.abs(position.y - 260) > 10) {
-        hole.style.transition = "opacity 0.5s";
-        hole.style.opacity = "0";
-        setTimeout(() => hole.remove(), 500);
-    }
+  player.style.left = position.x + "px";
+  player.style.top = position.y + "px";
+  const style = document.createElement("style");
 
-
-    player.style.left = position.x + "px";
-    player.style.top = position.y + "px";
-    const style = document.createElement('style');
-
-    style.innerHTML = `
+  style.innerHTML = `
       @keyframes shake {
         0% { transform: translateX(0); }
         25% { transform: translateX(-3px); }
@@ -140,11 +125,9 @@ function move(direction) {
         100% { transform: translateX(0); }
       }
         `;
-    document.head.appendChild(style);
-    setTimeout(() => {
-        player.style.transform = "scale(1)";
-    }, 200);
-    updateLocationButtons();
+
+  document.head.appendChild(style);
+  updateLocationButtons();
 }
 
 let statusValues = {
@@ -215,7 +198,8 @@ function performAction(action) {
     case "rentCostume":
       statusValues.happiness = Math.min(statusValues.happiness + 15, 100);
       break;
-    case "cinematicVideo":
+
+    case "makeVideo":
       statusValues.happiness = Math.min(statusValues.happiness + 15, 100);
       statusValues.energy = Math.max(statusValues.energy - 10, 0);
       break;
@@ -235,6 +219,8 @@ function performAction(action) {
       statusValues.hygiene = Math.min(statusValues.hygiene + 10, 100);
       statusValues.energy = Math.max(statusValues.energy - 5, 0);
       break;
+
+    case "":
     default:
       break;
   }
@@ -257,6 +243,9 @@ function updateLocationButtons() {
     actions[2].onclick = () => performAction("sleep");
     actions[3].innerHTML = "🛈 Do Chores";
     actions[3].onclick = () => performAction("chores");
+
+    document.body.style.backgroundImage =
+      "url('./gameptiasset/assets/view-laut.jpg')";
   } else if (
     Math.abs(position.x - 280) < 60 &&
     Math.abs(position.y - 440) < 60
@@ -270,6 +259,9 @@ function updateLocationButtons() {
     actions[2].onclick = () => performAction("buySnack");
     actions[3].innerHTML = "🛈 Pick-up Trash";
     actions[3].onclick = () => performAction("pickTrash");
+
+    document.body.style.backgroundImage =
+      "url('./gameptiasset/assets/view-laut.jpg')";
   } else if (
     Math.abs(position.x - 690) < 60 &&
     Math.abs(position.y - 210) < 60
@@ -283,11 +275,32 @@ function updateLocationButtons() {
     actions[2].onclick = () => performAction("buySouvenir");
     actions[3].innerHTML = "🛈 Rent Local Costume";
     actions[3].onclick = () => performAction("rentCostume");
+
+    document.body.style.backgroundImage =
+      "url('./gameptiasset/assets/view-laut.jpg')";
+  } else if (
+    Math.abs(position.x - 770) < 60 &&
+    Math.abs(position.y - 460) < 60
+  ) {
+    locationText.innerHTML = "You're at Bromo Mountain";
+    actions[0].innerHTML = "Make a Cinematic Video";
+    actions[0].onclick = () => performAction("makeVideo");
+    actions[1].innerHTML = "🛈 Buy Drink";
+    actions[1].onclick = () => performAction("buyDrink");
+    actions[2].innerHTML = "🛈 Plant a Flag";
+    actions[2].onclick = () => performAction("plantFlag");
+    actions[3].innerHTML = "Pray to God";
+    actions[3].onclick = () => performAction("pray");
+    document.getElementsByClassName("gift");
+    document.body.style.backgroundImage =
+      "url('./gameptiasset/assets/view-laut.jpg')";
   } else {
     locationText.innerHTML = "You're Lost!";
     actions.forEach((action) => {
       action.innerHTML = "";
       action.onclick = null;
+      document.body.style.backgroundImage =
+        "url('gameptiasset/assets/PageGame.jpg')";
     });
   }
 }
