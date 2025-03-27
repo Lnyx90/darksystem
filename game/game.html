@@ -16,7 +16,6 @@
     <div
       class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20 ">
       <span><strong>Archipelago Adventure</strong></span>
-      <span id="game-time" ></span>
     </div>
 
     <div class="flex items-center gap-2 mt-20 ">
@@ -61,6 +60,7 @@
 
         <div id="location" class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg ">
             <div id="location-text" class="text-lg font-bold mb-4">Welcome to Archipelago</div>
+            <span id="game-time" style="font-size: 10px;"></span>
             <button id="action1" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
             <button id="action2" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
             <button id="action3" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
@@ -101,60 +101,43 @@
     document.getElementById("player-name").textContent = playerName;
 });
 
-
-
-
-    let realNow = new Date(); 
-    let gameHours = realNow.getHours();  
-    let gameMinutes = realNow.getMinutes(); 
-    let gameDay = realNow.getDate(); 
-    let gameMonthIndex = realNow.getMonth();
-    let gameYear = realNow.getFullYear();
-
-   
-    let monthNames = [
-        "January", "February", "March", "April", "May", "June", 
-        "July", "August", "September", "October", "November", "December"
-    ];
-    let gameMonth = monthNames[gameMonthIndex];
-
+function updateDateTime() {
+    let gameTime = new Date();
     
-    function updateGameTime() {
-        gameMinutes++; 
+    const optionsDate = { 
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    };
 
-        if (gameMinutes >= 60) {
-            gameMinutes = 0;
-            gameHours++;
-        }
-        if (gameHours >= 24) {
-            gameHours = 0;
-            gameDay++; 
-        }
+    const optionsTime = { 
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true 
+    };
 
-        let dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        let currentDay = dayNames[new Date(gameYear, gameMonthIndex, gameDay).getDay()];
-
-        
-        let period = gameHours >= 12 ? "PM" : "AM";
-        let displayHour = gameHours % 12 || 12;
-        let displayMinute = String(gameMinutes).padStart(2, "0");
-
-     
-        let greeting = gameHours >= 5 && gameHours < 12 ? "Good Morning! " :
-                       gameHours >= 12 && gameHours < 18 ? "Good Afternoon! " :
-                       gameHours >= 18 && gameHours < 21 ? "Good Evening! " :
-                       "Good Night! ";
-
-       
-        document.getElementById("game-time").innerHTML = `
-            <strong>${greeting}</strong><br>
-            📅 ${currentDay}, ${gameDay} ${gameMonth} ${gameYear} <br>
-            🕒 ${displayHour}:${displayMinute} ${period}
-        `;
+    let hours = gameTime.getHours();
+    let greeting;
+    
+    if (hours < 12) {
+        greeting = "Good Morning!";
+    } else if (hours < 18) {
+        greeting = "Good Afternoon!";
+    } else {
+        greeting = "Good Evening!";
     }
 
-    setInterval(updateGameTime, 1000);
-    updateGameTime();
+    document.getElementById("game-time").innerHTML = `
+        <strong>${gameTime.toLocaleDateString("en-US", optionsDate)}</strong><br>
+        ${gameTime.toLocaleTimeString("en-US", optionsTime)}<br>
+        ${greeting}
+    `;
+}
+
+
+setInterval(updateDateTime, 1000);
+
+
+updateDateTime();
+
+
+
 
       let position = { x: 60, y: 90 };
       let isFlipped = false;
