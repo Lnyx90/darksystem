@@ -165,3 +165,12 @@ body {
         white-space: normal; 
     }
 }
+
+@keyframes emergeFromHole {
+    0% { opacity: 0; transform: scale(0.2) translateY(20px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+#player {
+    transition: left 0.3s ease-out, top 0.3s ease-out;
+}

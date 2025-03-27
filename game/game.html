@@ -16,7 +16,7 @@
 
     <div id="welcome-popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white p-6 rounded-lg shadow-lg text-center w-80">
-            <h2 class="text-xl font-bold mb-2">Welcome, <span id="player-welcome-name"></span>!</h2>
+            <h2 class="text-l font-bold mb-2">Welcome, <span id="player-welcome-name"></span>!</h2>
             <p class="mb-4">Get ready for an exciting adventure!</p>
             <button onclick="closePopup()"
                     class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
@@ -59,11 +59,12 @@
     <div class="flex flex-row items-center mt-2 space-x-8">
         <div class="relative w-[850px] h-[600px]">
             <img src="gameptiasset/assets/map.jpg" class="w-full h-700 rounded-lg shadow-lg">
-            <div id="player" class="absolute text-white font-bold transition-all text-center" style="  top: 20px; z-index: 50;">
+            <div id="player" class="absolute text-white font-bold transition-all text-center" style=" left: 435px; top: 260px; z-index: 10;">
               <p id="player-name" class=" text-blue-900 px-1 py-1 fade-in rounded-lg  " style="left: 50%; transform: translateX(-50%); position: absolute; bottom: 100%; font-family: 'Press Start 2P'; font-size: 10px;"></p>
               <img id="player-img" src="" width="40" class="rounded-full">
           </div>
           
+          <img src="gameptiasset/assets/hole.png" class="absolute w-16 h-16" style="left: 425px; top: 300px; z-index: 5;">
           <img src="gameptiasset/assets/home.png" class="absolute w-16 h-16" style="left: 60px; top: 90px; z-index: 5;">
           <img src="gameptiasset/assets/bromo.png" class="absolute w-16 h-16" style="left: 760px; top: 470px; z-index: 5;">
           <img src="gameptiasset/assets/kuta.png" class="absolute w-16 h-16" style="left: 270px; top: 445px; z-index: 5;">
