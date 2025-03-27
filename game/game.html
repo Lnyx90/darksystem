@@ -10,8 +10,14 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
   </head>
 
+  <body
+    class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
   <body
     class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
     style="
@@ -63,7 +69,16 @@
       <span class="mt-5"
         ><img src="./gameptiasset/assets/heart.webp" class="w-5 h-5"
       /></span>
+    <div class="flex items-center gap-2 mt-5 mb-5">
+      <span class="mt-5"
+        ><img src="./gameptiasset/assets/heart.webp" class="w-5 h-5"
+      /></span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
+        <div
+          id="health-bar"
+          class="h-full bg-red-500 transition-all"
+          style="width: 100%"
+        ></div>
         <div
           id="health-bar"
           class="h-full bg-red-500 transition-all"
@@ -74,7 +89,15 @@
       <span class="mt-5 ml-20"
         ><img src="./gameptiasset/assets/energi.png" class="w-5 h-5"
       /></span>
+      <span class="mt-5 ml-20"
+        ><img src="./gameptiasset/assets/energi.png" class="w-5 h-5"
+      /></span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
+        <div
+          id="energy-bar"
+          class="h-full bg-yellow-300 transition-all"
+          style="width: 100%"
+        ></div>
         <div
           id="energy-bar"
           class="h-full bg-yellow-300 transition-all"
@@ -85,7 +108,15 @@
       <span class="mt-5 ml-20"
         ><img src="./gameptiasset/assets/hygine.png" class="w-9 h-9"
       /></span>
+      <span class="mt-5 ml-20"
+        ><img src="./gameptiasset/assets/hygine.png" class="w-9 h-9"
+      /></span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
+        <div
+          id="hygiene-bar"
+          class="h-full bg-blue-400 transition-all"
+          style="width: 100%"
+        ></div>
         <div
           id="hygiene-bar"
           class="h-full bg-blue-400 transition-all"
@@ -96,7 +127,15 @@
       <span class="mt-5 ml-20"
         ><img src="./gameptiasset/assets/happy.webp" class="w-5 h-5"
       /></span>
+      <span class="mt-5 ml-20"
+        ><img src="./gameptiasset/assets/happy.webp" class="w-5 h-5"
+      /></span>
       <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
+        <div
+          id="happines-bar"
+          class="h-full bg-pink-400 transition-all"
+          style="width: 100%"
+        ></div>
         <div
           id="happines-bar"
           class="h-full bg-pink-400 transition-all"
@@ -105,8 +144,78 @@
       </div>
       <span id="health-text" class="mt-5">100%</span>
     </div>
+    </div>
 
     <div class="flex flex-row items-center mt-2 space-x-8">
+      <div class="relative w-[850px] h-[600px]">
+        <img
+          src="gameptiasset/assets/map.jpg"
+          class="w-full h-700 rounded-lg shadow-lg"
+        />
+        <div
+          id="player"
+          class="absolute text-white font-bold transition-all text-center"
+          style="left: 435px; top: 260px; z-index: 10"
+        >
+          <p
+            id="player-name"
+            class="text-blue-900 px-1 py-1 fade-in rounded-lg"
+            style="
+              left: 50%;
+              transform: translateX(-50%);
+              position: absolute;
+              bottom: 100%;
+              font-family: 'Press Start 2P';
+              font-size: 10px;
+            "
+          ></p>
+          <img id="player-img" src="" width="40" class="rounded-full" />
+        </div>
+
+        <img
+          src="gameptiasset/assets/hole.png"
+          class="absolute w-16 h-16"
+          style="left: 425px; top: 300px; z-index: 5"
+        />
+        <img
+          src="gameptiasset/assets/home.png"
+          class="absolute w-16 h-16"
+          style="left: 60px; top: 90px; z-index: 5"
+        />
+        <img
+          src="gameptiasset/assets/bromo.png"
+          class="absolute w-16 h-16"
+          style="left: 760px; top: 470px; z-index: 5"
+        />
+        <img
+          src="gameptiasset/assets/kuta.png"
+          class="absolute w-16 h-16"
+          style="left: 270px; top: 445px; z-index: 5"
+        />
+        <img
+          src="gameptiasset/assets/borobudur.png"
+          class="absolute w-16 h-16"
+          style="left: 680px; top: 240px; z-index: 5"
+        />
+        <img
+          src="gameptiasset/assets/laketoba.png"
+          class="absolute w-16 h-16"
+          style="left: 380px; top: 60px; z-index: 5"
+        />
+      </div>
+
+      <div
+        id="location"
+        class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg"
+      >
+        <div
+          id="location-text"
+          class="justify-center text-center ml-4 text-m font-semibold mb-4"
+        >
+          Welcome to Archipelago
+        </div>
+        <div class="flex flex-col items-center">
+          <span id="game-time"></span>
       <div class="relative w-[850px] h-[600px]">
         <img
           src="gameptiasset/assets/map.jpg"
@@ -230,8 +339,63 @@
           </button>
         </div>
       </div>
+        <button
+          id="action1"
+          class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"
+        ></button>
+        <button
+          id="action2"
+          class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"
+        ></button>
+        <button
+          id="action3"
+          class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"
+        ></button>
+        <button
+          id="action4"
+          class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg hover:bg-yellow-600"
+        ></button>
+        <div
+          class="gift bg-yellow-300 p-2 rounded-lg mt-4 text-center mb-12"
+        ></div>
+        <div class="mt-15 flex flex-col items-center">
+          <button onclick="move('up')">
+            <img
+              src="gameptiasset/assets/top.png"
+              alt="up"
+              class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200"
+            />
+          </button>
+          <div class="flex space-x-4 mt-2">
+            <button onclick="move('left')">
+              <img
+                src="gameptiasset/assets/left.png"
+                alt="left"
+                class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200"
+              />
+            </button>
+            <button onclick="move('right')">
+              <img
+                src="gameptiasset/assets/right.png"
+                alt="right"
+                class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200 ml-5"
+              />
+            </button>
+          </div>
+          <button onclick="move('down')">
+            <img
+              src="gameptiasset/assets/down.png"
+              alt="down"
+              class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200"
+            />
+          </button>
+        </div>
+      </div>
     </div>
+
+    <script src="./game.js"></script>
 
     <script src="./game.js"></script>
   </body>
 </html>
+
