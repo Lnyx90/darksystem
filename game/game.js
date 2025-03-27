@@ -209,6 +209,7 @@ function performAction(action) {
     case "rentCostume":
       statusValues.happiness = Math.min(statusValues.happiness + 15, 100);
       break;
+
     case "makeVideo":
       statusValues.happiness = Math.min(statusValues.happiness + 15, 100);
       statusValues.energy = Math.max(statusValues.energy - 10, 0);
@@ -229,6 +230,7 @@ function performAction(action) {
       statusValues.hygiene = Math.min(statusValues.hygiene + 10, 100);
       statusValues.energy = Math.max(statusValues.energy - 5, 0);
       break;
+
     case "":
     default:
       break;
@@ -252,6 +254,7 @@ function updateLocationButtons() {
     actions[2].onclick = () => performAction("sleep");
     actions[3].innerHTML = "🛈 Do Chores";
     actions[3].onclick = () => performAction("chores");
+
     document.body.style.backgroundImage =
       "url('./gameptiasset/assets/view-laut.jpg')";
   } else if (
@@ -267,6 +270,7 @@ function updateLocationButtons() {
     actions[2].onclick = () => performAction("buySnack");
     actions[3].innerHTML = "🛈 Pick-up Trash";
     actions[3].onclick = () => performAction("pickTrash");
+
     document.body.style.backgroundImage =
       "url('./gameptiasset/assets/view-laut.jpg')";
   } else if (
@@ -282,6 +286,7 @@ function updateLocationButtons() {
     actions[2].onclick = () => performAction("buySouvenir");
     actions[3].innerHTML = "🛈 Rent Local Costume";
     actions[3].onclick = () => performAction("rentCostume");
+
     document.body.style.backgroundImage =
       "url('./gameptiasset/assets/view-laut.jpg')";
   } else if (
