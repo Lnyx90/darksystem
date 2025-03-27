@@ -31,24 +31,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function closePopup() {
             document.getElementById("welcome-popup").style.display = "none";
-        
-            // Efek karakter muncul dari hole
+
             setTimeout(() => {
                 player.style.opacity = "1";
                 player.style.animation = "emergeFromHole 0.5s forwards";
             }, 500);
         }
 
-function updateDateTime() {
+function updateTime() {
   let gameTime = new Date();
-
-  const optionsDate = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-
   const optionsTime = {
     hour: "2-digit",
     minute: "2-digit",
@@ -56,29 +47,48 @@ function updateDateTime() {
     hour12: true,
   };
 
-  let hours = gameTime.getHours();
-  let greeting;
-
-  if (hours < 12) {
-    greeting = "Good Morning!";
-  } else if (hours < 18) {
-    greeting = "Good Afternoon!";
-  } else {
-    greeting = "Good Evening!";
+  while(optionsTime==true){
+    gameTime.setSeconds(gameTime.getSeconds() + 3600);
   }
 
   document.getElementById("game-time").innerHTML = `
-                <strong>${gameTime.toLocaleDateString(
-                  "en-US",
-                  optionsDate
-                )}</strong><br>
                 ${gameTime.toLocaleTimeString("en-US", optionsTime)}<br>
-                ${greeting}
             `;
 }
+function updateDate() {
+    let gameDate = new Date();
+  
+    const optionsDate = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+  
+    let hours = gameDate.getHours();
+    let greeting;
+  
+    if (hours < 12) {
+      greeting = "Good Morning!";
+    } else if (hours < 18) {
+      greeting = "Good Afternoon!";
+    } else {
+      greeting = "Good Evening!";
+    }
+  
+    document.getElementById("game-day").innerHTML = `
+                  ${gameDate.toLocaleDateString(
+                    "en-US",
+                    optionsDate
+                  )}<br>
+                  ${greeting}
+              `;
+  }
 
-setInterval(updateDateTime, 1000);
-updateDateTime();
+setInterval(updateTime, 1000);
+setInterval(updateDate, 1000);
+updateTime();
+updateDate();
 
 
 function move(direction) {
