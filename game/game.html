@@ -19,30 +19,42 @@
       overflow: hidden;
     "
   >
-  <div id="welcome-popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-lg shadow-lg text-center w-72">
-        <h2 class="text-xl font-bold mb-2">Welcome, <span id="player-welcome-name"></span>!</h2>
+    <div
+      id="welcome-popup"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white p-6 rounded-lg shadow-lg text-center w-72">
+        <h2 class="text-xl font-bold mb-2">
+          Welcome, <span id="player-welcome-name"></span>!
+        </h2>
         <p class="text-xs mb-2">You have chosen:</p>
 
-        <img id="player-character-img" src="" alt="Character Image"
-             class="w-24 h-40 mx-auto mb-4 hidden">
+        <img
+          id="player-character-img"
+          src=""
+          alt="Character Image"
+          class="w-24 h-40 mx-auto mb-4 hidden"
+        />
 
         <p class="mb-4">Time for an Epic Journey!</p>
-        <button onclick="closePopup()"
-                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-            Play
+        <button
+          onclick="closePopup()"
+          class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+        >
+          Play
         </button>
-    </div>
-</div>
+          
+      </div>
+    </div>
 
     <div
       class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20"
     >
       <span><strong>Archipelago Adventure</strong></span>
       <div>
-          <span id="game-day1"></span>
-        <div >
-          <span id="game-day2" class="ml-12"></span>
+        <span id="game-day1"></span>
+        <div>
+          <span id="game-day2" class="ml-36"></span>
         </div>
       </div>
     </div>
