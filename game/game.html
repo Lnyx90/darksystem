@@ -6,169 +6,255 @@
     <title>Archipelago Adventure</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   </head>
-  <body
-    class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
+
+  <body class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center "
     style="
-      background-image: url('gameptiasset/assets/5bd170bb4655992be36d6034b35224fd.jpg');
-    "
-  >
+      background-image: url('gameptiasset/assets/PageGame.jpg'); overflow: hidden;
+    ">
     <div
-      class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20"
-    >
+      class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20 ">
       <span><strong>Archipelago Adventure</strong></span>
+      <span id="game-time" ></span>
     </div>
 
-    <div
-      class="flex w-full max-w-4xl mt-16 space-x-4 relative b-green-800 w-400 h-500"
-    >
-      <div
-        class="flex-1 bg-green-600 p-6 rounded-lg shadow-lg relative overflow-hidden"
-      >
-        <div
-          class="bg-green-600 grid grid-cols-3 gap-6 place-items-center mt-4 relative h-64"
-        >
-          <div class="w-24 h-24 flex items-center justify-center rounded-full">
-            <img src="gameptiasset/assets/laketoba-Photoroom.png" />
+    <div class="flex items-center gap-2 mt-20 ">
+      <span class="mt-5">💓</span>
+      <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
+          <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
+      </div>
+      <span id="health-text" class="mt-5">100%</span>
+      <span class="mt-5 ml-20">🛏</span>
+      <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
+          <div id="energy-bar" class="h-full bg-yellow-300 transition-all" style="width: 100%;"></div>
+      </div>
+      <span id="health-text" class="mt-5">100%</span>
+      <span class="mt-5 ml-20">🧖🏻‍♀</span>
+      <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
+          <div id="hygiene-bar" class="h-full bg-blue-400 transition-all" style="width: 100%;"></div>
+      </div>
+      <span id="health-text" class="mt-5">100%</span>
+      <span class="mt-5 ml-20">🧏🏻‍♀</span>
+      <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
+          <div id="happines-bar" class="h-full bg-pink-400 transition-all" style="width: 100%;"></div>
+      </div>
+      <span id="health-text" class="mt-5">100%</span>
+  </div>
+
+
+    <div class="flex flex-row items-center mt-2 space-x-8">
+        <div class="relative w-[850px] h-[600px]">
+            <img src="gameptiasset/assets/map.jpg" class="w-full h-700 rounded-lg shadow-lg">
+            <div id="player" class="absolute text-white font-bold transition-all text-center" style="  top: 20px; z-index: 50;">
+              <p id="player-name" class=" text-blue-900 px-1 py-1 fade-in rounded-lg  " style="left: 50%; transform: translateX(-50%); position: absolute; bottom: 100%; font-family: 'Press Start 2P'; font-size: 10px;"></p>
+              <img id="player-img" src="" width="40" class="rounded-full">
           </div>
-          <div
-            id="player"
-            class="w-24 h-24 absolute text-white font-bold transition-all"
-            style="left: 50px; top: 50px"
-          >
-            <img id="player-img" src="" width="40" class="rounded-full" />
-          </div>
-          <div class="w-24 h-24 flex items-center justify-center rounded-full">
-            <img src="gameptiasset/assets/pantai kuta-Photoroom.png" />
-          </div>
-          <div class="w-24 h-24 flex items-center justify-center rounded-full">
-            <img src="gameptiasset/assets/borobudur-removebg-preview.png" />
-          </div>
-          <div class="w-24 h-24 flex items-center justify-center rounded-full">
-            <img src="gameptiasset/assets/gunung bromo-Photoroom.png" />
-          </div>
+          
+          
+          <img src="gameptiasset/assets/bromo.png" class="absolute w-16 h-16" style="left: 760px; top: 470px; z-index: 5;">
+          <img src="gameptiasset/assets/kuta.png" class="absolute w-16 h-16" style="left: 270px; top: 445px; z-index: 5;">
+          <img src="gameptiasset/assets/borobudur.png" class="absolute w-16 h-16" style="left: 680px; top: 240px; z-index: 5;">
+          <img src="gameptiasset/assets/laketoba.png" class="absolute w-16 h-16" style="left: 380px; top: 60px; z-index: 5;">
+          
         </div>
-      </div>
 
-      <div class="w-1/4 bg-white p-4 rounded-lg shadow-lg">
-        <div class="text-lg font-bold mb-4">You're at Home</div>
-        <button
-          class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"
-        >
-          Get Some Meal
-        </button>
-        <button
-          class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"
-        >
-          Take a Bath
-        </button>
-        <button
-          class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"
-        >
-          Sleep
-        </button>
-        <button
-          class="w-full bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600"
-        >
-          🛈 Do Chores
-        </button>
-
-        <div class="bg-yellow-300 p-2 rounded-lg mt-2 text-center">
-          You will get 500 for helping the house clean
+        <div id="location" class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg ">
+            <div id="location-text" class="text-lg font-bold mb-4">Welcome to Archipelago</div>
+            <button id="action1" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action2" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action3" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action4" class="w-full bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600"></button>
+            <div class="gift bg-yellow-300 p-2 rounded-lg mt-2 text-center"></div>
+            <div class="mt-6 flex flex-col items-center">
+                <button onclick="move('up')">
+                    <img src="gameptiasset/assets/top.png" alt="up" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
+                </button>
+                <div class="flex space-x-4 mt-2">
+                    <button onclick="move('left')">
+                        <img src="gameptiasset/assets/left.png" alt="left" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
+                    </button>
+                    <button onclick="move('right')">
+                        <img src="gameptiasset/assets/right.png" alt="right" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200 ml-5">
+                    </button>
+                </div>
+                <button onclick="move('down')">
+                    <img src="gameptiasset/assets/down.png" alt="down" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
+                </button>
+            </div>
         </div>
-      </div>
     </div>
-
-    <div class="mt-6 flex flex-col items-center">
-      <button
-        onclick="move('up')"
-        class="bg-gray-500 text-white p-3 rounded-full mb-2 hover:bg-gray-600"
-      >
-        ⬆
-      </button>
-      <div class="flex space-x-4 gap-10">
-        <button
-          onclick="move('left')"
-          class="bg-gray-500 text-white p-3 rounded-full hover:bg-gray-600"
-        >
-          ⬅
-        </button>
-        <button
-          onclick="move('right')"
-          class="bg-gray-500 text-white p-3 rounded-full hover:bg-gray-600"
-        >
-          ➡
-        </button>
-      </div>
-      <button
-        onclick="move('down')"
-        class="bg-gray-500 text-white p-3 rounded-full mt-2 hover:bg-gray-600"
-      >
-        ⬇
-      </button>
-    </div>
+    
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        let selectedCharacterImage =
-          localStorage.getItem("selectedCharacterImage") ||
-          "gameptiasset/assets/wayang1-removebg-preview.png";
-        let playerImg = document.getElementById("player-img");
+   document.addEventListener("DOMContentLoaded", function () {
+    let selectedCharacterImage =
+        localStorage.getItem("selectedCharacterImage") ||
+        "gameptiasset/assets/wayang1.png";
+    let playerImg = document.getElementById("player-img");
+    let playerName = localStorage.getItem("playerName") || "Player"; 
 
-        if (playerImg) {
-          playerImg.src = selectedCharacterImage;
+    if (playerImg) {
+        playerImg.src = selectedCharacterImage;
+    }
+
+    document.getElementById("player-name").textContent = playerName;
+});
+
+
+
+
+    let realNow = new Date(); 
+    let gameHours = realNow.getHours();  
+    let gameMinutes = realNow.getMinutes(); 
+    let gameDay = realNow.getDate(); 
+    let gameMonthIndex = realNow.getMonth();
+    let gameYear = realNow.getFullYear();
+
+   
+    let monthNames = [
+        "January", "February", "March", "April", "May", "June", 
+        "July", "August", "September", "October", "November", "December"
+    ];
+    let gameMonth = monthNames[gameMonthIndex];
+
+    
+    function updateGameTime() {
+        gameMinutes++; 
+
+        if (gameMinutes >= 60) {
+            gameMinutes = 0;
+            gameHours++;
         }
-      });
+        if (gameHours >= 24) {
+            gameHours = 0;
+            gameDay++; 
+        }
 
-      let position = { x: 50, y: 50 };
+        let dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        let currentDay = dayNames[new Date(gameYear, gameMonthIndex, gameDay).getDay()];
+
+        
+        let period = gameHours >= 12 ? "PM" : "AM";
+        let displayHour = gameHours % 12 || 12;
+        let displayMinute = String(gameMinutes).padStart(2, "0");
+
+     
+        let greeting = gameHours >= 5 && gameHours < 12 ? "Good Morning! " :
+                       gameHours >= 12 && gameHours < 18 ? "Good Afternoon! " :
+                       gameHours >= 18 && gameHours < 21 ? "Good Evening! " :
+                       "Good Night! ";
+
+       
+        document.getElementById("game-time").innerHTML = `
+            <strong>${greeting}</strong><br>
+            📅 ${currentDay}, ${gameDay} ${gameMonth} ${gameYear} <br>
+            🕒 ${displayHour}:${displayMinute} ${period}
+        `;
+    }
+
+    setInterval(updateGameTime, 1000);
+    updateGameTime();
+
+      let position = { x: 60, y: 90 };
       let isFlipped = false;
-      const step = 30; // Movement distance
+      const step = 30; 
 
       function move(direction) {
-        let player = document.getElementById("player");
+            const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
+            let player = document.getElementById("player");
+            let playerImg = document.getElementById("player-img");
+            let prevX = position.x;
+            let prevY = position.y;
+            if (!player) return;
 
-        if (!player) return;
+            switch (direction) {
+              case 'up': 
+                  if (position.y - step >= mapBounds.top) position.y -= step; 
+                  break;
+              case 'down': 
+                  if (position.y + step <= mapBounds.bottom) position.y += step; 
+                  break;
+              case 'left': 
+                  if (position.x - step >= mapBounds.left) position.x -= step;
+                  playerImg.style.transform = "scaleX(-1)"; 
+                  break;
+              case 'right': 
+                  if (position.x + step <= mapBounds.right) position.x += step;
+                  playerImg.style.transform = "scaleX(1)"; 
+                  break;
+            }
+            if (position.x === prevX && position.y === prevY) {
+                player.style.animation = "shake 0.2s";
+                setTimeout(() => player.style.animation = "", 200);
+            }
 
-        switch (direction) {
-          case "up":
-            position.y -= step;
-            break;
-          case "down":
-            position.y += step;
-            break;
-          case "left":
-            position.x -= step;
-            isFlipped = true;
-            break;
-          case "right":
-            position.x += step;
-            isFlipped = false;
-            break;
+
+            player.style.left = position.x + "px";
+            player.style.top = position.y + "px";
+            const style = document.createElement('style');
+            style.innerHTML = `
+              @keyframes shake {
+                0% { transform: translateX(0); }
+                25% { transform: translateX(-3px); }
+                50% { transform: translateX(3px); }
+                75% { transform: translateX(-3px); }
+                100% { transform: translateX(0); }
+              }
+                `;
+            document.head.appendChild(style);
+            updateLocationButtons();
         }
 
-        // Apply movement and flipping
-        player.style.left = position.x + "px";
-        player.style.top = position.y + "px";
-        player.style.transform = `scaleX(${isFlipped ? -1 : 1})`;
-      }
+        function updateLocationButtons() {
+            let locationText = document.getElementById("location-text");
+            let actions = ["action1", "action2", "action3", "action4"].map(id => document.getElementById(id));
 
-      document.addEventListener("keydown", function (event) {
-        switch (event.key) {
-          case "ArrowUp":
-            move("up");
-            break;
-          case "ArrowDown":
-            move("down");
-            break;
-          case "ArrowLeft":
-            move("left");
-            break;
-          case "ArrowRight":
-            move("right");
-            break;
+            if (Math.abs(position.x - 60) < 50 && Math.abs(position.y - 90) < 50) {
+                locationText.innerHTML = "You're at Tangerang";
+                actions[0].innerHTML = "Get Some Meal";
+                actions[1].innerHTML = "Take a Bath";
+                actions[2].innerHTML = "Sleep";
+                actions[3].innerHTML = "🛈 Do Chores";
+                document.getElementsByClassName("gift");
+            } else if (Math.abs(position.x - 280) < 60 && Math.abs(position.y - 440) < 60) {
+                locationText.innerHTML = "You're at Kuta Beach";
+                actions[0].innerHTML = "Sand Play";
+                actions[1].innerHTML = "🛈 Buy Drink";
+                actions[2].innerHTML = "🛈 Buy Snack";
+                actions[3].innerHTML = "🛈 Pick-up Trash";
+                document.getElementsByClassName("gift");
+            } else if (Math.abs(position.x - 690) < 60 && Math.abs(position.y - 210) < 60) {
+                locationText.innerHTML = "You're at Borobudur Temple";
+                actions[0].innerHTML = "Take a Picture";
+                actions[1].innerHTML = "🛈 Buy Local Food";
+                actions[2].innerHTML = "🛈 Buy Souvenir";
+                actions[3].innerHTML = "🛈 Rent Local Costum";
+                document.getElementsByClassName("gift");
+            } else if (Math.abs(position.x - 770) < 60 && Math.abs(position.y - 460) < 60) {
+                locationText.innerHTML = "You're at Bromo Mountain";
+                actions[0].innerHTML = "Make a Cinematic Video";
+                actions[1].innerHTML = "🛈 Buy Drink";
+                actions[2].innerHTML = "🛈 Plant a Flag";
+                actions[3].innerHTML = "Pray to God";
+                document.getElementsByClassName("gift");
+            } else if (Math.abs(position.x - 390) < 60 && Math.abs(position.y - 70) < 60) {
+                locationText.innerHTML = "You're at Toba Lake";
+                actions[0].innerHTML = "Take a Shower";
+                actions[1].innerHTML = "Catch a Fish";
+                actions[2].innerHTML = "Take a Picture";
+                actions[3].innerHTML = "Washing Chlotes";
+                document.getElementsByClassName("gift");
+            } else {
+                locationText.innerHTML = "You're Lost!";
+                actions.forEach(action => action.innerHTML = "");
+            }
         }
-      });
+
+        document.addEventListener("keydown", function(event) {
+            const keyMap = { "ArrowUp": 'up', "ArrowDown": 'down', "ArrowLeft": 'left', "ArrowRight": 'right' };
+            if (keyMap[event.key]) move(keyMap[event.key]);
+        });
     </script>
   </body>
 </html>
-<!--HAI-->
