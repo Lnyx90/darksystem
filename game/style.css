@@ -1,221 +1,221 @@
 .glow-text {
-  animation: glow 1.5s infinite;
-}
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
+    animation: glow 1.5s infinite;
   }
-  50% {
-    transform: scale(1.1);
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
   }
-}
-.pulse-button {
-  animation: pulse 1s infinite;
-  transition: background-color 0.2s;
-}
-.pulse-button:hover {
-  background-color: #2d7a39;
-}
-.character-container {
-  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-}
-.fade-in {
-  opacity: 0;
-  transform: scale(0.8);
-}
-.fade-in.show {
-  opacity: 1;
-  transform: scale(1);
-}
-.floating {
-  animation: float 3s infinite ease-in-out;
-}
-@keyframes float {
-  0% {
-    transform: translateY(0px);
+  .pulse-button {
+    animation: pulse 1s infinite;
+    transition: background-color 0.2s;
   }
-  50% {
-    transform: translateY(-10px);
+  .pulse-button:hover {
+    background-color: #2d7a39;
   }
-  100% {
-    transform: translateY(0px);
+  .character-container {
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
   }
-}
-
-.status-bar {
-  height: 80px;
-}
-
-@keyframes glow {
-  0% {
-    text-shadow: 0 0 10px #00ff00;
-  }
-  50% {
-    text-shadow: 0 0 20px #00ff00;
-  }
-  100% {
-    text-shadow: 0 0 10px #00ff00;
-  }
-}
-.glow-text {
-  animation: glow 1.5s infinite;
-}
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-.pulse-button {
-  animation: pulse 1s infinite;
-  transition: background-color 0.2s;
-}
-.pulse-button:hover {
-  background-color: #2d7a39;
-}
-
-.character-container {
-  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-}
-.fade-in {
-  opacity: 0;
-  transform: scale(0.8);
-}
-.fade-in.show {
-  opacity: 1;
-  transform: scale(1);
-}
-.floating {
-  animation: float 3s infinite ease-in-out;
-}
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
-
-h1 {
-  position: absolute;
-  top: 30px;
-  left: 300px;
-  font-family: "Press Start 2P", cursive;
-  color: #1e3a8a;
-  text-shadow: 4px 4px #000;
-}
-
-h1 span {
-  padding-left: 40px;
-}
-
-body {
-  font-family: "Press Start 2P", cursive;
-}
-
-@keyframes glow {
-  0% {
-    text-shadow: 0 0 20px #00ff00;
-  }
-  50% {
-    text-shadow: 0 0 40px #00ff00;
-  }
-  100% {
-    text-shadow: 0 0 20px #00ff00;
-  }
-}
-.glow-text {
-  animation: glow 1s infinite;
-}
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-.pulse-button {
-  animation: pulse 1s infinite;
-  transition: background-color 0.2s;
-}
-.pulse-button:hover {
-  background-color: #2d7a39;
-}
-
-#title {
-  animation: glow 2s infinite alternate, float 3s infinite ease-in-out;
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-  100% {
+  .fade-in {
     opacity: 0;
+    transform: scale(0.8);
   }
-}
-
-.fade-out {
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-}
-.fade-in {
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 0.3s ease-in, transform 0.3s ease-in;
-}
-.choosetext h1 {
-  position: absolute;
-  top: 5%;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-}
-
-@media (max-width: 768px) {
+  .fade-in.show {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .floating {
+    animation: float 3s infinite ease-in-out;
+  }
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  .status-bar {
+    height: 80px;
+  }
+  
+  @keyframes glow {
+    0% {
+      text-shadow: 0 0 10px #00ff00;
+    }
+    50% {
+      text-shadow: 0 0 20px #00ff00;
+    }
+    100% {
+      text-shadow: 0 0 10px #00ff00;
+    }
+  }
+  .glow-text {
+    animation: glow 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  .pulse-button {
+    animation: pulse 1s infinite;
+    transition: background-color 0.2s;
+  }
+  .pulse-button:hover {
+    background-color: #2d7a39;
+  }
+  
+  .character-container {
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  }
+  .fade-in {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  .fade-in.show {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .floating {
+    animation: float 3s infinite ease-in-out;
+  }
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  h1 {
+    position: absolute;
+    top: 30px;
+    left: 300px;
+    font-family: "Press Start 2P", cursive;
+    color: #1e3a8a;
+    text-shadow: 4px 4px #000;
+  }
+  
+  h1 span {
+    padding-left: 40px;
+  }
+  
+  body {
+    font-family: "Press Start 2P", cursive;
+  }
+  
+  @keyframes glow {
+    0% {
+      text-shadow: 0 0 20px #00ff00;
+    }
+    50% {
+      text-shadow: 0 0 40px #00ff00;
+    }
+    100% {
+      text-shadow: 0 0 20px #00ff00;
+    }
+  }
+  .glow-text {
+    animation: glow 1s infinite;
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  .pulse-button {
+    animation: pulse 1s infinite;
+    transition: background-color 0.2s;
+  }
+  .pulse-button:hover {
+    background-color: #2d7a39;
+  }
+  
+  #title {
+    animation: glow 2s infinite alternate, float 3s infinite ease-in-out;
+  }
+  
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  .fade-out {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+  .fade-in {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+  }
   .choosetext h1 {
-    font-size: 2rem;
-    top: 3%;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
   }
-}
-@media (max-width: 480px) {
-  .choosetext {
-    font-size: 1.5rem;
-    white-space: normal;
+  
+  @media (max-width: 768px) {
+    .choosetext h1 {
+      font-size: 2rem;
+      top: 3%;
+    }
   }
-}
-
-@keyframes emergeFromHole {
-  0% {
-    opacity: 0;
-    transform: scale(0.2) translateY(20px);
+  @media (max-width: 480px) {
+    .choosetext {
+      font-size: 1.5rem;
+      white-space: normal;
+    }
   }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
+  
+  @keyframes emergeFromHole {
+    0% {
+      opacity: 0;
+      transform: scale(0.2) translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
   }
-}
-
-#player {
-  transition: left 0.3s ease-out, top 0.3s ease-out;
-}
+  
+  #player {
+    transition: left 0.3s ease-out, top 0.3s ease-out;
+  }
