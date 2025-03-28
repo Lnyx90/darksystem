@@ -29,6 +29,19 @@ document.addEventListener("DOMContentLoaded", function () {
             player.style.animation = "emerge 0.5s forwards";
         }, 500);
 
+        document.addEventListener("DOMContentLoaded", function () {
+          let playerName = localStorage.getItem("playerName") || "Player";
+          let characterImg = localStorage.getItem("selectedCharacterImage") || "";
+        
+          document.getElementById("player-welcome-name").innerText = playerName;
+          
+          if (characterImg) {
+              let imgElement = document.getElementById("player-character-img");
+              imgElement.src = characterImg;
+              imgElement.classList.remove("hidden"); 
+          }
+        });
+
         function closePopup() {
             document.getElementById("welcome-popup").style.display = "none";
 
@@ -52,7 +65,7 @@ function updateTime() {
   }
 
   document.getElementById("game-time").innerHTML = `
-                ${gameTime.toLocaleTimeString("en-US", optionsTime)}<br>
+                ${gameTime.toLocaleTimeString("en-US", optionsTime)}
             `;
 }
 function updateDate() {
@@ -76,14 +89,18 @@ function updateDate() {
       greeting = "Good Evening!";
     }
   
-    document.getElementById("game-day").innerHTML = `
+    document.getElementById("game-day1").innerHTML = `
                   ${gameDate.toLocaleDateString(
                     "en-US",
                     optionsDate
-                  )}<br>
+                  )}
+              `;
+    document.getElementById("game-day2").innerHTML = `
                   ${greeting}
               `;
-  }
+}
+
+          
 
 setInterval(updateTime, 1000);
 setInterval(updateDate, 1000);
@@ -257,6 +274,9 @@ function updateLocationButtons() {
     actions[2].onclick = () => performAction("sleep");
     actions[3].innerHTML = "🛈 Do Chores";
     actions[3].onclick = () => performAction("chores");
+
+    document.body.style.backgroundImage =
+      "url('./gameptiasset/assets/view-laut.jpg')";
   } else if (
     Math.abs(position.x - 280) < 60 &&
     Math.abs(position.y - 440) < 60
@@ -270,6 +290,9 @@ function updateLocationButtons() {
     actions[2].onclick = () => performAction("buySnack");
     actions[3].innerHTML = "🛈 Pick-up Trash";
     actions[3].onclick = () => performAction("pickTrash");
+
+    document.body.style.backgroundImage =
+      "url('./gameptiasset/assets/view-laut.jpg')";
   } else if (
     Math.abs(position.x - 690) < 60 &&
     Math.abs(position.y - 210) < 60
@@ -283,11 +306,44 @@ function updateLocationButtons() {
     actions[2].onclick = () => performAction("buySouvenir");
     actions[3].innerHTML = "🛈 Rent Local Costume";
     actions[3].onclick = () => performAction("rentCostume");
+
+    document.body.style.backgroundImage =
+      "url('./gameptiasset/assets/view-laut.jpg')";
+  } else if (
+    Math.abs(position.x - 770) < 60 &&
+    Math.abs(position.y - 460) < 60
+  ) {
+    locationText.innerHTML = "You're at Bromo Mountain";
+    actions[0].innerHTML = "Make a Cinematic Video";
+    actions[0].onclick = () => performAction("makeVideo");
+    actions[1].innerHTML = "🛈 Buy Drink";
+    actions[1].onclick = () => performAction("buyDrink");
+    actions[2].innerHTML = "🛈 Plant a Flag";
+    actions[2].onclick = () => performAction("plantFlag");
+    actions[3].innerHTML = "Pray to God";
+    actions[3].onclick = () => performAction("pray");
+    document.getElementsByClassName("gift");
+    document.body.style.backgroundImage =
+      "url('./gameptiasset/assets/view-laut.jpg')";
   } else {
     locationText.innerHTML = "You're Lost!";
     actions.forEach((action) => {
       action.innerHTML = "";
       action.onclick = null;
+      document.body.style.backgroundImage =
+        "url('gameptiasset/assets/PageGame.jpg')";
     });
   }
 }
+updateBars();
+
+document.addEventListener("keydown", function (event) {
+  const keyMap = {
+    ArrowUp: "up",
+    ArrowDown: "down",
+    ArrowLeft: "left",
+    ArrowRight: "right",
+  };
+  if (keyMap[event.key]) move(keyMap[event.key]);
+});
+
