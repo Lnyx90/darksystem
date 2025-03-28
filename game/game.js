@@ -50,6 +50,54 @@ document.addEventListener("DOMContentLoaded", function () {
                 player.style.animation = "emergeFromHole 0.5s forwards";
             }, 500);
         }
+        function updateBackground() {
+          let currentHour = new Date().getHours();
+          let body = document.body;
+  
+          if (currentHour >= 18 || currentHour < 6) {
+              body.style.backgroundImage = "url('gameptiasset/assets/nightbg.jpg')";
+          } else {
+              body.style.backgroundImage = "url('gameptiasset/assets/PageGame.jpg')";
+          }
+      }
+      function updateTheme() {
+        let currentHour = new Date().getHours();
+        let body = document.body;
+        let statusBar = document.querySelector(".status-bar");
+        let taskTexts = document.querySelectorAll("#health-text");
+
+        let gameTitle = document.querySelector(".status-bar strong");
+        let gameTime = document.getElementById("game-time");
+        let gameDay1 = document.getElementById("game-day1");
+        let gameDay2 = document.getElementById("game-day2");
+
+        if (currentHour >= 18 || currentHour < 6) {
+            body.style.backgroundImage = "url('gameptiasset/assets/nightbg.jpg')";
+            gameTitle.style.color = "white";
+            gameTime.style.color = "black";
+            gameDay1.style.color = "white";
+            gameDay2.style.color = "white";
+            taskTexts.forEach(text => {
+                text.style.color = "white";
+            });
+
+        } else {
+            body.style.backgroundImage = "url('gameptiasset/assets/PageGame.jpg')";
+            gameTitle.style.color = "";
+            gameTime.style.color = "";
+            gameDay1.style.color = "";
+            gameDay2.style.color = "";
+            taskTexts.forEach(text => {
+                text.style.color = "black";
+            });
+        }
+    }
+
+    setInterval(updateTheme, 1000);
+    updateTheme();
+  
+    setInterval(updateBackground, 1000); 
+    updateBackground();
 
 function updateTime() {
   let gameTime = new Date();
@@ -61,26 +109,45 @@ function updateTime() {
   };
 
   while(optionsTime==true){
-    gameTime.setSeconds(gameTime.getSeconds() + 3600);
+    gameTime.setSeconds(gameTime.getSeconds() + 60);
   }
 
   document.getElementById("game-time").innerHTML = `
                 ${gameTime.toLocaleTimeString("en-US", optionsTime)}
             `;
 }
+
+let realStartTime = new Date(); 
+let offsetSeconds = 0; 
+
+function updateTime() {
+  let gameTime = new Date(realStartTime.getTime() + offsetSeconds * 60);
+  const optionsTime = {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  };
+
+    document.getElementById("game-time").innerHTML = `
+      ${gameTime.toLocaleTimeString("en-US", optionsTime)}
+    `;
+
+    offsetSeconds += 360;
+    }
+
 function updateDate() {
-    let gameDate = new Date();
-  
-    const optionsDate = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-  
-    let hours = gameDate.getHours();
-    let greeting;
-  
+  let gameDate = new Date();
+  const optionsDate = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+};
+
+  let hours = gameDate.getHours();
+  let greeting;
+
     if (hours < 12) {
       greeting = "Good Morning!";
     } else if (hours < 18) {
@@ -88,19 +155,14 @@ function updateDate() {
     } else {
       greeting = "Good Evening!";
     }
-  
-    document.getElementById("game-day1").innerHTML = `
-                  ${gameDate.toLocaleDateString(
-                    "en-US",
-                    optionsDate
-                  )}
-              `;
-    document.getElementById("game-day2").innerHTML = `
-                  ${greeting}
-              `;
-}
 
-          
+  document.getElementById("game-day1").innerHTML = `
+    ${gameDate.toLocaleDateString("en-US", optionsDate)}
+  `;
+  document.getElementById("game-day2").innerHTML = `
+    ${greeting}
+  `;
+}
 
 setInterval(updateTime, 1000);
 setInterval(updateDate, 1000);
@@ -162,6 +224,7 @@ function move(direction) {
         player.style.transform = "scale(1)";
     }, 200);
     updateLocationButtons();
+    updateTheme(); 
 }
 
 let statusValues = {
@@ -232,7 +295,7 @@ function performAction(action) {
     case "rentCostume":
       statusValues.happiness = Math.min(statusValues.happiness + 15, 100);
       break;
-    case "cinematicVideo":
+    case "makeVideo":
       statusValues.happiness = Math.min(statusValues.happiness + 15, 100);
       statusValues.energy = Math.max(statusValues.energy - 10, 0);
       break;
@@ -276,7 +339,7 @@ function updateLocationButtons() {
     actions[3].onclick = () => performAction("chores");
 
     document.body.style.backgroundImage =
-      "url('./gameptiasset/assets/view-laut.jpg')";
+      "url('./gameptiasset/assets/PageGame.jpg')";
   } else if (
     Math.abs(position.x - 280) < 60 &&
     Math.abs(position.y - 440) < 60
@@ -292,7 +355,7 @@ function updateLocationButtons() {
     actions[3].onclick = () => performAction("pickTrash");
 
     document.body.style.backgroundImage =
-      "url('./gameptiasset/assets/view-laut.jpg')";
+      "url('./gameptiasset/assets/kutaBG.jpg')";
   } else if (
     Math.abs(position.x - 690) < 60 &&
     Math.abs(position.y - 210) < 60
@@ -308,7 +371,7 @@ function updateLocationButtons() {
     actions[3].onclick = () => performAction("rentCostume");
 
     document.body.style.backgroundImage =
-      "url('./gameptiasset/assets/view-laut.jpg')";
+      "url('./gameptiasset/assets/borobudurbg.jpg')";
   } else if (
     Math.abs(position.x - 770) < 60 &&
     Math.abs(position.y - 460) < 60
@@ -324,7 +387,16 @@ function updateLocationButtons() {
     actions[3].onclick = () => performAction("pray");
     document.getElementsByClassName("gift");
     document.body.style.backgroundImage =
-      "url('./gameptiasset/assets/view-laut.jpg')";
+      "url('./gameptiasset/assets/bgBromo.jpg')";
+  } else if (Math.abs(position.x - 390) < 60 && Math.abs(position.y - 70) < 60) {
+    locationText.innerHTML = "You're at Toba Lake";
+    actions[0].innerHTML = "Take a Shower";
+    actions[1].innerHTML = "Catch a Fish";
+    actions[2].innerHTML = "Take a Picture";
+    actions[3].innerHTML = "Washing Chlotes";
+    document.getElementsByClassName("gift");
+    document.body.style.backgroundImage =
+      "url('./gameptiasset/assets/bgLake.avif')";
   } else {
     locationText.innerHTML = "You're Lost!";
     actions.forEach((action) => {
