@@ -1,103 +1,99 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let playerName = localStorage.getItem("playerName");
-            let selectedCharacterImage = localStorage.getItem("selectedCharacterImage");
+  let playerName = localStorage.getItem("playerName");
+  let selectedCharacterImage = localStorage.getItem("selectedCharacterImage");
 
-           
-            if (!playerName) {
-                playerName = "Player";
-            }
+  if (!playerName) {
+    playerName = "Player";
+  }
 
-        
-            if (!selectedCharacterImage) {
-                selectedCharacterImage = "gameptiasset/assets/wayang1.png";
-            }
+  if (!selectedCharacterImage) {
+    selectedCharacterImage = "gameptiasset/assets/wayang1.png";
+  }
 
-          
-            document.getElementById("player-name").textContent = playerName;
-            document.getElementById("player-welcome-name").textContent = playerName;
-            document.getElementById("player-img").src = selectedCharacterImage;
-        });
+  document.getElementById("player-name").textContent = playerName;
+  document.getElementById("player-welcome-name").textContent = playerName;
+  document.getElementById("player-img").src = selectedCharacterImage;
+});
 
-        let position = { x: 435, y: 260 }; 
-        let step = 30;
-        let hole = document.querySelector("img[src='gameptiasset/assets/hole.png']");
-        let player = document.getElementById("player");
-        player.style.opacity = "0";
-        player.style.transform = "scale(0.2) translateY(20px)";
-        
-        setTimeout(() => {
-            player.style.animation = "emerge 0.5s forwards";
-        }, 500);
+let position = { x: 435, y: 260 };
+let step = 30;
+let hole = document.querySelector("img[src='gameptiasset/assets/hole.png']");
+let player = document.getElementById("player");
+player.style.opacity = "0";
+player.style.transform = "scale(0.2) translateY(20px)";
 
-        document.addEventListener("DOMContentLoaded", function () {
-          let playerName = localStorage.getItem("playerName") || "Player";
-          let characterImg = localStorage.getItem("selectedCharacterImage") || "";
-        
-          document.getElementById("player-welcome-name").innerText = playerName;
-          
-          if (characterImg) {
-              let imgElement = document.getElementById("player-character-img");
-              imgElement.src = characterImg;
-              imgElement.classList.remove("hidden"); 
-          }
-        });
+setTimeout(() => {
+  player.style.animation = "emerge 0.5s forwards";
+}, 500);
 
-        function closePopup() {
-            document.getElementById("welcome-popup").style.display = "none";
+document.addEventListener("DOMContentLoaded", function () {
+  let playerName = localStorage.getItem("playerName") || "Player";
+  let characterImg = localStorage.getItem("selectedCharacterImage") || "";
 
-            setTimeout(() => {
-                player.style.opacity = "1";
-                player.style.animation = "emergeFromHole 0.5s forwards";
-            }, 500);
-        }
-        function updateBackground() {
-          let currentHour = new Date().getHours();
-          let body = document.body;
-  
-          if (currentHour >= 18 || currentHour < 6) {
-              body.style.backgroundImage = "url('gameptiasset/assets/nightbg.jpg')";
-          } else {
-              body.style.backgroundImage = "url('gameptiasset/assets/PageGame.jpg')";
-          }
-      }
-      function updateTheme() {
-        let currentHour = new Date().getHours();
-        let body = document.body;
-        let statusBar = document.querySelector(".status-bar");
-        let taskTexts = document.querySelectorAll("#health-text");
+  document.getElementById("player-welcome-name").innerText = playerName;
 
-        let gameTitle = document.querySelector(".status-bar strong");
-        let gameTime = document.getElementById("game-time");
-        let gameDay1 = document.getElementById("game-day1");
-        let gameDay2 = document.getElementById("game-day2");
+  if (characterImg) {
+    let imgElement = document.getElementById("player-character-img");
+    imgElement.src = characterImg;
+    imgElement.classList.remove("hidden");
+  }
+});
 
-        if (currentHour >= 18 || currentHour < 6) {
-            body.style.backgroundImage = "url('gameptiasset/assets/nightbg.jpg')";
-            gameTitle.style.color = "white";
-            gameTime.style.color = "black";
-            gameDay1.style.color = "white";
-            gameDay2.style.color = "white";
-            taskTexts.forEach(text => {
-                text.style.color = "white";
-            });
+function closePopup() {
+  document.getElementById("welcome-popup").style.display = "none";
 
-        } else {
-            body.style.backgroundImage = "url('gameptiasset/assets/PageGame.jpg')";
-            gameTitle.style.color = "";
-            gameTime.style.color = "";
-            gameDay1.style.color = "";
-            gameDay2.style.color = "";
-            taskTexts.forEach(text => {
-                text.style.color = "black";
-            });
-        }
-    }
+  setTimeout(() => {
+    player.style.opacity = "1";
+    player.style.animation = "emergeFromHole 0.5s forwards";
+  }, 500);
+}
+function updateBackground() {
+  let currentHour = new Date().getHours();
+  let body = document.body;
 
-    setInterval(updateTheme, 1000);
-    updateTheme();
-  
-    setInterval(updateBackground, 1000); 
-    updateBackground();
+  if (currentHour >= 18 || currentHour < 6) {
+    body.style.backgroundImage = "url('gameptiasset/assets/nightbg.jpg')";
+  } else {
+    body.style.backgroundImage = "url('gameptiasset/assets/PageGame.jpg')";
+  }
+}
+function updateTheme() {
+  let currentHour = new Date().getHours();
+  let body = document.body;
+  let statusBar = document.querySelector(".status-bar");
+  let taskTexts = document.querySelectorAll("#health-text");
+
+  let gameTitle = document.querySelector(".status-bar strong");
+  let gameTime = document.getElementById("game-time");
+  let gameDay1 = document.getElementById("game-day1");
+  let gameDay2 = document.getElementById("game-day2");
+
+  if (currentHour >= 18 || currentHour < 6) {
+    body.style.backgroundImage = "url('gameptiasset/assets/nightbg.jpg')";
+    gameTitle.style.color = "white";
+    gameTime.style.color = "black";
+    gameDay1.style.color = "white";
+    gameDay2.style.color = "white";
+    taskTexts.forEach((text) => {
+      text.style.color = "white";
+    });
+  } else {
+    body.style.backgroundImage = "url('gameptiasset/assets/PageGame.jpg')";
+    gameTitle.style.color = "";
+    gameTime.style.color = "";
+    gameDay1.style.color = "";
+    gameDay2.style.color = "";
+    taskTexts.forEach((text) => {
+      text.style.color = "black";
+    });
+  }
+}
+
+setInterval(updateTheme, 1000);
+updateTheme();
+
+setInterval(updateBackground, 1000);
+updateBackground();
 
 function updateTime() {
   let gameTime = new Date();
@@ -108,7 +104,7 @@ function updateTime() {
     hour12: true,
   };
 
-  while(optionsTime==true){
+  while (optionsTime == true) {
     gameTime.setSeconds(gameTime.getSeconds() + 60);
   }
 
@@ -117,8 +113,8 @@ function updateTime() {
             `;
 }
 
-let realStartTime = new Date(); 
-let offsetSeconds = 0; 
+let realStartTime = new Date();
+let offsetSeconds = 0;
 
 function updateTime() {
   let gameTime = new Date(realStartTime.getTime() + offsetSeconds * 60);
@@ -129,12 +125,12 @@ function updateTime() {
     hour12: true,
   };
 
-    document.getElementById("game-time").innerHTML = `
+  document.getElementById("game-time").innerHTML = `
       ${gameTime.toLocaleTimeString("en-US", optionsTime)}
     `;
 
-    offsetSeconds += 360;
-    }
+  offsetSeconds += 360;
+}
 
 function updateDate() {
   let gameDate = new Date();
@@ -143,18 +139,18 @@ function updateDate() {
     year: "numeric",
     month: "long",
     day: "numeric",
-};
+  };
 
   let hours = gameDate.getHours();
   let greeting;
 
-    if (hours < 12) {
-      greeting = "Good Morning!";
-    } else if (hours < 18) {
-      greeting = "Good Afternoon!";
-    } else {
-      greeting = "Good Evening!";
-    }
+  if (hours < 12) {
+    greeting = "Good Morning!";
+  } else if (hours < 18) {
+    greeting = "Good Afternoon!";
+  } else {
+    greeting = "Good Evening!";
+  }
 
   document.getElementById("game-day1").innerHTML = `
     ${gameDate.toLocaleDateString("en-US", optionsDate)}
@@ -169,48 +165,46 @@ setInterval(updateDate, 1000);
 updateTime();
 updateDate();
 
-
 function move(direction) {
-    const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
-    let player = document.getElementById("player");
-    let playerImg = document.getElementById("player-img");
-    let prevX = position.x;
-    let prevY = position.y;
-    if (!player) return;
+  const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
+  let player = document.getElementById("player");
+  let playerImg = document.getElementById("player-img");
+  let prevX = position.x;
+  let prevY = position.y;
+  if (!player) return;
 
-    switch (direction) {
-      case 'up': 
-          if (position.y - step >= mapBounds.top) position.y -= step; 
-          break;
-      case 'down': 
-          if (position.y + step <= mapBounds.bottom) position.y += step; 
-          break;
-      case 'left': 
-          if (position.x - step >= mapBounds.left) position.x -= step;
-             playerImg.style.transform = "scaleX(-1)"; 
-          break;
-      case 'right': 
-          if (position.x + step <= mapBounds.right) position.x += step;
-            playerImg.style.transform = "scaleX(1)"; 
-          break;
-    }
-    if (position.x === prevX && position.y === prevY) {
-        player.style.animation = "shake 0.2s";
-        setTimeout(() => player.style.animation = "", 200);
-    }
+  switch (direction) {
+    case "up":
+      if (position.y - step >= mapBounds.top) position.y -= step;
+      break;
+    case "down":
+      if (position.y + step <= mapBounds.bottom) position.y += step;
+      break;
+    case "left":
+      if (position.x - step >= mapBounds.left) position.x -= step;
+      playerImg.style.transform = "scaleX(-1)";
+      break;
+    case "right":
+      if (position.x + step <= mapBounds.right) position.x += step;
+      playerImg.style.transform = "scaleX(1)";
+      break;
+  }
+  if (position.x === prevX && position.y === prevY) {
+    player.style.animation = "shake 0.2s";
+    setTimeout(() => (player.style.animation = ""), 200);
+  }
 
-    if (Math.abs(position.x - 435) > 10 || Math.abs(position.y - 260) > 10) {
-        hole.style.transition = "opacity 0.5s";
-        hole.style.opacity = "0";
-        setTimeout(() => hole.remove(), 500);
-    }
+  if (Math.abs(position.x - 435) > 10 || Math.abs(position.y - 260) > 10) {
+    hole.style.transition = "opacity 0.5s";
+    hole.style.opacity = "0";
+    setTimeout(() => hole.remove(), 500);
+  }
 
+  player.style.left = position.x + "px";
+  player.style.top = position.y + "px";
+  const style = document.createElement("style");
 
-    player.style.left = position.x + "px";
-    player.style.top = position.y + "px";
-    const style = document.createElement('style');
-
-    style.innerHTML = `
+  style.innerHTML = `
       @keyframes shake {
         0% { transform: translateX(0); }
         25% { transform: translateX(-3px); }
@@ -219,12 +213,12 @@ function move(direction) {
         100% { transform: translateX(0); }
       }
         `;
-    document.head.appendChild(style);
-    setTimeout(() => {
-        player.style.transform = "scale(1)";
-    }, 200);
-    updateLocationButtons();
-    updateTheme(); 
+  document.head.appendChild(style);
+  setTimeout(() => {
+    player.style.transform = "scale(1)";
+  }, 200);
+  updateLocationButtons();
+  updateTheme();
 }
 
 let statusValues = {
@@ -388,12 +382,19 @@ function updateLocationButtons() {
     document.getElementsByClassName("gift");
     document.body.style.backgroundImage =
       "url('./gameptiasset/assets/bgBromo.jpg')";
-  } else if (Math.abs(position.x - 390) < 60 && Math.abs(position.y - 70) < 60) {
+  } else if (
+    Math.abs(position.x - 390) < 60 &&
+    Math.abs(position.y - 70) < 60
+  ) {
     locationText.innerHTML = "You're at Toba Lake";
-    actions[0].innerHTML = "Take a Shower";
+    actions[0].innerHTML = "Take a Bath";
+    actions[0].onclick = () => performAction("takeBath");
     actions[1].innerHTML = "Catch a Fish";
+    actions[1].onclick = () => performAction("catchFish");
     actions[2].innerHTML = "Take a Picture";
-    actions[3].innerHTML = "Washing Chlotes";
+    actions[2].onclick = () => performAction("takePicture");
+    actions[3].innerHTML = "Washing Clothes";
+    actions[3].onclick = () => performAction("washClothes");
     document.getElementsByClassName("gift");
     document.body.style.backgroundImage =
       "url('./gameptiasset/assets/bgLake.avif')";
