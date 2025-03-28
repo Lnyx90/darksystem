@@ -346,4 +346,3 @@ document.addEventListener("keydown", function (event) {
   };
   if (keyMap[event.key]) move(keyMap[event.key]);
 });
-
