@@ -29,9 +29,11 @@
         }
     </style>
 </head>
+<audio id="bgMusic" autoplay loop>
+    <source src="gameptiasset/assets/background-music.mp3" type="audio/mpeg">
+</audio>
 <body class="flex items-center justify-center min-h-screen text-green-800 text-center transition-opacity" 
       style="background-image: url('gameptiasset/assets/homepage.JPG'); background-size: cover; background-position: center;">
-    
     <div id="gameContainer" class="flex flex-col items-center justify-center text-center mt-[-20px] sm:mt-[-30px]">
         <div class="flex flex-col">
             <h2 class="text-4xl text-blue-900 font-bold glow-text">Archipelago Adventure!</h2>
@@ -44,6 +46,19 @@
     </div>
 
     <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    let bgMusic = document.getElementById("bgMusic");
+
+    if (!localStorage.getItem("musicInitialized")) {
+        bgMusic.play().then(() => {
+            localStorage.setItem("musicInitialized", "true");
+        }).catch(err => console.log("Autoplay prevented:", err));
+    }
+
+    bgMusic.ontimeupdate = () => {
+        localStorage.setItem("musicTime", bgMusic.currentTime);
+    };
+});
         function startGame() {
             const gameContainer = document.getElementById('gameContainer');
             gameContainer.classList.add('fade-out');

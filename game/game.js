@@ -1,3 +1,14 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const bgMusic = document.getElementById("bgMusic");
+
+  // Memastikan musik bisa diputar setelah interaksi pengguna
+  document.body.addEventListener("click", () => {
+      if (bgMusic.paused) {
+          bgMusic.play().catch(error => console.log("Autoplay prevented:", error));
+      }
+  });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     let playerName = localStorage.getItem("playerName");
             let selectedCharacterImage = localStorage.getItem("selectedCharacterImage");
