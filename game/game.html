@@ -34,8 +34,11 @@
     <div
       class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20 ">
       <span><strong>Archipelago Adventure</strong></span>
-      <div>
-        <span id="game-day1"></span>
+      <div class="flex-col">
+        <div class="flex items-center">
+          <img src="gameptiasset/assets/day.png" alt="day" class="w-10 h-10">
+          <span id="game-day1"></span>
+        </div>
         <div>
           <span id="game-day2" class="ml-28"></span>
         </div>
@@ -85,7 +88,10 @@
 
         <div id="location" class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg ">
             <div id="location-text" class="justify-center text-center ml-4 text-m font-semibold mb-4">Welcome to Archipelago</div>
-            <span id="game-time" style="margin-left: 15px; font-size: 105x; margin-bottom: 10px;"></span>
+            <div class="flex items-center">
+              <img src="gameptiasset/assets/time.png" alt="day" class="w-8 h-8">
+              <span id="game-time" class=" ml-4 text-sm"></span>
+            </div>
             <button id="action1" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
             <button id="action2" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
             <button id="action3" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
