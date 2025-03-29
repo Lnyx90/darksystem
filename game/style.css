@@ -55,3 +55,11 @@
   #player {
     transition: left 0.3s ease-out, top 0.3s ease-out;
     }
+
+    #location{
+        top: -40px;
+    }
+
+    .map{
+        margin-top: -20px;
+    }

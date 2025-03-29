@@ -237,19 +237,13 @@ let statusValues = {
 function updateBars() {
   document.getElementById("health-bar").style.width = statusValues.health + "%";
   document.getElementById("energy-bar").style.width = statusValues.energy + "%";
-  document.getElementById("hygiene-bar").style.width =
-    statusValues.hygiene + "%";
-  document.getElementById("happines-bar").style.width =
-    statusValues.happiness + "%";
+  document.getElementById("hygiene-bar").style.width = statusValues.hygiene + "%";
+  document.getElementById("happiness-bar").style.width = statusValues.happiness + "%"; 
 
-  document.querySelectorAll("#health-text")[0].textContent =
-    statusValues.health + "%";
-  document.querySelectorAll("#health-text")[1].textContent =
-    statusValues.energy + "%";
-  document.querySelectorAll("#health-text")[2].textContent =
-    statusValues.hygiene + "%";
-  document.querySelectorAll("#health-text")[3].textContent =
-    statusValues.happiness + "%";
+  document.getElementById("health-text").textContent = statusValues.health + "%";
+  document.getElementById("energy-text").textContent = statusValues.energy + "%";
+  document.getElementById("hygiene-text").textContent = statusValues.hygiene + "%";
+  document.getElementById("happiness-text").textContent = statusValues.happiness + "%";
 }
 
 function performAction(action) {
