@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         
             if (!selectedCharacterImage) {
-                selectedCharacterImage = "gameptiasset/assets/wayang1.png";
+                selectedCharacterImage = "assets/wayang1.png";
             }
 
           
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let position = { x: 435, y: 260 }; 
         let step = 30;
-        let hole = document.querySelector("img[src='gameptiasset/assets/hole.png']");
+        let hole = document.querySelector("img[src='assets/hole.png']");
         let player = document.getElementById("player");
         player.style.opacity = "0";
         player.style.transform = "scale(0.2) translateY(20px)";
@@ -276,7 +276,7 @@ function updateLocationButtons() {
     actions[3].onclick = () => performAction("chores");
 
     document.body.style.backgroundImage =
-      "url('./gameptiasset/assets/view-laut.jpg')";
+      "url('assets/view-laut.jpg')";
   } else if (
     Math.abs(position.x - 280) < 60 &&
     Math.abs(position.y - 440) < 60
@@ -292,7 +292,7 @@ function updateLocationButtons() {
     actions[3].onclick = () => performAction("pickTrash");
 
     document.body.style.backgroundImage =
-      "url('./gameptiasset/assets/view-laut.jpg')";
+      "url('assets/pantai-kuta.jpg')";
   } else if (
     Math.abs(position.x - 690) < 60 &&
     Math.abs(position.y - 210) < 60
@@ -308,7 +308,7 @@ function updateLocationButtons() {
     actions[3].onclick = () => performAction("rentCostume");
 
     document.body.style.backgroundImage =
-      "url('./gameptiasset/assets/view-laut.jpg')";
+      "url('assets/view-laut.jpg')";
   } else if (
     Math.abs(position.x - 770) < 60 &&
     Math.abs(position.y - 460) < 60
@@ -324,14 +324,14 @@ function updateLocationButtons() {
     actions[3].onclick = () => performAction("pray");
     document.getElementsByClassName("gift");
     document.body.style.backgroundImage =
-      "url('./gameptiasset/assets/view-laut.jpg')";
+      "url('assets/view-laut.jpg')";
   } else {
     locationText.innerHTML = "You're Lost!";
     actions.forEach((action) => {
       action.innerHTML = "";
       action.onclick = null;
       document.body.style.backgroundImage =
-        "url('gameptiasset/assets/PageGame.jpg')";
+        "url('assets/PageGame.jpg')";
     });
   }
 }

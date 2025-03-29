@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
-<body class="flex flex-col items-center justify-center h-screen bg-cover bg-center" style="background-image: url('gameptiasset/assets/homepage.JPG');">
+<body class="flex flex-col items-center justify-center h-screen bg-cover bg-center" style="background-image: url('assets/homepage.JPG');">
     
     <div class="choosetext w-full flex justify-center mt-[-50px] sm:mt-[-70px]">
         <h1 class="text-xl sm:text-3xl md:text-5xl text-blue-900 text-center leading-tight"
@@ -21,7 +21,7 @@
         <div class="flex items-center space-x-4 sm:space-x-6">
             <button onclick="prevCharacter()" 
                     class="px-3 sm:px-6 py-2 sm:py-3 bg-blue-800 text-white text-sm sm:text-lg rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-110">❮</button>
-            <img id="character" src="gameptiasset/assets/wayang1.png" 
+            <img id="character" src="assets/wayang1.png" 
                  alt="Character" class="w-24 sm:w-32 md:w-40 h-auto floating fade-in">
             <button onclick="nextCharacter()" 
                     class="px-3 sm:px-6 py-2 sm:py-3 bg-blue-800 text-white text-sm sm:text-lg rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-110">❯</button>
@@ -45,9 +45,9 @@
         });
 
         let characters = [
-            "gameptiasset/assets/wayang1.png",
-            "gameptiasset/assets/wayang2.png",
-            "gameptiasset/assets/wayang3.png"
+            "assets/wayang1.png",
+            "assets/wayang2.png",
+            "assets/wayang3.png"
         ];
         
         let currentIndex = 0;
@@ -78,7 +78,6 @@
             notification.classList.remove("hidden");
             notification.classList.add("opacity-100");
 
-            // Hide notification after 2 seconds
             setTimeout(() => {
                 notification.classList.add("hidden");
                 notification.classList.remove("opacity-100");
