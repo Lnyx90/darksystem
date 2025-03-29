@@ -14,7 +14,7 @@
 
   <body class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center "
     style="
-      background-image: url('gameptiasset/assets/PageGame.jpg'); overflow: hidden;
+      background-image: url('gameptiasset/assets/PageGame.jpg'); overflow: hidden; width: 100%; height: 100%;
     ">
 
     <div id="welcome-popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -48,32 +48,63 @@
       </div>
     </div>
 
-    <div class="flex items-center gap-2 mt-5 mb-5">
-      <span class="mt-5"><img src="./gameptiasset/assets/heart.webp" class="w-5 h-5"></span>
-      <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
-          <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
-      </div>
-      <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-20"><img src="./gameptiasset/assets/energi.png" class="w-5 h-5"></span>
-      <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
-          <div id="energy-bar" class="h-full bg-yellow-300 transition-all" style="width: 100%;"></div>
-      </div>
-      <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-20"><img src="./gameptiasset/assets/hygine.png" class="w-9 h-9"></span>
-      <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
-          <div id="hygiene-bar" class="h-full bg-blue-400 transition-all" style="width: 100%;"></div>
-      </div>
-      <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-20"><img src="./gameptiasset/assets/happy.webp" class="w-5 h-5"></span>
-      <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
-          <div id="happines-bar" class="h-full bg-pink-400 transition-all" style="width: 100%;"></div>
-      </div>
-      <span id="health-text" class="mt-5">100%</span>
-  </div>
+    <div class="bar-container">
+        <div class="flex items-center gap-2 p-5 mt-20">
+    
+            <img src="./gameptiasset/assets/heart.webp" class="w-5 h-5"> 
+            <div class="relative w-48 h-10 flex items-center">
+                <img src="./gameptiasset/assets/taskbar.png" class="absolute top-0 left-0 w-full h-full">
+                <div class="absolute flex items-center gap-2 px-3 w-full">
+                    <div class="w-40 h-3 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <span id="health-text" class="text-sm">100%</span>
+        
+         
+            <img src="./gameptiasset/assets/energi.png" class="w-5 h-5">
+            <div class="relative w-48 h-10 flex items-center">
+                <img src="./gameptiasset/assets/taskbar.png" class="absolute top-0 left-0 w-full h-full">
+                <div class="absolute flex items-center gap-2 px-3 w-full">
+                    <div class="w-40 h-3 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="energy-bar" class="h-full bg-yellow-300 transition-all" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <span id="energy-text" class="text-sm">100%</span>
+        
+      
+            <img src="./gameptiasset/assets/hygine.png" class="w-9 h-9">
+            <div class="relative w-48 h-10 flex items-center">
+                <img src="./gameptiasset/assets/taskbar.png" class="absolute top-0 left-0 w-full h-full">
+                <div class="absolute flex items-center gap-2 px-3 w-full">
+                    <div class="w-40 h-3 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="hygiene-bar" class="h-full bg-blue-400 transition-all" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <span id="hygiene-text" class=" text-sm">100%</span>
+   
+            <img src="./gameptiasset/assets/happy.webp" class="w-5 h-5">
+            <div class="relative w-48 h-10 flex items-center">
+                <img src="./gameptiasset/assets/taskbar.png" class="absolute top-0 left-0 w-full h-full">
+                <div class="absolute flex items-center gap-2 px-3 w-full">
+                    <div class="w-40 h-3 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="happiness-bar" class="h-full bg-pink-400 transition-all" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <span id="happiness-text" class=" text-sm">100%</span>
+        
+        </div>
+        
+    </div>
+    
 
 
-    <div class="flex flex-row items-center mt-2 space-x-8">
-        <div class="relative w-[850px] h-[600px]">
+    <div class="map flex flex-row items-center  space-x-8">
+        <div class="relative w-[850px] h-[680px]">
             <img src="gameptiasset/assets/map.jpg" class="w-full h-700 rounded-lg shadow-lg">
             <div id="player" class="absolute text-white font-bold transition-all text-center" style=" left: 435px; top: 260px; z-index: 10;">
               <p id="player-name" class=" text-blue-900 px-1 py-1 fade-in rounded-lg  " style="left: 50%; transform: translateX(-50%); position: absolute; bottom: 100%; font-family: 'Press Start 2P'; font-size: 10px;"></p>
@@ -89,7 +120,7 @@
           
         </div>
 
-        <div id="location" class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg ">
+        <div id="location" class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg  ">
             <div id="location-text" class="justify-center text-center ml-4 text-m font-semibold mb-4">Welcome to Archipelago</div>
             <div class="flex items-center">
               <img src="gameptiasset/assets/time.png" alt="day" class="w-8 h-8">
@@ -119,6 +150,7 @@
             </div>
     </div>
     
-    <script src="./game.js"></script>
+   <script src="./game.js"></script>
+
   </body>
 </html>
