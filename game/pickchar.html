@@ -34,12 +34,28 @@
         </button>
     </div>
 
-    <!-- Cute Pop-up Notification -->
     <div id="notification" class="hidden mt-10 bg-red-500 text-white px-4 py-2 rounded-md shadow-lg transition-opacity duration-300">
-        <img src="gameptiasset/assets/alert.png" alt="alert" class="w-8 h-8"> Please enter your name!
+        <img src="gameptiasset/assets/alert.png" class="w-8 h-8"> 
+        Please enter your name!
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    let existingMusic = document.getElementById("bgMusic");
+
+    if (!existingMusic) {
+        let newMusic = document.createElement("audio");
+        newMusic.id = "bgMusic";
+        newMusic.loop = true;
+        newMusic.innerHTML = `<source src="gameptiasset/assets/background-music.mp3" type="audio/mpeg">`;
+
+        document.body.appendChild(newMusic);
+
+        let savedTime = localStorage.getItem("musicTime") || 0;
+        newMusic.currentTime = savedTime;
+        newMusic.play();
+    }
+});
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
         });
@@ -74,21 +90,19 @@
 
         function showNotification(message) {
             let notification = document.getElementById("notification");
-            notification.textContent = message;
+            notification.innerHTML = `<div class="flex items-center"><img src="gameptiasset/assets/alert.png" class="w-8 h-8 mr-2"> <span>${message}</span></div>`;
             notification.classList.remove("hidden");
-            notification.classList.add("opacity-100");
-
-            // Hide notification after 2 seconds
+            notification.style.opacity = "1";
             setTimeout(() => {
-                notification.classList.add("hidden");
-                notification.classList.remove("opacity-100");
+                notification.style.opacity = "0";
+                setTimeout(() => notification.classList.add("hidden"), 100);
             }, 2000);
         }
 
-        function selectCharacter() {
+        function selectCharacter() { 
             let playerName = document.getElementById("playerName").value.trim();
             if (playerName === "") {
-                showNotification("⚠️ Please enter your name!");
+                showNotification(" Please enter your name!");
                 return;
             }
             localStorage.setItem("selectedCharacterImage", characters[currentIndex]); 
