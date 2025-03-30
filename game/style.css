@@ -1,21 +1,58 @@
 
 .character-container {
     transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-}
-.fade-in {
-    opacity: 0;
-    transform: scale(0.8);
-}
-.fade-in.show {
-    opacity: 1;
-    transform: scale(1);
-}
-.floating {
-    animation: float 3s infinite ease-in-out;
-}
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
-}
+  }
+  
+  .floating {
+    animation: float 2s infinite ease-in-out;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  h1 {
+    position: absolute;
+    top: 30px;
+    left: 300px;
+    font-family: "Press Start 2P", cursive;
+    color: #1e3a8a;
+    text-shadow: 4px 4px #000;
+  }
+  
+  body {
+    font-family: "Press Start 2P", cursive;
+  }
+  
+  
+  .choosetext h1 {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
 
+  
+  @keyframes emergeFromHole {
+    0% {
+      opacity: 0;
+      transform: scale(0.2) translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  
+  #player {
+    transition: left 0.3s ease-out, top 0.3s ease-out;
+    }   

@@ -7,9 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="style.css">
 </head>
-<body class="flex items-center justify-center h-screen bg-cover bg-center" style="background-image: url('gameptiasset/assets/5bd170bb4655992be36d6034b35224fd.jpg');">
-    <div class="text-center bg-white bg-opacity-70 p-8 rounded-lg shadow-lg">
-        <h1 id="title" class="text-4xl font-bold text-green-800 mb-6">Archipelago Adventure!</h1>
+<body class="flex items-center justify-center min-h-screen text-green-800 text-center transition-opacity" 
+      style="background-image: url('gameptiasset/assets/homepage.JPG'); background-size: cover; background-position: center;">
+    
+    <div id="gameContainer" class="flex flex-col items-center justify-center text-center mt-[-20px] sm:mt-[-30px]">
+        <div class="flex flex-col">
+            <h2 class="text-4xl text-blue-900 font-bold glow-text">Archipelago Adventure!</h2>
+        </div>
         <button onclick="startGame()" 
             class="px-6 py-3 text-lg font-semibold text-white bg-green-500 rounded-lg shadow-md hover:bg-green-600 transition">
             Start Game
@@ -17,6 +21,19 @@
     </div>
 
     <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    let bgMusic = document.getElementById("bgMusic");
+
+    if (!localStorage.getItem("musicInitialized")) {
+        bgMusic.play().then(() => {
+            localStorage.setItem("musicInitialized", "true");
+        }).catch(err => console.log("Autoplay prevented:", err));
+    }
+
+    bgMusic.ontimeupdate = () => {
+        localStorage.setItem("musicTime", bgMusic.currentTime);
+    };
+});
         function startGame() {
             window.location.href = 'pickchar.html'; 
         }
@@ -34,6 +51,7 @@
         });
     </script>
 </body>
+
 </html>
 
 
