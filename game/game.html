@@ -1,103 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Archipelago Adventure</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center" style="background-image: url('gameptiasset/assets/5bd170bb4655992be36d6034b35224fd.jpg');">
-  
-    <div class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20 ">
-        <span><strong>Archipelago Adventure</strong></span>
-        <span>⚡ 80% 🚲 60% 😀 90% 💰 230,000</span>
-        <span id="game-time"></span>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <audio id="bgMusic" autoplay loop> 
+      <source src="gameptiasset/assets/wonderland-music.mp3" type="audio/mpeg">
+  </audio>
+  </head>
+
+  <body class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center "
+    style="
+      background-image: url('gameptiasset/assets/PageGame.jpg'); overflow: hidden; width: 100%; height: 100%;
+    ">
+
+    <div id="welcome-popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center w-72">
+            <h2 class="text-xl font-bold mb-2">Welcome, <span id="player-welcome-name"></span>!</h2>
+            <p class="text-xs mb-2">You have chosen:</p>
+
+            <img id="player-character-img" src="" alt="Character Image"
+                class="w-24 h-40 mx-auto mb-4 hidden">
+
+            <p class="mb-4">Time for an Epic Journey!</p>
+            <button onclick="closePopup()"
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                Play
+            </button>
+        </div>
     </div>
 
-    <div class="flex w-full max-w-4xl mt-16 space-x-4">
-        <div class="flex-1 bg-white p-6 rounded-lg shadow-lg relative overflow-hidden">
-            <div class="absolute left-1/2 transform -translate-x-1/2 -top-6 text-xl font-bold">Map</div>
-            
-            <div class="grid grid-cols-3 gap-6 place-items-center mt-4">
-                <div class="bg-gray-300 w-24 h-24 flex items-center justify-center rounded-full">Lake</div>
-                <div id="player" class="w-24 h-24 flex items-center justify-center rounded-full text-white font-bold transition-transform "></div>
-                <div class="bg-gray-300 w-24 h-24 flex items-center justify-center rounded-full">Beach</div>
-                <div class="bg-gray-300 w-24 h-24 flex items-center justify-center rounded-full">Temple</div>
-                <div class="bg-gray-300 w-24 h-24 flex items-center justify-center rounded-full">Mountain</div>
+
+    <div
+      class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20 ">
+      <span><strong>Archipelago Adventure</strong></span>
+      <div class="flex-col">
+        <div class="flex items-center">
+          <img src="gameptiasset/assets/day.png" alt="day" class="w-10 h-10">
+          <span id="game-day1"></span>
+        </div>
+        <div>
+          <span id="game-day2" class="ml-28"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bar-container">
+        <div class="flex items-center gap-2 p-5 mt-20">
+    
+            <img src="gameptiasset/assets/heart.webp" class="w-10 h-10 ml-[-10px]">
+            <div class="relative w-48 h-10 flex items-center">
+                <img src="gameptiasset/assets/taskbar.png" class="absolute top-0 left-0 w-full h-full">
+                <div class="absolute flex items-center gap-2 px-3 w-full">
+                    <div class="w-40 h-3 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
+                    </div>
+                </div>
             </div>
+            <span id="health-text" class="text-sm ml-[-10px]">100%</span>
+        
+         
+            <img src="gameptiasset/assets/energi.png" class="w-12 h-12 ml-[-10px]">
+            <div class="relative w-48 h-10 flex items-center">
+                <img src="gameptiasset/assets/taskbar.png" class="absolute top-0 left-[-15px] w-full h-full">
+                <div class="absolute flex items-center gap-2 px-5 w-full ml-[-20px]">
+                    <div class="w-40 h-3 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="energy-bar" class="h-full bg-yellow-300 transition-all" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <span id="energy-text" class="text-sm ml-[-25px]">100%</span>
+        
+        
+      
+            <img src="gameptiasset/assets/hygine.png" class="w-24 h-20 ml-[-10px]">
+            <div class="relative w-48 h-10 flex items-center">
+                <img src="gameptiasset/assets/taskbar.png" class="absolute top-0 left-[-15px] w-full h-full">
+                <div class="absolute flex items-center gap-2 px-3 w-full ml-[-16px]">
+                    <div class="w-40 h-3 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="hygiene-bar" class="h-full bg-blue-400 transition-all" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <span id="hygiene-text" class=" text-sm ml-[-25px]">100%</span>
+   
+            <img src="gameptiasset/assets/happy.webp" class="w-6 h-6 ml-[20px]">
+            <div class="relative w-48 h-10 flex items-center">
+                <img src="gameptiasset/assets/taskbar.png" class="absolute top-0 left-[6px] w-full h-full">
+                <div class="absolute flex items-center gap-2 px-3 ml-[8px]">
+                    <div class="w-40 h-3 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="happiness-bar" class="h-full bg-pink-400 transition-all" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <span id="happiness-text" class=" text-sm -ml-0">100%</span>
+        
         </div>
         
-        <div class="w-1/4 bg-white p-4 rounded-lg shadow-lg">
-            <div class="text-lg font-bold mb-4">You're at Home</div>
-            <button class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600">Get Some Meal</button>
-            <button class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600">Take a Bath</button>
-            <button class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600">Sleep</button>
-            <button class="w-full bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600">🛈 Do Chores</button>
-            
-            <div class="bg-yellow-300 p-2 rounded-lg mt-2 text-center">You will get 500 for helping the house clean</div>
-        </div>
     </div>
     
-    <div class="mt-6 flex flex-col items-center">
-        <button onclick="move('up')" class="bg-gray-500 text-white p-3 rounded-full mb-2 hover:bg-gray-600">⬆</button>
-        <div class="flex space-x-4">
-            <button onclick="move('left')" class="bg-gray-500 text-white p-3 rounded-full hover:bg-gray-600">⬅</button>
-            <button onclick="move('right')" class="bg-gray-500 text-white p-3 rounded-full hover:bg-gray-600">➡</button>
+    
+
+
+    <div class="map flex flex-row items-center  space-x-8">
+        <div class="relative w-[850px] h-[680px]">
+            <img src="gameptiasset/assets/map.jpg" class="w-full h-700 rounded-lg shadow-lg">
+            <div id="player" class="absolute text-white font-bold transition-all text-center" style=" left: 435px; top: 260px; z-index: 10;">
+              <p id="player-name" class=" text-blue-900 px-1 py-1 fade-in rounded-lg  " style="left: 50%; transform: translateX(-50%); position: absolute; bottom: 100%; font-family: 'Press Start 2P'; font-size: 10px;"></p>
+              <img id="player-img" src="" width="40" class="rounded-full">
+          </div>
+          
+          <img src="gameptiasset/assets/hole.png" class="absolute w-16 h-16" style="left: 425px; top: 300px; z-index: 5;">
+          <img src="gameptiasset/assets/home.png" class="absolute w-16 h-16" style="left: 60px; top: 90px; z-index: 5;">
+          <img src="gameptiasset/assets/bromo.png" class="absolute w-16 h-16" style="left: 760px; top: 470px; z-index: 5;">
+          <img src="gameptiasset/assets/kuta.png" class="absolute w-16 h-16" style="left: 270px; top: 445px; z-index: 5;">
+          <img src="gameptiasset/assets/borobudur.png" class="absolute w-16 h-16" style="left: 680px; top: 240px; z-index: 5;">
+          <img src="gameptiasset/assets/laketoba.png" class="absolute w-16 h-16" style="left: 380px; top: 60px; z-index: 5;">
+          
         </div>
-        <button onclick="move('down')" class="bg-gray-500 text-white p-3 rounded-full mt-2 hover:bg-gray-600">⬇</button>
+
+        <div id="location" class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg  ">
+            <div id="location-text" class="justify-center text-center ml-4 text-m font-semibold mb-4">Welcome to Archipelago</div>
+            <div class="flex items-center">
+              <img src="gameptiasset/assets/time.png" alt="day" class="w-8 h-8">
+              <span id="game-time" class=" ml-4 text-sm"></span>
+            </div>
+            <button id="action1" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action2" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action3" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action4" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg hover:bg-yellow-600"></button>
+            <div class="gift bg-yellow-300 p-2 rounded-lg mt-4 text-center mb-10"></div>
+
+            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
+                <button onclick="move('up')">
+                    <img src="gameptiasset/assets/top.png" alt="up" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
+                </button>
+                <div class="flex space-x-4 mt-2">
+                    <button onclick="move('left')">
+                        <img src="gameptiasset/assets/left.png" alt="left" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200 ">
+                    </button>
+                    <button onclick="move('right')">
+                        <img src="gameptiasset/assets/right.png" alt="right" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200 ml-5">
+                    </button>
+                </div>
+                    <button onclick="move('down')" class="mt-2">
+                        <img src="gameptiasset/assets/down.png" alt="down" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
+                    </button>
+            </div>
     </div>
+    
+   <script src="./game.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let selectedCharacterImage = localStorage.getItem("selectedCharacterImage") ; 
-            document.getElementById("player").innerHTML = `<img src="${selectedCharacterImage}" width="40" class="rounded-full">`;
-        });
-
-        function updateDateTime() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', 
-                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true 
-            };
-            document.getElementById("game-time").textContent = now.toLocaleDateString("en-US", options);
-        }
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
-
-        let player = document.getElementById("player");
-let position = { x: 0, y: 0 };
-let isFlipped = false;
-
-function move(direction) {
-    switch (direction) {
-        case 'up': position.y -= 30; break;
-        case 'down': position.y += 30; break;
-        case 'left': 
-            position.x -= 30; 
-            isFlipped = true;
-            break;
-        case 'right': 
-            position.x += 30;
-            isFlipped = false;
-            break;
-    }
-
-    // Apply movement + flip
-    player.style.transform = `translate(${position.x}px, ${position.y}px) scaleX(${isFlipped ? -1 : 1})`;
-}
-
-// Listen for arrow key presses
-document.addEventListener("keydown", function(event) {
-    switch (event.key) {
-        case "ArrowUp": move('up'); break;
-        case "ArrowDown": move('down'); break;
-        case "ArrowLeft": move('left'); break;
-        case "ArrowRight": move('right'); break;
-    }
-});
-
-    </script>
-
-</body>
+  </body>
 </html>

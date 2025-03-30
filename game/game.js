@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+ddocument.addEventListener("DOMContentLoaded", () => {
   const bgMusic = document.getElementById("bgMusic");
 
   document.body.addEventListener("click", () => {
