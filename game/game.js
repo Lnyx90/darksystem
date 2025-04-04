@@ -376,7 +376,7 @@ function updateButtonsAndThemes() {
     }
   } else if (
     Math.abs(position.x - 390) < 60 &&
-    Math.abs(position.y - 70) < 60
+    Math.abs(position.y - 25) < 15
   ) {
     locationText.innerHTML = "You're at Toba Lake";
 
