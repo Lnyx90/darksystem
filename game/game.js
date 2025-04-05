@@ -441,3 +441,4 @@ setInterval(decay, 60000);
 // Initial setup
 updateBars();
 updateButtonsAndThemes();
+ 
