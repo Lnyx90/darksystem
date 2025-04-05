@@ -1,3 +1,4 @@
+//Player, Hole, and PopUp
 document.addEventListener("DOMContentLoaded", function () {
   let playerName = localStorage.getItem("playerName");
   let selectedCharacterImage = localStorage.getItem("selectedCharacterImage");
@@ -6,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("player-welcome-name").textContent = playerName;
   document.getElementById("player-img").src = selectedCharacterImage;
 });
+
 
 //Theme
 function updateTheme() {
@@ -49,6 +51,7 @@ updateTheme();
 
 
 //Player, Hole, and PopUp
+
 let position = { x: 435, y: 260 };
 let step = 15;
 
@@ -149,7 +152,7 @@ setInterval(updateDate, 1000);
 updateTime();
 updateDate();
 
-//Movement and Hole Animation
+//Movement, Hole Animation and Energy Decay
 function move(direction) {
   const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
   let player = document.getElementById("player");
@@ -158,21 +161,23 @@ function move(direction) {
   let prevY = position.y;
   if (!player) return;
 
-  switch (direction) {
-    case "up":
-      if (position.y - step >= mapBounds.top) position.y -= step;
-      break;
-    case "down":
-      if (position.y + step <= mapBounds.bottom) position.y += step;
-      break;
-    case "left":
-      if (position.x - step >= mapBounds.left) position.x -= step;
-      playerImg.style.transform = "scaleX(-1)";
-      break;
-    case "right":
-      if (position.x + step <= mapBounds.right) position.x += step;
-      playerImg.style.transform = "scaleX(1)";
-      break;
+  if (statusValues.energy != 0) {
+    switch (direction) {
+      case "up":
+        if (position.y - step >= mapBounds.top) position.y -= step;
+        break;
+      case "down":
+        if (position.y + step <= mapBounds.bottom) position.y += step;
+        break;
+      case "left":
+        if (position.x - step >= mapBounds.left) position.x -= step;
+        playerImg.style.transform = "scaleX(-1)";
+        break;
+      case "right":
+        if (position.x + step <= mapBounds.right) position.x += step;
+        playerImg.style.transform = "scaleX(1)";
+        break;
+    }
   }
   if (position.x === prevX && position.y === prevY) {
     player.style.animation = "shake 0.2s";
@@ -203,7 +208,35 @@ function move(direction) {
     player.style.transform = "scale(1)";
   }, 200);
   updateButtonsAndThemes();
+
+  if (
+    position.x !== prevX ||
+    position.y !== prevY ||
+    position.y - step >= mapBounds.top ||
+    position.y + step <= mapBounds.bottom ||
+    position.x - step >= mapBounds.left ||
+    position.x + step <= mapBounds.right ||
+    position.x - step >= mapBounds.left ||
+    position.x + step <= mapBounds.right
+  ) {
+    statusValues.energy = Math.max(statusValues.energy - 1, 0);
+    updateBars();
+  } else {
+    setInterval(
+      (statusValues.energy = Math.min(statusValues.energy + 1, 100)),
+      20000
+    );
+    updateBars();
+  }
 }
+
+function healthDecaysNoEnergy() {
+  if (statusValues.energy === 0) {
+    statusValues.health = Math.max(statusValues.health - 20, 0);
+  }
+  updateBars();
+}
+setInterval(healthDecaysNoEnergy, 20000);
 
 document.addEventListener("keydown", function (event) {
   const keyMap = {
@@ -217,10 +250,10 @@ document.addEventListener("keydown", function (event) {
 
 //player's Status Bar Update
 let statusValues = {
-  health: 100,
-  energy: 100,
-  hygiene: 100,
-  happiness: 100,
+  health: 50,
+  energy: 50,
+  hygiene: 50,
+  happiness: 50,
 };
 
 function updateBars() {
@@ -246,35 +279,44 @@ function performAction(action) {
   switch (action) {
     case "getMeal":
       statusValues.health = Math.min(statusValues.health + 10, 100);
-      statusValues.energy = Math.min(statusValues.energy + 5, 100);
-      break;
-    case "takeBath":
-      statusValues.hygiene = Math.min(statusValues.hygiene + 15, 100);
-      statusValues.happiness = Math.min(statusValues.happiness + 5, 100);
-      break;
-    case "sleep":
       statusValues.energy = Math.min(statusValues.energy + 20, 100);
       break;
+    case "takeBath":
+      statusValues.hygiene = Math.min(statusValues.hygiene + 30, 100);
+      statusValues.happiness = Math.min(statusValues.happiness + 10, 100);
+      break;
+    case "sleep":
+      statusValues.energy = Math.min(statusValues.energy + 40, 100);
+      statusValues.health = Math.max(statusValues.health - 20, 0);
+      break;
     case "chores":
-      statusValues.energy = Math.max(statusValues.energy - 10, 0);
-      statusValues.happiness = Math.min(statusValues.happiness + 5, 100);
+      statusValues.energy = Math.min(statusValues.energy + 20, 100);
+      statusValues.health = Math.max(statusValues.happiness - 10, 0);
+      statusValues.hygiene = Math.max(statusValues.hygiene - 20, 0);
       break;
     case "sandPlay":
       statusValues.happiness = Math.min(statusValues.happiness + 10, 100);
+      statusValues.energy = Math.max(statusValues.energy - 5, 0);
+      statusValues.hygiene = Math.max(statusValues.hygiene - 10, 0);
       break;
     case "buyDrink":
       statusValues.health = Math.min(statusValues.health + 5, 100);
-      statusValues.energy = Math.min(statusValues.energy + 10, 100);
+      statusValues.energy = Math.min(statusValues.energy + 5, 100);
+      statusValues.happiness = Math.min(statusValues.happiness + 5, 100);
       break;
     case "buySnack":
-      statusValues.health = Math.min(statusValues.health + 8, 100);
+      statusValues.health = Math.min(statusValues.health + 5, 100);
+      statusValues.energy = Math.min(statusValues.energy + 10, 100);
+      statusValues.happiness = Math.min(statusValues.happiness + 5, 100);
       break;
     case "pickTrash":
-      statusValues.happiness = Math.min(statusValues.happiness + 10, 100);
+      statusValues.happiness = Math.min(statusValues.happiness + 5, 100);
       statusValues.energy = Math.max(statusValues.energy - 5, 0);
+      statusValues.hygiene = Math.max(statusValues.hygiene - 5, 0);
       break;
     case "takePicture":
       statusValues.happiness = Math.min(statusValues.happiness + 10, 100);
+      statusValues.energy = Math.max(statusValues.energy - 5, 0);
       break;
     case "buyFood":
       statusValues.health = Math.min(statusValues.health + 12, 100);
@@ -387,8 +429,7 @@ function updateButtonsAndThemes() {
       body.style.backgroundImage =
         "url('./assets/background/borobudur-night.jpg')";
     } else {
-      body.style.backgroundImage =
-        "url('./assets/background/borobudur-night.jpg')";
+      body.style.backgroundImage = "url('./assets/background/borobudur.jpg')";
     }
   } else if (
     Math.abs(position.x - 770) < 60 &&
@@ -453,6 +494,7 @@ function updateButtonsAndThemes() {
 }
 updateBars();
 
+
 //Trap and Volume Music
 const trap = document.getElementById("trap-net");
 const mapContainer = document.querySelector(".relative");
@@ -482,3 +524,9 @@ const bgMusic = document.getElementById("bgMusic");
     bgMusic.volume = volumeSlider.value;
     console.log("Volume sekarang: " + Math.round(bgMusic.volume * 100) + "%");
   }
+
+//Decays Effect
+function healthDecays() {
+  statusValues.health = Math.max(statusValues.health - 20, 0);
+}
+setInterval(decay, 60000);
