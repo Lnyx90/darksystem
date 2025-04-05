@@ -7,6 +7,47 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("player-img").src = selectedCharacterImage;
 });
 
+//Theme
+function updateTheme() {
+  let currentHour = new Date().getHours();
+  let body = document.body;
+  let statusBar = document.querySelector(".status-bar");
+  let taskTexts = document.querySelectorAll("#health-text, #energy-text, #hygiene-text, #happiness-text");
+
+  let gameTitle = document.querySelector(".status-bar strong");
+  let gameTime = document.getElementById("game-time");
+  let gameDay1 = document.getElementById("game-day1");
+  let gameDay2 = document.getElementById("game-day2");
+  let volumeLabel = document.querySelector("label[for='volumeSlider']");
+
+  if (currentHour >= 18 || currentHour < 6) {
+      gameTitle.style.color = "white";
+      gameTime.style.color = "black";
+      gameDay1.style.color = "white";
+      gameDay2.style.color = "white";
+      taskTexts.forEach(text => {
+          text.style.color = "white";
+      });
+
+      if (volumeLabel) volumeLabel.style.color = "white";
+
+  } else {
+      gameTitle.style.color = "";
+      gameTime.style.color = "";
+      gameDay1.style.color = "";
+      gameDay2.style.color = "";
+      taskTexts.forEach(text => {
+          text.style.color = "black";
+      });
+
+      if (volumeLabel) volumeLabel.style.color = "";
+  }
+}
+
+setInterval(updateTheme, 1000);
+updateTheme();
+
+
 //Player, Hole, and PopUp
 let position = { x: 435, y: 260 };
 let step = 15;
@@ -375,7 +416,7 @@ function updateButtonsAndThemes() {
       body.style.backgroundImage = "url('./assets/background/bromo.jpg')";
     }
   } else if (
-    Math.abs(position.x - 390) < 60 &&
+    Math.abs(position.x - 385) < 60 &&
     Math.abs(position.y - 25) < 15
   ) {
     locationText.innerHTML = "You're at Toba Lake";
@@ -411,3 +452,33 @@ function updateButtonsAndThemes() {
   }
 }
 updateBars();
+
+//Trap and Volume Music
+const trap = document.getElementById("trap-net");
+const mapContainer = document.querySelector(".relative");
+
+const mapWidth = 850;
+const mapHeight = 680;
+const trapSize = 64;
+
+function getRandomPosition() {
+  const x = Math.floor(Math.random() * (mapWidth - trapSize));
+  const y = Math.floor(Math.random() * (mapHeight - trapSize));
+  return { x, y };
+}
+
+function moveTrapRandomly() {
+  const { x, y } = getRandomPosition();
+  trap.style.left = `${x}px`;
+  trap.style.top = `${y}px`;
+}
+
+setInterval(moveTrapRandomly, 20000);
+
+const bgMusic = document.getElementById("bgMusic");
+  const volumeSlider = document.getElementById("volumeSlider");
+
+  function updateVolume() {
+    bgMusic.volume = volumeSlider.value;
+    console.log("Volume sekarang: " + Math.round(bgMusic.volume * 100) + "%");
+  }

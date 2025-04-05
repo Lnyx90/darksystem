@@ -110,14 +110,26 @@
               <p id="player-name" class=" text-blue-900 px-1 py-1 fade-in rounded-lg  " style="left: 50%; transform: translateX(-50%); position: absolute; bottom: 100%; font-family: 'Press Start 2P'; font-size: 10px;"></p>
               <img id="player-img" src="" width="40" class="rounded-full">
           </div>
-          
+          <img id="trap-net" src="./assets/logo-and-character/trap.png" class="absolute w-16 h-16 transition-all duration-500 ease-in-out" style="left: 150px; top: 200px; z-index: 6;">
           <img src="./assets/logo-and-character/hole.png" class="absolute w-16 h-16" style="left: 425px; top: 300px; z-index: 5;">
           <img src="./assets/logo-and-character/home.png" class="absolute w-16 h-16" style="left: 60px; top: 90px; z-index: 5;">
           <img src="./assets/logo-and-character/bromo.png" class="absolute w-16 h-16" style="left: 760px; top: 470px; z-index: 5;">
           <img src="./assets/logo-and-character/kuta.png" class="absolute w-16 h-16" style="left: 270px; top: 445px; z-index: 5;">
           <img src="./assets/logo-and-character/borobudur.png" class="absolute w-16 h-16" style="left: 680px; top: 240px; z-index: 5;">
           <img src="./assets/logo-and-character/lake_toba.png" class="absolute w-16 h-16" style="left: 380px; top: 60px; z-index: 5;">
-          
+          <div class="mt-4 flex items-center space-x-3 w-64">
+            <label for="volumeSlider" class="text-sm font-medium text-gray-700">Volume</label>
+            <input
+              type="range"
+              id="volumeSlider"
+              min="0"
+              max="1"
+              step="0.01"
+              value="1"
+              class="w-full accent-blue-500"
+              onchange="updateVolume()"
+            />
+          </div>
         </div>
 
         <div id="location" class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg  ">
