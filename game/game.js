@@ -530,3 +530,20 @@ function healthDecays() {
   statusValues.health = Math.max(statusValues.health - 20, 0);
 }
 setInterval(decay, 60000);
+
+let moneyy = 1000;
+
+
+//Money
+window.addEventListener("DOMContentLoaded", () => {
+  updateMoneyDisplay();
+});
+
+function updateMoneyDisplay() {
+  const moneySpan = document.getElementById("moneyy");
+  if (moneySpan) {
+    moneySpan.textContent = `$${moneyy}`;
+  } else {
+    console.warn("Money display element not found!");
+  }
+}
