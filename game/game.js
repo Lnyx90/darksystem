@@ -531,11 +531,10 @@ function healthDecays() {
 }
 setInterval(decay, 60000);
 
-
-
 let moneyy = 1000;
 
 
+//Money
 window.addEventListener("DOMContentLoaded", () => {
   updateMoneyDisplay();
 });
@@ -548,3 +547,4 @@ function updateMoneyDisplay() {
     console.warn("Money display element not found!");
   }
 }
+
