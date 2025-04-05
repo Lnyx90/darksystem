@@ -80,49 +80,50 @@ function closePopup() {
 }
 
 //Time and Date
-function updateTime() {
-  let realStartTime = new Date();
-  let offsetSeconds = 0;
-  let gameTime = new Date(realStartTime.getTime() + offsetSeconds * 60);
+const realStartTime = performance.now()
+  const gameStartTime = new Date()
+  const timeSpeedMultiplier = 10
 
-  const optionsTime = {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true,
-  };
+  function updateGameClock() {
+    const now = performance.now()
+    const elapsedReal = now - realStartTime
+    const elapsedGame = elapsedReal * timeSpeedMultiplier
+    const currentGameTime = new Date(gameStartTime.getTime() + elapsedGame)
 
-  document.getElementById("game-time").innerHTML = `
-      ${gameTime.toLocaleTimeString("en-US", optionsTime)}
-    `;
+    const optionsTime = {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true
+    }
 
-  offsetSeconds += 360;
-}
+    const optionsDate = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    }
 
-function updateDate() {
-  let gameDate = new Date();
-  const optionsDate = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
+    const hours = currentGameTime.getHours()
+    const greeting =
+      hours < 12
+        ? "Good Morning!"
+        : hours < 18
+        ? "Good Afternoon!"
+        : "Good Evening!"
 
-  let hours = gameDate.getHours();
-  let greeting = hours < 12 ? "Good Morning!" : hours < 18 ? "Good Afternoon!" : "Good Evening!";
+    document.getElementById("game-time").innerHTML =
+      currentGameTime.toLocaleTimeString("en-US", optionsTime)
 
-  document.getElementById("game-day1").innerHTML = `
-    ${gameDate.toLocaleDateString("en-US", optionsDate)}
-  `;
-  document.getElementById("game-day2").innerHTML = `
-    ${greeting}
-  `;
-}
+    document.getElementById("game-day1").innerHTML =
+      currentGameTime.toLocaleDateString("en-US", optionsDate)
 
-setInterval(updateTime, 1000);
-setInterval(updateDate, 1000);
-updateTime();
-updateDate();
+    document.getElementById("game-day2").innerHTML = greeting
+
+    requestAnimationFrame(updateGameClock);
+  }
+
+  requestAnimationFrame(updateGameClock);
 
 //Movement and Energy
 function move(direction) {
@@ -441,4 +442,20 @@ setInterval(decay, 60000);
 // Initial setup
 updateBars();
 updateButtonsAndThemes();
- 
+
+
+let moneyy = 1000;
+
+
+//Money
+window.addEventListener("DOMContentLoaded", () => {
+  updateMoneyDisplay();
+});
+
+function updateMoneyDisplay() {
+  const moneySpan = document.getElementById("moneyy");
+  if (moneySpan) {
+    moneySpan.textContent = `$${moneyy}`;
+  } 
+}
+
