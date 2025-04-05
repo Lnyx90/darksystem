@@ -58,7 +58,7 @@ function updateTheme() {
 setInterval(updateTheme, 1000);
 updateTheme();
 
-//Player movement and position
+//Player movement & position
 let position = { x: 435, y: 260 };
 let step = 15;
 
