@@ -428,6 +428,7 @@ function updateVolume() {
   bgMusic.volume = volumeSlider.value;
 }
 volumeSlider.addEventListener('input', updateVolume);
+updateVolume();
 
 // Decay System
 function decay() {
