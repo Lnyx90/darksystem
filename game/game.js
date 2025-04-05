@@ -6,8 +6,18 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("player-name").textContent = playerName;
   document.getElementById("player-welcome-name").textContent = playerName;
   document.getElementById("player-img").src = selectedCharacterImage;
-});
 
+  if (selectedCharacterImage) {
+    let imgElement = document.getElementById("player-character-img");
+    imgElement.src = selectedCharacterImage;
+    imgElement.classList.remove("hidden");
+  }
+
+  updateMoneyDisplay();
+  updateTime();
+  updateDate();
+  updateBars();
+});
 
 //Theme
 function updateTheme() {
@@ -32,7 +42,6 @@ function updateTheme() {
       });
 
       if (volumeLabel) volumeLabel.style.color = "white";
-
   } else {
       gameTitle.style.color = "";
       gameTime.style.color = "";
@@ -49,16 +58,11 @@ function updateTheme() {
 setInterval(updateTheme, 1000);
 updateTheme();
 
-
-//Player, Hole, and PopUp
-
+//Player movement and position
 let position = { x: 435, y: 260 };
 let step = 15;
 
-let hole = document.querySelector(
-  "img[src='./assets/logo-and-character/hole.png']"
-);
-
+let hole = document.querySelector("img[src='./assets/logo-and-character/hole.png']");
 let player = document.getElementById("player");
 player.style.opacity = "0";
 player.style.transform = "scale(0.2) translateY(20px)";
@@ -67,36 +71,13 @@ setTimeout(() => {
   player.style.animation = "emerge 0.5s forwards";
 }, 500);
 
-document.addEventListener("DOMContentLoaded", function () {
-  let playerName = localStorage.getItem("playerName");
-  let characterImg = localStorage.getItem("selectedCharacterImage");
-
-  document.getElementById("player-welcome-name").innerText = playerName;
-
-  if (characterImg) {
-    let imgElement = document.getElementById("player-character-img");
-    imgElement.src = characterImg;
-    imgElement.classList.remove("hidden");
-  }
-});
-
 function closePopup() {
   document.getElementById("welcome-popup").style.display = "none";
-
   setTimeout(() => {
     player.style.opacity = "1";
     player.style.animation = "emergeFromHole 0.5s forwards";
   }, 500);
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-  let playerName = localStorage.getItem("playerName");
-  let selectedCharacterImage = localStorage.getItem("selectedCharacterImage");
-
-  document.getElementById("player-name").textContent = playerName;
-  document.getElementById("player-welcome-name").textContent = playerName;
-  document.getElementById("player-img").src = selectedCharacterImage;
-});
 
 //Time and Date
 function updateTime() {
@@ -120,7 +101,6 @@ function updateTime() {
 
 function updateDate() {
   let gameDate = new Date();
-
   const optionsDate = {
     weekday: "long",
     year: "numeric",
@@ -129,15 +109,7 @@ function updateDate() {
   };
 
   let hours = gameDate.getHours();
-  let greeting;
-
-  if (hours < 12) {
-    greeting = "Good Morning!";
-  } else if (hours < 18) {
-    greeting = "Good Afternoon!";
-  } else {
-    greeting = "Good Evening!";
-  }
+  let greeting = hours < 12 ? "Good Morning!" : hours < 18 ? "Good Afternoon!" : "Good Evening!";
 
   document.getElementById("game-day1").innerHTML = `
     ${gameDate.toLocaleDateString("en-US", optionsDate)}
@@ -152,7 +124,7 @@ setInterval(updateDate, 1000);
 updateTime();
 updateDate();
 
-//Movement, Hole Animation and Energy Decay
+//Movement and Energy
 function move(direction) {
   const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
   let player = document.getElementById("player");
@@ -179,6 +151,7 @@ function move(direction) {
         break;
     }
   }
+
   if (position.x === prevX && position.y === prevY) {
     player.style.animation = "shake 0.2s";
     setTimeout(() => (player.style.animation = ""), 200);
@@ -192,8 +165,8 @@ function move(direction) {
 
   player.style.left = position.x + "px";
   player.style.top = position.y + "px";
+  
   const style = document.createElement("style");
-
   style.innerHTML = `
       @keyframes shake {
         0% { transform: translateX(0); }
@@ -201,31 +174,17 @@ function move(direction) {
         50% { transform: translateX(3px); }
         75% { transform: translateX(-3px); }
         100% { transform: translateX(0); }
-      }
-        `;
+      }`;
   document.head.appendChild(style);
+  
   setTimeout(() => {
     player.style.transform = "scale(1)";
   }, 200);
+  
   updateButtonsAndThemes();
 
-  if (
-    position.x !== prevX ||
-    position.y !== prevY ||
-    position.y - step >= mapBounds.top ||
-    position.y + step <= mapBounds.bottom ||
-    position.x - step >= mapBounds.left ||
-    position.x + step <= mapBounds.right ||
-    position.x - step >= mapBounds.left ||
-    position.x + step <= mapBounds.right
-  ) {
+  if (position.x !== prevX || position.y !== prevY) {
     statusValues.energy = Math.max(statusValues.energy - 1, 0);
-    updateBars();
-  } else {
-    setInterval(
-      (statusValues.energy = Math.min(statusValues.energy + 1, 100)),
-      20000
-    );
     updateBars();
   }
 }
@@ -248,33 +207,41 @@ document.addEventListener("keydown", function (event) {
   if (keyMap[event.key]) move(keyMap[event.key]);
 });
 
-//player's Status Bar Update
+// Status and Money System
 let statusValues = {
   health: 50,
   energy: 50,
   hygiene: 50,
   happiness: 50,
+  money: 100000
 };
 
 function updateBars() {
   document.getElementById("health-bar").style.width = statusValues.health + "%";
   document.getElementById("energy-bar").style.width = statusValues.energy + "%";
-  document.getElementById("hygiene-bar").style.width =
-    statusValues.hygiene + "%";
-  document.getElementById("happiness-bar").style.width =
-    statusValues.happiness + "%";
+  document.getElementById("hygiene-bar").style.width = statusValues.hygiene + "%";
+  document.getElementById("happiness-bar").style.width = statusValues.happiness + "%";
 
-  document.getElementById("health-text").textContent =
-    statusValues.health + "%";
-  document.getElementById("energy-text").textContent =
-    statusValues.energy + "%";
-  document.getElementById("hygiene-text").textContent =
-    statusValues.hygiene + "%";
-  document.getElementById("happiness-text").textContent =
-    statusValues.happiness + "%";
+  document.getElementById("health-text").textContent = statusValues.health + "%";
+  document.getElementById("energy-text").textContent = statusValues.energy + "%";
+  document.getElementById("hygiene-text").textContent = statusValues.hygiene + "%";
+  document.getElementById("happiness-text").textContent = statusValues.happiness + "%";
+  
+  updateMoneyDisplay();
 }
 
-//Action
+function updateMoneyDisplay() {
+  const moneySpan = document.getElementById("money");
+  if (moneySpan) {
+    moneySpan.textContent = new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0
+    }).format(statusValues.money);
+  }
+}
+
+// Actions
 function performAction(action) {
   switch (action) {
     case "getMeal":
@@ -290,52 +257,51 @@ function performAction(action) {
       statusValues.health = Math.max(statusValues.health - 20, 0);
       break;
     case "chores":
-      statusValues.energy = Math.min(statusValues.energy + 20, 100);
-      statusValues.health = Math.max(statusValues.happiness - 10, 0);
-      statusValues.hygiene = Math.max(statusValues.hygiene - 20, 0);
+      statusValues.energy = Math.max(statusValues.energy - 3, 0);
+      statusValues.health = Math.max(statusValues.health - 1, 0);
+      statusValues.hygiene = Math.max(statusValues.hygiene - 2, 0);
+      statusValues.money += 100000;
       break;
     case "sandPlay":
-      statusValues.happiness = Math.min(statusValues.happiness + 10, 100);
-      statusValues.energy = Math.max(statusValues.energy - 5, 0);
-      statusValues.hygiene = Math.max(statusValues.hygiene - 10, 0);
+      statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
+      statusValues.energy = Math.max(statusValues.energy - 2, 0);
+      statusValues.hygiene = Math.max(statusValues.hygiene - 3, 0);
       break;
     case "buyDrink":
-      statusValues.health = Math.min(statusValues.health + 5, 100);
-      statusValues.energy = Math.min(statusValues.energy + 5, 100);
-      statusValues.happiness = Math.min(statusValues.happiness + 5, 100);
+      statusValues.health = Math.min(statusValues.health + 3, 100);
+      statusValues.energy = Math.min(statusValues.energy + 3, 100);
+      statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
+      statusValues.money = Math.max(statusValues.money - 10000, 0);
       break;
     case "buySnack":
-      statusValues.health = Math.min(statusValues.health + 5, 100);
-      statusValues.energy = Math.min(statusValues.energy + 10, 100);
-      statusValues.happiness = Math.min(statusValues.happiness + 5, 100);
+      statusValues.health = Math.min(statusValues.health + 2, 100);
+      statusValues.energy = Math.min(statusValues.energy + 2, 100);
+      statusValues.happiness = Math.min(statusValues.happiness + 1, 100);
+      statusValues.money = Math.max(statusValues.money - 25000, 0);
       break;
     case "pickTrash":
-      statusValues.happiness = Math.min(statusValues.happiness + 5, 100);
-      statusValues.energy = Math.max(statusValues.energy - 5, 0);
-      statusValues.hygiene = Math.max(statusValues.hygiene - 5, 0);
+      statusValues.happiness = Math.min(statusValues.happiness + 1, 100);
+      statusValues.energy = Math.max(statusValues.energy - 2, 0);
+      statusValues.hygiene = Math.max(statusValues.hygiene - 4, 0);
+      statusValues.money += 115000;
       break;
     case "takePicture":
-      statusValues.happiness = Math.min(statusValues.happiness + 10, 100);
-      statusValues.energy = Math.max(statusValues.energy - 5, 0);
+      statusValues.happiness = Math.min(statusValues.happiness + 4, 100);
+      statusValues.energy = Math.max(statusValues.energy - 2, 0);
       break;
     case "buyFood":
-      statusValues.health = Math.min(statusValues.health + 12, 100);
+      statusValues.health = Math.min(statusValues.health + 2, 100);
+      statusValues.happiness = Math.min(statusValues.happiness + 1, 100);
+      statusValues.energy = Math.min(statusValues.energy + 2, 100);
+      statusValues.money = Math.max(statusValues.money - 50000, 0);
       break;
     case "buySouvenir":
-      statusValues.happiness = Math.min(statusValues.happiness + 10, 100);
+      statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
+      statusValues.money = Math.max(statusValues.money - 30000, 0);
       break;
     case "rentCostume":
-      statusValues.happiness = Math.min(statusValues.happiness + 15, 100);
-      break;
-    case "makeVideo":
-      statusValues.happiness = Math.min(statusValues.happiness + 15, 100);
-      statusValues.energy = Math.max(statusValues.energy - 10, 0);
-      break;
-    case "plantFlag":
-      statusValues.happiness = Math.min(statusValues.happiness + 20, 100);
-      break;
-    case "pray":
-      statusValues.happiness = Math.min(statusValues.happiness + 25, 100);
+      statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
+      statusValues.money = Math.max(statusValues.money - 80000, 0);
       break;
     case "takeShower":
       statusValues.hygiene = Math.min(statusValues.hygiene + 20, 100);
@@ -347,204 +313,131 @@ function performAction(action) {
       statusValues.hygiene = Math.min(statusValues.hygiene + 10, 100);
       statusValues.energy = Math.max(statusValues.energy - 5, 0);
       break;
+    case "makeVideo":
+      statusValues.happiness = Math.min(statusValues.happiness + 15, 100);
+      statusValues.energy = Math.max(statusValues.energy - 10, 0);
+      break;
+    case "plantFlag":
+      statusValues.happiness = Math.min(statusValues.happiness + 20, 100);
+      break;
+    case "pray":
+      statusValues.happiness = Math.min(statusValues.happiness + 25, 100);
+      break;
     default:
       break;
   }
   updateBars();
 }
 
-//Button and Theme Update
-updateButtonsAndThemes();
+// Location and Button Updates
 function updateButtonsAndThemes() {
   let locationText = document.getElementById("location-text");
-  let actions = ["action1", "action2", "action3", "action4"].map((id) =>
-    document.getElementById(id)
-  );
+  let actions = ["action1", "action2", "action3", "action4"].map(id => document.getElementById(id));
   let currentHour = new Date().getHours();
   let body = document.body;
 
   if (Math.abs(position.x - 60) < 50 && Math.abs(position.y - 90) < 50) {
     locationText.innerHTML = "You're at Tangerang";
-
     actions[0].innerHTML = "Get Some Meal";
     actions[0].onclick = () => performAction("getMeal");
-
     actions[1].innerHTML = "Take a Bath";
     actions[1].onclick = () => performAction("takeBath");
-
     actions[2].innerHTML = "Sleep";
     actions[2].onclick = () => performAction("sleep");
-
     actions[3].innerHTML = "🛈 Do Chores";
     actions[3].onclick = () => performAction("chores");
-
-    if (currentHour >= 18 || currentHour < 6) {
-      body.style.backgroundImage =
-        "url('./assets/background/default-night.jpg')";
-    } else {
-      body.style.backgroundImage = "url('./assets/background/default.jpg')";
-    }
-  } else if (
-    Math.abs(position.x - 280) < 60 &&
-    Math.abs(position.y - 440) < 60
-  ) {
+    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ? 
+      "url('./assets/background/default-night.jpg')" : "url('./assets/background/default.jpg')";
+  } 
+  else if (Math.abs(position.x - 280) < 60 && Math.abs(position.y - 440) < 60) {
     locationText.innerHTML = "You're at Kuta Beach";
-
     actions[0].innerHTML = "Sand Play";
     actions[0].onclick = () => performAction("sandPlay");
-
     actions[1].innerHTML = "🛈 Buy Drink";
     actions[1].onclick = () => performAction("buyDrink");
-
     actions[2].innerHTML = "🛈 Buy Snack";
     actions[2].onclick = () => performAction("buySnack");
-
     actions[3].innerHTML = "🛈 Pick-up Trash";
     actions[3].onclick = () => performAction("pickTrash");
-
-    if (currentHour >= 18 || currentHour < 6) {
-      body.style.backgroundImage = "url('./assets/background/kuta.jpg')";
-    } else {
-      body.style.backgroundImage = "url('./assets/background/kuta.jpg')";
-    }
-  } else if (
-    Math.abs(position.x - 690) < 60 &&
-    Math.abs(position.y - 210) < 60
-  ) {
+    body.style.backgroundImage = "url('./assets/background/kuta.jpg')";
+  }
+  else if (Math.abs(position.x - 690) < 60 && Math.abs(position.y - 210) < 60) {
     locationText.innerHTML = "You're at Borobudur Temple";
-
     actions[0].innerHTML = "Take a Picture";
     actions[0].onclick = () => performAction("takePicture");
-
     actions[1].innerHTML = "🛈 Buy Local Food";
     actions[1].onclick = () => performAction("buyFood");
-
     actions[2].innerHTML = "🛈 Buy Souvenir";
     actions[2].onclick = () => performAction("buySouvenir");
-
     actions[3].innerHTML = "🛈 Rent Local Costume";
     actions[3].onclick = () => performAction("rentCostume");
-
-    if (currentHour >= 18 || currentHour < 6) {
-      body.style.backgroundImage =
-        "url('./assets/background/borobudur-night.jpg')";
-    } else {
-      body.style.backgroundImage = "url('./assets/background/borobudur.jpg')";
-    }
-  } else if (
-    Math.abs(position.x - 770) < 60 &&
-    Math.abs(position.y - 460) < 60
-  ) {
+    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
+      "url('./assets/background/borobudur-night.jpg')" : "url('./assets/background/borobudur.jpg')";
+  }
+  else if (Math.abs(position.x - 770) < 60 && Math.abs(position.y - 460) < 60) {
     locationText.innerHTML = "You're at Bromo Mountain";
-
     actions[0].innerHTML = "Make a Cinematic Video";
     actions[0].onclick = () => performAction("makeVideo");
-
     actions[1].innerHTML = "🛈 Buy Drink";
     actions[1].onclick = () => performAction("buyDrink");
-
     actions[2].innerHTML = "🛈 Plant a Flag";
     actions[2].onclick = () => performAction("plantFlag");
-
     actions[3].innerHTML = "Pray to God";
     actions[3].onclick = () => performAction("pray");
-
-    document.getElementsByClassName("gift");
-
-    if (currentHour >= 18 || currentHour < 6) {
-      body.style.backgroundImage = "url('./assets/background/bromo-night.jpg')";
-    } else {
-      body.style.backgroundImage = "url('./assets/background/bromo.jpg')";
-    }
-  } else if (
-    Math.abs(position.x - 385) < 60 &&
-    Math.abs(position.y - 25) < 15
-  ) {
+    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
+      "url('./assets/background/bromo-night.jpg')" : "url('./assets/background/bromo.jpg')";
+  }
+  else if (Math.abs(position.x - 385) < 60 && Math.abs(position.y - 25) < 15) {
     locationText.innerHTML = "You're at Toba Lake";
-
     actions[0].innerHTML = "Take a Shower";
-
+    actions[0].onclick = () => performAction("takeShower");
     actions[1].innerHTML = "Catch a Fish";
-
+    actions[1].onclick = () => performAction("catchFish");
     actions[2].innerHTML = "Take a Picture";
-
-    actions[3].innerHTML = "Washing Chlotes";
-
-    document.getElementsByClassName("gift");
-
-    if (currentHour >= 18 || currentHour < 6) {
-      body.style.backgroundImage = "url('./assets/background/toba-night.jpg')";
-    } else {
-      body.style.backgroundImage = "url('./assets/background/toba.jpg')";
-    }
-  } else {
+    actions[2].onclick = () => performAction("takePicture");
+    actions[3].innerHTML = "Wash Clothes";
+    actions[3].onclick = () => performAction("washClothes");
+    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
+      "url('./assets/background/toba-night.jpg')" : "url('./assets/background/toba.jpg')";
+  }
+  else {
     locationText.innerHTML = "You're Lost!";
-    actions.forEach((action) => {
+    actions.forEach(action => {
       action.innerHTML = "";
       action.onclick = null;
-
-      if (currentHour >= 18 || currentHour < 6) {
-        body.style.backgroundImage =
-          "url('./assets/background/default-night.jpg')";
-      } else {
-        body.style.backgroundImage = "url('./assets/background/default.jpg')";
-      }
     });
+    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
+      "url('./assets/background/default-night.jpg')" : "url('./assets/background/default.jpg')";
   }
 }
-updateBars();
 
-
-//Trap and Volume Music
+// Trap and Music
 const trap = document.getElementById("trap-net");
-const mapContainer = document.querySelector(".relative");
-
-const mapWidth = 850;
-const mapHeight = 680;
-const trapSize = 64;
-
-function getRandomPosition() {
-  const x = Math.floor(Math.random() * (mapWidth - trapSize));
-  const y = Math.floor(Math.random() * (mapHeight - trapSize));
-  return { x, y };
-}
-
 function moveTrapRandomly() {
-  const { x, y } = getRandomPosition();
+  const x = Math.floor(Math.random() * (850 - 64));
+  const y = Math.floor(Math.random() * (680 - 64));
   trap.style.left = `${x}px`;
   trap.style.top = `${y}px`;
 }
-
 setInterval(moveTrapRandomly, 20000);
 
 const bgMusic = document.getElementById("bgMusic");
-  const volumeSlider = document.getElementById("volumeSlider");
+const volumeSlider = document.getElementById("volumeSlider");
+function updateVolume() {
+  bgMusic.volume = volumeSlider.value;
+}
+volumeSlider.addEventListener('input', updateVolume);
 
-  function updateVolume() {
-    bgMusic.volume = volumeSlider.value;
-    console.log("Volume sekarang: " + Math.round(bgMusic.volume * 100) + "%");
-  }
-
-//Decays Effect
-function healthDecays() {
-  statusValues.health = Math.max(statusValues.health - 20, 0);
+// Decay System
+function decay() {
+  statusValues.health = Math.max(statusValues.health - 1, 0);
+  statusValues.energy = Math.max(statusValues.energy - 1, 0);
+  statusValues.hygiene = Math.max(statusValues.hygiene - 1, 0);
+  statusValues.happiness = Math.max(statusValues.happiness - 1, 0);
+  updateBars();
 }
 setInterval(decay, 60000);
 
-
-
-let moneyy = 1000;
-
-
-window.addEventListener("DOMContentLoaded", () => {
-  updateMoneyDisplay();
-});
-
-function updateMoneyDisplay() {
-  const moneySpan = document.getElementById("moneyy");
-  if (moneySpan) {
-    moneySpan.textContent = `$${moneyy}`;
-  } else {
-    console.warn("Money display element not found!");
-  }
-}
+// Initial setup
+updateBars();
+updateButtonsAndThemes();
