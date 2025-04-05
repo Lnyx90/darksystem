@@ -76,3 +76,22 @@
     animation: shake 0.3s ease;
     background-color: rgba(255, 0, 0, 0.4);
   }
+
+  #location{
+    top: -40px;
+}
+
+.map{
+    margin-top: -20px;
+}
+
+.money{
+  width: 5px;
+  height: 3px;
+}
+
+  .damage-effect {
+    animation: shake 0.3s ease;
+    background-color: rgba(255, 0, 0, 0.4);
+  }
+
