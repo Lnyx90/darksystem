@@ -547,4 +547,3 @@ function updateMoneyDisplay() {
     console.warn("Money display element not found!");
   }
 }
-
