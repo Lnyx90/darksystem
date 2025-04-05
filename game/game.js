@@ -416,7 +416,7 @@ function updateButtonsAndThemes() {
 const trap = document.getElementById("trap-net");
 function moveTrapRandomly() {
   const x = Math.floor(Math.random() * (850 - 64));
-  const y = Math.floor(Math.random() * (680 - 64));
+  const y = Math.floor(Math.random() * (650 - 64));
   trap.style.left = `${x}px`;
   trap.style.top = `${y}px`;
 }
@@ -442,20 +442,3 @@ setInterval(decay, 60000);
 // Initial setup
 updateBars();
 updateButtonsAndThemes();
-
-
-let moneyy = 1000;
-
-
-//Money
-window.addEventListener("DOMContentLoaded", () => {
-  updateMoneyDisplay();
-});
-
-function updateMoneyDisplay() {
-  const moneySpan = document.getElementById("moneyy");
-  if (moneySpan) {
-    moneySpan.textContent = `$${moneyy}`;
-  } 
-}
-
