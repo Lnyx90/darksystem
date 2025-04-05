@@ -439,8 +439,10 @@ function decay() {
 }
 setInterval(decay, 60000);
 
+// Initial setup
 updateBars();
 updateButtonsAndThemes();
+
 
 let moneyy = 1000;
 
@@ -456,3 +458,4 @@ function updateMoneyDisplay() {
     moneySpan.textContent = `$${moneyy}`;
   } 
 }
+
