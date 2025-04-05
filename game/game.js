@@ -438,19 +438,6 @@ function decay() {
 }
 setInterval(decay, 60000);
 
+// Initial setup
 updateBars();
 updateButtonsAndThemes();
-=======
-let moneyy = 1000;
-
-
-//Money
-window.addEventListener("DOMContentLoaded", () => {
-  updateMoneyDisplay();
-});
-
-function updateMoneyDisplay() {
-  const moneySpan = document.getElementById("moneyy");
-  if (moneySpan) {
-    moneySpan.textContent = `$${moneyy}`;
-  } 
