@@ -126,6 +126,8 @@ const realStartTime = performance.now()
   requestAnimationFrame(updateGameClock);
 
 //Movement and Energy
+let stepCount = 0;
+
 function move(direction) {
   const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
   let player = document.getElementById("player");
@@ -185,8 +187,11 @@ function move(direction) {
   updateButtonsAndThemes();
 
   if (position.x !== prevX || position.y !== prevY) {
-    statusValues.energy = Math.max(statusValues.energy - 1, 0);
-    updateBars();
+    stepCount++;
+    if (stepCount % 2 === 0) {
+      statusValues.energy = Math.max(statusValues.energy - 1, 0);
+      updateBars();
+    }
   }
 }
 
@@ -388,7 +393,7 @@ function updateButtonsAndThemes() {
     body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
       "url('./assets/background/bromo-night.jpg')" : "url('./assets/background/bromo.jpg')";
   }
-  else if (Math.abs(position.x - 385) < 60 && Math.abs(position.y - 25) < 15) {
+  else if (Math.abs(position.x - 385) < 60 && Math.abs(position.y - 35) < 60) {
     locationText.innerHTML = "You're at Toba Lake";
     actions[0].innerHTML = "Take a Shower";
     actions[0].onclick = () => performAction("takeShower");
@@ -416,7 +421,7 @@ function updateButtonsAndThemes() {
 const trap = document.getElementById("trap-net");
 function moveTrapRandomly() {
   const x = Math.floor(Math.random() * (850 - 64));
-  const y = Math.floor(Math.random() * (650 - 64));
+  const y = Math.floor(Math.random() * (630 - 64));
   trap.style.left = `${x}px`;
   trap.style.top = `${y}px`;
 }
