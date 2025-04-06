@@ -6,217 +6,168 @@
     <title>Archipelago Adventure</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <audio id="bgMusic" autoplay loop> 
+
+      <source src="./assets/bg-music/wonderland-music.mp3" type="audio/mpeg">
+
+  </audio>
   </head>
 
-  <body class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center "
-    style="
-      background-image: url('gameptiasset/assets/PageGame.jpg'); overflow: hidden;
-    ">
+  <body class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center">
+
+    <div id="welcome-popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center w-72">
+            <h2 class="text-xl font-bold mb-2">Welcome, <span id="player-welcome-name"></span>!</h2>
+            <p class="text-xs mb-2">You have chosen:</p>
+
+            <img id="player-character-img" src="" alt="Character Image"
+                class="w-24 h-40 mx-auto mb-4 hidden">
+
+            <p class="mb-4">Time for an Epic Journey!</p>
+            <button onclick="closePopup()"
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                Play
+            </button>
+            <audio id="click-sound" src="./assets/bg-music/click.mp4" preload="auto"></audio>
+        </div>
+    </div>
+
+
     <div
       class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20 ">
       <span><strong>Archipelago Adventure</strong></span>
-      <span id="game-time"></span>
+      <div class="flex-col">
+        <div class="flex items-center">
+          <img src="./assets/logo-and-character/day.png" alt="day" class="w-10 h-10">
+          <span id="game-day1"></span>
+        </div>
+        <div>
+          <span id="game-day2" class="ml-28"></span>
+        </div>
+      </div>
     </div>
 
-    <div class="flex items-center gap-2 mt-20 ">
-      <span class="mt-5">💓</span>
-      <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
-          <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
-      </div>
-      <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-20">🛏</span>
-      <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
-          <div id="energy-bar" class="h-full bg-yellow-300 transition-all" style="width: 100%;"></div>
-      </div>
-      <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-20">🧖🏻‍♀</span>
-      <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
-          <div id="hygiene-bar" class="h-full bg-blue-400 transition-all" style="width: 100%;"></div>
-      </div>
-      <span id="health-text" class="mt-5">100%</span>
-      <span class="mt-5 ml-20">🧏🏻‍♀</span>
-      <div class="w-40 h-5 bg-gray-300 rounded-full overflow-hidden mt-5">
-          <div id="happines-bar" class="h-full bg-pink-400 transition-all" style="width: 100%;"></div>
-      </div>
-      <span id="health-text" class="mt-5">100%</span>
-  </div>
+    <div class="bar-container">
+        <div class="flex items-center gap-2 p-5 mt-20">
+            <img src="./assets/logo-and-character/heart.webp" class="w-5 h-5"> 
+            <div class="relative w-48 h-10 flex items-center">
+                <img src="./assets/logo-and-character/taskbar.png" class="absolute top-0 left-0 w-full h-full">
+                <div class="absolute flex items-center gap-2 px-3 w-full">
+                    <div class="w-40 h-3 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="health-bar" class="h-full bg-red-500 transition-all" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <span id="health-text" class="text-sm">100%</span>
+            <img src="./assets/logo-and-character/energi.png" class="w-5 h-5">
+            <div class="relative w-48 h-10 flex items-center">
+                <img src="./assets/logo-and-character/taskbar.png" class="absolute top-0 left-0 w-full h-full">
+                <div class="absolute flex items-center gap-2 px-3 w-full">
+                    <div class="w-40 h-3 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="energy-bar" class="h-full bg-yellow-300 transition-all" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <span id="energy-text" class="text-sm">100%</span>
+        
+            <img src="./assets/logo-and-character/hygine.png" class="w-9 h-9">
+            <div class="relative w-48 h-10 flex items-center">
+                <img src="./assets/logo-and-character/taskbar.png" class="absolute top-0 left-0 w-full h-full">
+
+                <div class="absolute flex items-center gap-2 px-3 w-full">
+                    <div class="w-40 h-3 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="hygiene-bar" class="h-full bg-blue-400 transition-all" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <span id="hygiene-text" class=" text-sm">100%</span>
+   
+            <img src="./assets/logo-and-character/happy.webp" class="w-5 h-5">
+            <div class="relative w-48 h-10 flex items-center">
+                <img src="./assets/logo-and-character/taskbar.png" class="absolute top-0 left-0 w-full h-full">
+
+                <div class="absolute flex items-center gap-2 px-3 w-full">
+                    <div class="w-40 h-3 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="happiness-bar" class="h-full bg-pink-400 transition-all" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <span id="happiness-text" class=" text-sm">100%</span>
+        
+        </div>
+        
+    </div>
 
 
-    <div class="flex flex-row items-center mt-2 space-x-8">
-        <div class="relative w-[850px] h-[600px]">
-            <img src="gameptiasset/assets/map.jpg" class="w-full h-full rounded-lg shadow-lg">
-            <div id="player" class="absolute text-white font-bold transition-all text-center" style="  top: 20px; z-index: 50;">
-              <p id="player-name" class=" text-blue-900 px-1 py-1 fade-in rounded-lg  " style="left: 50%; transform: translateX(-50%); position: absolute; bottom: 100%;"></p>
+    <div class="map flex flex-row items-center  space-x-8">
+        <div class="relative w-[850px] h-[680px]">
+
+            <div class="absolute top-2 right-2 z-20 flex items-center space-x-1">
+                <img src="assets/logo-and-character/money.png" class="w-6">
+                <span id="money" class="text-white font-bold text-sm">0</span>
+            </div>
+
+            <img src="./assets/background/map.jpg" class="w-full h-700 rounded-lg shadow-lg">
+            <div id="player" class="absolute text-white font-bold transition-all text-center" style=" left: 435px; top: 260px; z-index: 10;">
+              <p id="player-name" class=" text-blue-900 px-1 py-1 fade-in rounded-lg  " style="left: 50%; transform: translateX(-50%); position: absolute; bottom: 100%; font-family: 'Press Start 2P'; font-size: 10px;"></p>
               <img id="player-img" src="" width="40" class="rounded-full">
           </div>
-          
-          
-          <img src="gameptiasset/assets/bromo.png" class="absolute w-16 h-16" style="left: 760px; top: 470px; z-index: 5;">
-          <img src="gameptiasset/assets/kuta.png" class="absolute w-16 h-16" style="left: 270px; top: 445px; z-index: 5;">
-          <img src="gameptiasset/assets/borobudur.png" class="absolute w-16 h-16" style="left: 680px; top: 240px; z-index: 5;">
-          <img src="gameptiasset/assets/laketoba.png" class="absolute w-16 h-16" style="left: 380px; top: 60px; z-index: 5;">
-          
+          <img id="trap-net" src="./assets/logo-and-character/trap.png" class="absolute w-16 h-16 transition-all duration-500 ease-in-out" style="left: 150px; top: 200px; z-index: 6;">
+          <img src="./assets/logo-and-character/hole.png" class="absolute w-16 h-16" style="left: 425px; top: 300px; z-index: 5;">
+          <img src="./assets/logo-and-character/home.png" class="absolute w-16 h-16" style="left: 60px; top: 90px; z-index: 5;">
+          <img src="./assets/logo-and-character/bromo.png" class="absolute w-16 h-16" style="left: 760px; top: 470px; z-index: 5;">
+          <img src="./assets/logo-and-character/kuta.png" class="absolute w-16 h-16" style="left: 270px; top: 445px; z-index: 5;">
+          <img src="./assets/logo-and-character/borobudur.png" class="absolute w-16 h-16" style="left: 680px; top: 240px; z-index: 5;">
+          <img src="./assets/logo-and-character/lake_toba.png" class="absolute w-16 h-16" style="left: 380px; top: 60px; z-index: 5;">
+          <div class="mt-4 flex items-center space-x-3 w-64">
+            <label for="volumeSlider" class="text-sm font-medium text-gray-700">Volume</label>
+            <input
+              type="range"
+              id="volumeSlider"
+              min="0"
+              max="1"
+              step="0.01"
+              value="1"
+              class="w-full accent-blue-500"
+              onchange="updateVolume()"
+            />
+          </div>
         </div>
 
-        <div id="location" class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg">
-            <div id="location-text" class="text-lg font-bold mb-4">Welcome to Archipelago</div>
-            <button id="action1" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
-            <button id="action2" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
-            <button id="action3" class="w-full bg-blue-500 text-white p-2 rounded-lg mb-2 hover:bg-blue-600"></button>
-            <button id="action4" class="w-full bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600"></button>
-            <div class="gift bg-yellow-300 p-2 rounded-lg mt-2 text-center"></div>
-            <div class="mt-6 flex flex-col items-center">
+        <div id="location" class="relative w-[250px] h-[600px] bg-white p-4 rounded-lg shadow-lg  ">
+            <div id="location-text" class="justify-center text-center ml-4 text-m font-semibold mb-4">Welcome to Archipelago</div>
+            <div class="flex items-center">
+              <img src="./assets/logo-and-character/time.png" alt="day" class="w-8 h-8">
+              <span id="game-time" class=" ml-4 text-sm"></span>
+            </div>
+            <button id="action1" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action2" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action3" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
+            <button id="action4" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg hover:bg-yellow-600"></button>
+            <audio id="click-sound" src="./assets/bg-music/click.mp4" preload="auto"></audio>
+            <div class="gift bg-yellow-300 p-2 rounded-lg mt-4 text-center mb-10"></div>
+
+            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
                 <button onclick="move('up')">
-                    <img src="gameptiasset/assets/top.png" alt="up" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
+                    <img src="./assets/logo-and-character/top.png" alt="up" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
                 </button>
                 <div class="flex space-x-4 mt-2">
                     <button onclick="move('left')">
-                        <img src="gameptiasset/assets/left.png" alt="left" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
+                        <img src="./assets/logo-and-character/left.png" alt="left" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200 ">
                     </button>
                     <button onclick="move('right')">
-                        <img src="gameptiasset/assets/right.png" alt="right" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200 ml-5">
+                        <img src="./assets/logo-and-character/right.png" alt="right" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200 ml-5">
                     </button>
                 </div>
-                <button onclick="move('down')">
-                    <img src="gameptiasset/assets/down.png" alt="down" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
-                </button>
+                    <button onclick="move('down')" class="mt-2">
+                        <img src="./assets/logo-and-character/down.png" alt="down" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
+
+                    </button>
             </div>
-        </div>
     </div>
     
+   <script src="./game.js"></script>
 
-    <script>
-   document.addEventListener("DOMContentLoaded", function () {
-    let selectedCharacterImage =
-        localStorage.getItem("selectedCharacterImage") ||
-        "gameptiasset/assets/wayang1.png";
-    let playerImg = document.getElementById("player-img");
-    let playerName = localStorage.getItem("playerName") || "Player"; 
-
-    if (playerImg) {
-        playerImg.src = selectedCharacterImage;
-    }
-
-    document.getElementById("player-name").textContent = playerName;
-});
-
-      
-      function updateDateTime() {
-        let gameTime = new Date();
-             
-            const options = { 
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', 
-                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true 
-            };
-            while(options==true){
-              gameTime.setSeconds(gameTime.getSeconds() + 60);
-            }
-
-            document.getElementById("game-time").textContent = gameTime.toLocaleDateString("en-US", options);
-        }
-
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
-
-      let position = { x: 60, y: 90 };
-      let isFlipped = false;
-      const step = 30; 
-
-      function move(direction) {
-            const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
-            let player = document.getElementById("player");
-            let playerImg = document.getElementById("player-img");
-            let prevX = position.x;
-            let prevY = position.y;
-            if (!player) return;
-
-            switch (direction) {
-              case 'up': 
-                  if (position.y - step >= mapBounds.top) position.y -= step; 
-                  break;
-              case 'down': 
-                  if (position.y + step <= mapBounds.bottom) position.y += step; 
-                  break;
-              case 'left': 
-                  if (position.x - step >= mapBounds.left) position.x -= step;
-                  playerImg.style.transform = "scaleX(-1)"; 
-                  break;
-              case 'right': 
-                  if (position.x + step <= mapBounds.right) position.x += step;
-                  playerImg.style.transform = "scaleX(1)"; 
-                  break;
-            }
-            if (position.x === prevX && position.y === prevY) {
-                player.style.animation = "shake 0.2s";
-                setTimeout(() => player.style.animation = "", 200);
-            }
-
-
-            player.style.left = position.x + "px";
-            player.style.top = position.y + "px";
-            const style = document.createElement('style');
-            style.innerHTML = `
-              @keyframes shake {
-                0% { transform: translateX(0); }
-                25% { transform: translateX(-3px); }
-                50% { transform: translateX(3px); }
-                75% { transform: translateX(-3px); }
-                100% { transform: translateX(0); }
-              }
-                `;
-            document.head.appendChild(style);
-            updateLocationButtons();
-        }
-
-        function updateLocationButtons() {
-            let locationText = document.getElementById("location-text");
-            let actions = ["action1", "action2", "action3", "action4"].map(id => document.getElementById(id));
-
-            if (Math.abs(position.x - 60) < 50 && Math.abs(position.y - 90) < 50) {
-                locationText.innerHTML = "You're at Tangerang";
-                actions[0].innerHTML = "Get Some Meal";
-                actions[1].innerHTML = "Take a Bath";
-                actions[2].innerHTML = "Sleep";
-                actions[3].innerHTML = "🛈 Do Chores";
-                document.getElementsByClassName("gift");
-            } else if (Math.abs(position.x - 280) < 60 && Math.abs(position.y - 440) < 60) {
-                locationText.innerHTML = "You're at Kuta Beach";
-                actions[0].innerHTML = "Sand Play";
-                actions[1].innerHTML = "🛈 Buy Drink";
-                actions[2].innerHTML = "🛈 Buy Snack";
-                actions[3].innerHTML = "🛈 Pick-up Trash";
-                document.getElementsByClassName("gift");
-            } else if (Math.abs(position.x - 690) < 60 && Math.abs(position.y - 210) < 60) {
-                locationText.innerHTML = "You're at Borobudur Temple";
-                actions[0].innerHTML = "Take a Picture";
-                actions[1].innerHTML = "🛈 Buy Local Food";
-                actions[2].innerHTML = "🛈 Buy Souvenir";
-                actions[3].innerHTML = "🛈 Rent Local Costum";
-                document.getElementsByClassName("gift");
-            } else if (Math.abs(position.x - 770) < 60 && Math.abs(position.y - 460) < 60) {
-                locationText.innerHTML = "You're at Bromo Mountain";
-                actions[0].innerHTML = "Make a Cinematic Video";
-                actions[1].innerHTML = "🛈 Buy Drink";
-                actions[2].innerHTML = "🛈 Plant a Flag";
-                actions[3].innerHTML = "Pray to God";
-                document.getElementsByClassName("gift");
-            } else if (Math.abs(position.x - 390) < 60 && Math.abs(position.y - 70) < 60) {
-                locationText.innerHTML = "You're at Toba Lake";
-                actions[0].innerHTML = "Take a Shower";
-                actions[1].innerHTML = "Catch a Fish";
-                actions[2].innerHTML = "Take a Picture";
-                actions[3].innerHTML = "Washing Chlotes";
-                document.getElementsByClassName("gift");
-            } else {
-                locationText.innerHTML = "You're Lost!";
-                actions.forEach(action => action.innerHTML = "");
-            }
-        }
-
-        document.addEventListener("keydown", function(event) {
-            const keyMap = { "ArrowUp": 'up', "ArrowDown": 'down', "ArrowLeft": 'left', "ArrowRight": 'right' };
-            if (keyMap[event.key]) move(keyMap[event.key]);
-        });
-    </script>
   </body>
 </html>
