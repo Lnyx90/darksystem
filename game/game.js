@@ -19,6 +19,54 @@ document.addEventListener("DOMContentLoaded", function () {
   updateBars();
 });
 
+//Click Backsound
+function setClickSoundForLocation(location) {
+  const sound = document.getElementById("click-sound");
+  let soundSrc = "";
+
+  // ini nanti gw edit mau mandi dulu
+  switch (location) {
+    case "./assets/logo-and-character/tangerang.png":
+      soundSrc = "./assets/bg-music/click-tangerang.mp3";
+    case "./assets/logo-and-character/home.png":
+      soundSrc = "./assets/bg-music/click-desa.mp3";
+      break;
+    case "./assets/logo-and-character/bromo.png":
+      soundSrc = "./assets/bg-music/click-kota.mp3";
+      break;
+    case "./assets/logo-and-character/kuta.png":
+      soundSrc = "./assets/bg-music/click-pantai.mp3";
+      break;
+    case "./assets/logo-and-character/borobudur.png":
+      soundSrc = "./assets/bg-music/click-borobudur.mp3";
+      break;
+    case "./assets/logo-and-character/lake_toba.png":
+      soundSrc = "./assets/bg-music/click-laut.mp3";
+    default:
+      soundSrc = "./assets/bg-music/click-default.mp3";
+  }
+
+  sound.src = soundSrc;
+  sound.load();
+}
+
+function playClickSound() {
+  const sound = document.getElementById("click-sound");
+  sound.currentTime = 0; 
+  sound.play();
+}
+document.querySelectorAll("button[id^='action']").forEach(btn => {
+  btn.addEventListener("click", playClickSound);
+});
+window.addEventListener("load", () => {
+  const sound = document.getElementById("click-sound");
+  sound.play().then(() => {
+    sound.pause();
+    sound.currentTime = 0;
+  }).catch(() => {
+  });
+});
+
 //Theme
 function updateTheme() {
   let currentHour = new Date().getHours();
@@ -55,6 +103,7 @@ function updateTheme() {
   }
 }
 
+
 setInterval(updateTheme, 1000);
 updateTheme();
 
@@ -72,6 +121,7 @@ setTimeout(() => {
 }, 500);
 
 function closePopup() {
+  playClickSound();
   document.getElementById("welcome-popup").style.display = "none";
   setTimeout(() => {
     player.style.opacity = "1";
@@ -82,7 +132,7 @@ function closePopup() {
 //Time and Date
 const realStartTime = performance.now()
   const gameStartTime = new Date()
-  const timeSpeedMultiplier = 10
+  const timeSpeedMultiplier = 60
 
   function updateGameClock() {
     const now = performance.now()
@@ -393,7 +443,7 @@ function updateButtonsAndThemes() {
     body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
       "url('./assets/background/bromo-night.jpg')" : "url('./assets/background/bromo.jpg')";
   }
-  else if (Math.abs(position.x - 385) < 60 && Math.abs(position.y - 35) < 60) {
+  else if (Math.abs(position.x - 390) < 60 && Math.abs(position.y - 35) < 60) {
     locationText.innerHTML = "You're at Toba Lake";
     actions[0].innerHTML = "Take a Shower";
     actions[0].onclick = () => performAction("takeShower");

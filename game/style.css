@@ -55,3 +55,43 @@
   #player {
     transition: left 0.3s ease-out, top 0.3s ease-out;
     }
+
+    #location{
+        top: -40px;
+    }
+
+    .map{
+        margin-top: -20px;
+    }
+
+  @keyframes shake {
+    0% { transform: translate(0px, 0px); }
+    25% { transform: translate(5px, 0px); }
+    50% { transform: translate(-5px, 0px); }
+    75% { transform: translate(5px, 0px); }
+    100% { transform: translate(0px, 0px); }
+  }
+
+  .damage-effect {
+    animation: shake 0.3s ease;
+    background-color: rgba(255, 0, 0, 0.4);
+  }
+
+  #location{
+    top: -40px;
+}
+
+.map{
+    margin-top: -20px;
+}
+
+.money{
+  width: 5px;
+  height: 3px;
+}
+
+  .damage-effect {
+    animation: shake 0.3s ease;
+    background-color: rgba(255, 0, 0, 0.4);
+  }
+
