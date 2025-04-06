@@ -103,6 +103,7 @@ function updateTheme() {
   }
 }
 
+
 setInterval(updateTheme, 1000);
 updateTheme();
 
