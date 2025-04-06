@@ -47,6 +47,7 @@
         >
           ❯
         </button>
+        <audio id="click-sound" src="./assets/bg-music/click.mp4" preload="auto"></audio>
       </div>
       <input
         type="text"
@@ -60,6 +61,7 @@
       >
         Select Character
       </button>
+      <audio id="click-sound" src="./assets/bg-music/click.mp4" preload="auto"></audio>
     </div>
 
     <div
@@ -110,17 +112,23 @@
         }, 300);
       }
 
+      function playClickSound() {
+        const sound = document.getElementById("click-sound");
+        sound.currentTime = 0; 
+        sound.play();
+      }
+
       function prevCharacter() {
-        currentIndex =
-          (currentIndex - 1 + characters.length) % characters.length;
+        playClickSound(); 
+        currentIndex = (currentIndex - 1 + characters.length) % characters.length;
         updateCharacter();
       }
 
       function nextCharacter() {
+        playClickSound(); 
         currentIndex = (currentIndex + 1) % characters.length;
         updateCharacter();
       }
-
       function showNotification(message) {
         let notification = document.getElementById("notification");
         notification.innerHTML = `<div class="flex items-center"><img src="./assets/logo-and-character/alert.png" class="w-8 h-8 mr-2"> <span>${message}</span></div>`;
@@ -133,6 +141,7 @@
       }
 
       function selectCharacter() {
+        playClickSound();
         let playerName = document.getElementById("playerName").value.trim();
         if (playerName === "") {
           showNotification(" Please enter your name!");
