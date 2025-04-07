@@ -252,6 +252,7 @@ function move(direction) {
       statusValues.energy = Math.max(statusValues.energy - 1, 0);
       updateBars();
     }
+    checkTrapCollision();
   }
 }
 
@@ -663,7 +664,7 @@ function updateButtonsAndThemes() {
 const trap = document.getElementById("trap-net");
 function moveTrapRandomly() {
   const x = Math.floor(Math.random() * (850 - 64));
-  const y = Math.floor(Math.random() * (630 - 64));
+  const y = Math.floor(Math.random() * (600 - 64));
   trap.style.left = `${x}px`;
   trap.style.top = `${y}px`;
 }
