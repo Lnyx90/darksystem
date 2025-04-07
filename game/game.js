@@ -45,7 +45,6 @@ function checkPlayerLocation(px, py) {
 
 }
 
-
 //Click Backsound
 function setClickSoundForLocation() {
   const sound = document.getElementById("location-sound");
@@ -134,50 +133,56 @@ function closePopup() {
 
 
 //Time and Date
-const realStartTime = performance.now()
-  const gameStartTime = new Date()
-  const timeSpeedMultiplier = 60
+const realStartTime = performance.now();
+const gameStartTime = new Date();
+const timeSpeedMultiplier = 10;
+let lastMoveTime = Date.now();
 
-  function updateGameClock() {
-    const now = performance.now()
-    const elapsedReal = now - realStartTime
-    const elapsedGame = elapsedReal * timeSpeedMultiplier
-    const currentGameTime = new Date(gameStartTime.getTime() + elapsedGame)
+const now = performance.now();
+const elapsedReal = now - realStartTime;
+const elapsedGame = elapsedReal * timeSpeedMultiplier;
+const currentGameTime = new Date(gameStartTime.getTime() + elapsedGame);
 
-    const optionsTime = {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true
-    }
+function updateGameClock() {
+  const now = performance.now();
+  const elapsedReal = now - realStartTime;
+  const elapsedGame = elapsedReal * timeSpeedMultiplier;
+  const currentGameTime = new Date(gameStartTime.getTime() + elapsedGame);
 
-    const optionsDate = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    }
+  const optionsTime = {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  };
 
-    const hours = currentGameTime.getHours()
-    const greeting =
-      hours < 12
-        ? "Good Morning!"
-        : hours < 18
-        ? "Good Afternoon!"
-        : "Good Evening!"
+  const optionsDate = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
-    document.getElementById("game-time").innerHTML =
-      currentGameTime.toLocaleTimeString("en-US", optionsTime)
+  const hours = currentGameTime.getHours();
+  const greeting =
+    hours < 12
+      ? "Good Morning!"
+      : hours < 18
+      ? "Good Afternoon!"
+      : "Good Evening!";
 
-    document.getElementById("game-day1").innerHTML =
-      currentGameTime.toLocaleDateString("en-US", optionsDate)
+  document.getElementById("game-time").innerHTML =
+    currentGameTime.toLocaleTimeString("en-US", optionsTime);
 
-    document.getElementById("game-day2").innerHTML = greeting
+  document.getElementById("game-day1").innerHTML =
+    currentGameTime.toLocaleDateString("en-US", optionsDate);
 
-    requestAnimationFrame(updateGameClock);
-  }
+  document.getElementById("game-day2").innerHTML = greeting;
 
   requestAnimationFrame(updateGameClock);
+}
+
+requestAnimationFrame(updateGameClock);
 
 //Movement and Energy
 let stepCount = 0;
@@ -247,6 +252,7 @@ function move(direction) {
       statusValues.energy = Math.max(statusValues.energy - 1, 0);
       updateBars();
     }
+    checkTrapCollision();
   }
 }
 
@@ -469,18 +475,22 @@ function performAction(action) {
       gainExp(5);
       break;
     case "buyDrink":
-      statusValues.health = Math.min(statusValues.health + 3, 100);
-      statusValues.energy = Math.min(statusValues.energy + 3, 100);
-      statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
-      statusValues.money = Math.max(statusValues.money - 10000, 0);
-      gainExp(5);
+      if (statusValues.money >= 10000) {
+        statusValues.health = Math.min(statusValues.health + 3, 100);
+        statusValues.energy = Math.min(statusValues.energy + 3, 100);
+        statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
+        statusValues.money = Math.max(statusValues.money - 10000, 0);
+        gainExp(5);
+      }
       break;
     case "buySnack":
-      statusValues.health = Math.min(statusValues.health + 2, 100);
-      statusValues.energy = Math.min(statusValues.energy + 2, 100);
-      statusValues.happiness = Math.min(statusValues.happiness + 1, 100);
-      statusValues.money = Math.max(statusValues.money - 25000, 0);
-      gainExp(5);
+      if (statusValues.money >= 25000) {
+        statusValues.health = Math.min(statusValues.health + 2, 100);
+        statusValues.energy = Math.min(statusValues.energy + 2, 100);
+        statusValues.happiness = Math.min(statusValues.happiness + 1, 100);
+        statusValues.money = Math.max(statusValues.money - 25000, 0);
+        gainExp(5);
+      }
       break;
     case "pickTrash":
       statusValues.happiness = Math.min(statusValues.happiness + 1, 100);
@@ -495,21 +505,27 @@ function performAction(action) {
       gainExp(15);
       break;
     case "buyFood":
-      statusValues.health = Math.min(statusValues.health + 2, 100);
-      statusValues.happiness = Math.min(statusValues.happiness + 1, 100);
-      statusValues.energy = Math.min(statusValues.energy + 2, 100);
-      statusValues.money = Math.max(statusValues.money - 50000, 0);
-      gainExp(5);
+      if (statusValues.money >= 50000) {
+        statusValues.health = Math.min(statusValues.health + 2, 100);
+        statusValues.happiness = Math.min(statusValues.happiness + 1, 100);
+        statusValues.energy = Math.min(statusValues.energy + 2, 100);
+        statusValues.money = Math.max(statusValues.money - 50000, 0);
+        gainExp(5);
+      }
       break;
     case "buySouvenir":
+      if (statusValues.money >= 30000) {
       statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
       statusValues.money = Math.max(statusValues.money - 30000, 0);
       gainExp(10);
+      }
       break;
     case "rentCostume":
-      statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
-      statusValues.money = Math.max(statusValues.money - 80000, 0);
-      gainExp(15);
+      if (statusValues.money >= 30000) {
+        statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
+        statusValues.money = Math.max(statusValues.money - 80000, 0);
+        gainExp(15);
+      }
       break;
     case "takeShower":
       statusValues.hygiene = Math.min(statusValues.hygiene + 20, 100);
@@ -548,7 +564,7 @@ function performAction(action) {
 function updateButtonsAndThemes() {
   let locationText = document.getElementById("location-text");
   let actions = ["action1", "action2", "action3", "action4"].map(id => document.getElementById(id));
-  let currentHour = new Date().getHours();
+  let currentGameTime = new Date(gameStartTime.getTime() + (performance.now() - realStartTime) * timeSpeedMultiplier).getHours();
   let body = document.body;
 
   if (Math.abs(position.x - 60) < 50 && Math.abs(position.y - 90) < 50) {
@@ -562,8 +578,10 @@ function updateButtonsAndThemes() {
     actions[2].onclick = () => performAction("sleep");
     actions[3].innerHTML = "🛈 Do Chores";
     actions[3].onclick = () => performAction("chores");
-    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ? 
-      "url('./assets/background/default-night.jpg')" : "url('./assets/background/default.jpg')";
+    body.style.backgroundImage =
+      currentGameTime >= 18 && currentGameTime < 6
+        ? "url('./assets/background/default-night.jpg')"
+        : "url('./assets/background/default.jpg')";
   } 
   else if (Math.abs(position.x - 280) < 60 && Math.abs(position.y - 440) < 60) {
     setClickSoundForLocation()
@@ -576,7 +594,10 @@ function updateButtonsAndThemes() {
     actions[2].onclick = () => performAction("buySnack");
     actions[3].innerHTML = "🛈 Pick-up Trash";
     actions[3].onclick = () => performAction("pickTrash");
-    body.style.backgroundImage = "url('./assets/background/kuta.jpg')";
+    body.style.backgroundImage =     
+    currentGameTime >= 18 && currentGameTime < 6
+    ? "url('./assets/background/kuta-night.jpg')"
+    : "url('./assets/background/kuta.jpg')";
   }
   else if (Math.abs(position.x - 690) < 60 && Math.abs(position.y - 210) < 60) {
     setClickSoundForLocation()
@@ -589,8 +610,10 @@ function updateButtonsAndThemes() {
     actions[2].onclick = () => performAction("buySouvenir");
     actions[3].innerHTML = "🛈 Rent Local Costume";
     actions[3].onclick = () => performAction("rentCostume");
-    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
-      "url('./assets/background/borobudur-night.jpg')" : "url('./assets/background/borobudur.jpg')";
+    body.style.backgroundImage = 
+    currentGameTime >= 18 && currentGameTime < 6
+    ? "url('./assets/background/borobudur-night.jpg')"
+    : "url('./assets/background/borobudur.jpg')";
   }
   else if (Math.abs(position.x - 770) < 60 && Math.abs(position.y - 460) < 60) {
     locationText.innerHTML = "You're at Bromo Mountain";
@@ -602,8 +625,10 @@ function updateButtonsAndThemes() {
     actions[2].onclick = () => performAction("plantFlag");
     actions[3].innerHTML = "Pray to God";
     actions[3].onclick = () => performAction("pray");
-    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
-      "url('./assets/background/bromo-night.jpg')" : "url('./assets/background/bromo.jpg')";
+    body.style.backgroundImage =
+      currentGameTime >= 18 && currentGameTime < 6
+        ? "url('./assets/background/bromo-night.jpg')"
+        : "url('./assets/background/bromo.jpg')";
   }
   else if (Math.abs(position.x - 390) < 60 && Math.abs(position.y - 35) < 60) {
     setClickSoundForLocation()
@@ -616,8 +641,10 @@ function updateButtonsAndThemes() {
     actions[2].onclick = () => performAction("takePicture");
     actions[3].innerHTML = "Wash Clothes";
     actions[3].onclick = () => performAction("washClothes");
-    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
-      "url('./assets/background/toba-night.jpg')" : "url('./assets/background/toba.jpg')";
+    body.style.backgroundImage =
+      currentGameTime >= 18 && currentGameTime < 6
+        ? "url('./assets/background/toba-night.jpg')"
+        : "url('./assets/background/toba.jpg')";
   }
   else {
     locationText.innerHTML = "You're Lost!";
@@ -625,8 +652,10 @@ function updateButtonsAndThemes() {
       action.innerHTML = "";
       action.onclick = null;
     });
-    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
-      "url('./assets/background/default-night.jpg')" : "url('./assets/background/default.jpg')";
+    body.style.backgroundImage =
+      currentGameTime >= 18 && currentGameTime < 6
+        ? "url('./assets/background/default-night.jpg')"
+        : "url('./assets/background/default.jpg')";
   }
 }
 
@@ -635,25 +664,55 @@ function updateButtonsAndThemes() {
 const trap = document.getElementById("trap-net");
 function moveTrapRandomly() {
   const x = Math.floor(Math.random() * (850 - 64));
-  const y = Math.floor(Math.random() * (630 - 64));
+  const y = Math.floor(Math.random() * (600 - 64));
   trap.style.left = `${x}px`;
   trap.style.top = `${y}px`;
 }
 setInterval(moveTrapRandomly, 20000);
+
+function checkTrapCollision() {
+  const trapRect = trap.getBoundingClientRect();
+  const playerRect = player.getBoundingClientRect();
+
+  const shrinkTrap = 2;
+
+  const trapHitbox = {
+    left: trapRect.left + shrinkTrap,
+    right: trapRect.right - shrinkTrap,
+    top: trapRect.top + shrinkTrap,
+    bottom: trapRect.bottom - shrinkTrap,
+  };
+
+  const isColliding =
+    trapRect.left < playerRect.right &&
+    trapRect.right > playerRect.left &&
+    trapRect.top < playerRect.bottom &&
+    trapRect.bottom > playerRect.top;
+
+  if (isColliding) {
+    statusValues.health = Math.max(statusValues.health - 2, 0);
+    updateBars();
+    player.style.animation = "shake 0.2s";
+    setTimeout(() => {
+      player.style.animation = "";
+    }, 200);
+  }
+}
 
 const bgMusic = document.getElementById("bgMusic");
 const volumeSlider = document.getElementById("volumeSlider");
 function updateVolume() {
   bgMusic.volume = volumeSlider.value;
 }
-volumeSlider.addEventListener('input', updateVolume);
+volumeSlider.value = 0.1;
+bgMusic.volume = 0.1;
+volumeSlider.addEventListener("input", updateVolume);
 
 // Decay System
 function decay() {
-  statusValues.health = Math.max(statusValues.health - 1, 0);
-  statusValues.energy = Math.max(statusValues.energy - 1, 0);
-  statusValues.hygiene = Math.max(statusValues.hygiene - 1, 0);
-  statusValues.happiness = Math.max(statusValues.happiness - 1, 0);
+  statusValues.health = Math.max(statusValues.health - 5, 0);
+  statusValues.hygiene = Math.max(statusValues.hygiene - 5, 0);
+  statusValues.happiness = Math.max(statusValues.happiness - 5, 0);
   updateBars();
 }
 setInterval(decay, 60000);
@@ -661,6 +720,55 @@ setInterval(decay, 60000);
 // Initial setup
 updateBars();
 updateButtonsAndThemes();
+
+function showPhotoPopup() {
+  const popup = document.getElementById("photo-popup");
+  const flash = document.getElementById("camera-flash");
+  const bg = document.getElementById("popup-bg");
+  const characterImg = document.getElementById("popup-character-img");
+
+  const isNight = new Date().getHours() >= 18 || new Date().getHours() < 6;
+  const currentLocation = localStorage.getItem("currentLocation");
+
+  if (currentLocation === "lake-toba") {
+    bg.src = isNight
+      ? "assets/background/toba-night.jpg"
+      : "assets/background/toba.jpg";
+  } else {
+    bg.src = isNight
+      ? "assets/background/borobudur-night.jpg"
+      : "assets/background/borobudur.jpg";
+  }
+  const selectedCharacterImage = localStorage.getItem("selectedCharacterImage");
+  if (selectedCharacterImage && characterImg) {
+    characterImg.src = selectedCharacterImage;
+    characterImg.classList.remove("hidden");
+  }
+  popup.classList.remove("hidden");
+
+  setTimeout(() => {
+    flash.classList.add("opacity-100");
+  }, 300);
+
+  setTimeout(() => {
+    flash.classList.remove("opacity-100");
+  }, 600);
+
+  setTimeout(() => {
+    popup.classList.add("hidden");
+  }, 2000);
+}
+
+function showShowerPopup() {
+  document.getElementById("shower-popup").classList.remove("hidden");
+  const sound = document.getElementById("shower-sound");
+  sound.currentTime = 0;
+  sound.play();
+
+  setTimeout(() => {
+    document.getElementById("shower-popup").classList.add("hidden");
+  }, 3000);
+}
 
 const ProfileManager = {
   init() {
@@ -690,3 +798,13 @@ document.addEventListener('DOMContentLoaded', () => {
 function showProfile() {
   ProfileManager.showProfile();
 }
+
+//Energy Regeneration
+function energyRegeneration() {
+  const currentTime = Date.now();
+  if (currentTime - lastMoveTime >= 30000) {
+    statusValues.energy = Math.min(statusValues.energy + 1, 50);
+    updateBars();
+  }
+}
+setInterval(energyRegeneration, 1000); 
