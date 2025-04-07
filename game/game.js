@@ -331,16 +331,16 @@ document.querySelectorAll('.achievement-item').forEach(item => {
     let taskMessage = '';
     switch (key) {
       case 'photography':
-        taskMessage = "Take 3 pictures around the map.";
+        taskMessage = "Take 3 pictures around the map.";//tlg kasi tampilan
         break;
       case 'map':
-        taskMessage = "Explore at least 5 unique locations.";
+        taskMessage = "Explore at least 5 unique locations.";//tlg kasi tampilan
         break;
       case 'artifact':
-        taskMessage = "Collect 3.000.000 IDR.";
+        taskMessage = "Collect 3.000.000 IDR.";//tlg kasi tampilan
         break;
       case 'Composting':
-        taskMessage = "Collect 10 trash at Beach.";
+        taskMessage = "Collect 10 trash at Beach.";//tlg kasi tampilan
       break;
     }
 
