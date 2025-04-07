@@ -54,6 +54,7 @@
   
   #player {
     transition: left 0.3s ease-out, top 0.3s ease-out;
+
     }
 
     #location{
@@ -94,4 +95,33 @@
   .damage-effect {
     animation: shake 0.3s ease;
     background-color: rgba(255, 0, 0, 0.4);
+  }
+
+  @keyframes sinkIntoHole {
+    0% {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      z-index: 10;
+    }
+    50% {
+      transform: scale(0.6) translateY(20px);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(0.1) translateY(60px);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes holeFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+    .sink {
+    animation: sinkIntoHole 1s ease forwards;
+  }
+  
+  .hole-fade-in {
+    animation: holeFadeIn 0.5s ease forwards;
   }
