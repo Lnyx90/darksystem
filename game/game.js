@@ -19,12 +19,65 @@ document.addEventListener("DOMContentLoaded", function () {
   updateBars();
 });
 
+//Time and Date
+const realStartTime = performance.now();
+const gameStartTime = new Date();
+const timeSpeedMultiplier = 10;
+let lastMoveTime = Date.now();
+
+const now = performance.now();
+const elapsedReal = now - realStartTime;
+const elapsedGame = elapsedReal * timeSpeedMultiplier;
+const currentGameTime = new Date(gameStartTime.getTime() + elapsedGame);
+
+function updateGameClock() {
+  const now = performance.now();
+  const elapsedReal = now - realStartTime;
+  const elapsedGame = elapsedReal * timeSpeedMultiplier;
+  const currentGameTime = new Date(gameStartTime.getTime() + elapsedGame);
+
+  const optionsTime = {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  };
+
+  const optionsDate = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
+  const hours = currentGameTime.getHours();
+  const greeting =
+    hours < 12
+      ? "Good Morning!"
+      : hours < 18
+      ? "Good Afternoon!"
+      : "Good Evening!";
+
+  document.getElementById("game-time").innerHTML =
+    currentGameTime.toLocaleTimeString("en-US", optionsTime);
+
+  document.getElementById("game-day1").innerHTML =
+    currentGameTime.toLocaleDateString("en-US", optionsDate);
+
+  document.getElementById("game-day2").innerHTML = greeting;
+
+  requestAnimationFrame(updateGameClock);
+}
+
+requestAnimationFrame(updateGameClock);
+
 //Theme
 function updateTheme() {
-  let currentHour = new Date().getHours();
   let body = document.body;
   let statusBar = document.querySelector(".status-bar");
-  let taskTexts = document.querySelectorAll("#health-text, #energy-text, #hygiene-text, #happiness-text");
+  let taskTexts = document.querySelectorAll(
+    "#health-text, #energy-text, #hygiene-text, #happiness-text"
+  );
 
   let gameTitle = document.querySelector(".status-bar strong");
   let gameTime = document.getElementById("game-time");
@@ -32,26 +85,26 @@ function updateTheme() {
   let gameDay2 = document.getElementById("game-day2");
   let volumeLabel = document.querySelector("label[for='volumeSlider']");
 
-  if (currentHour >= 18 || currentHour < 6) {
-      gameTitle.style.color = "white";
-      gameTime.style.color = "black";
-      gameDay1.style.color = "white";
-      gameDay2.style.color = "white";
-      taskTexts.forEach(text => {
-          text.style.color = "white";
-      });
+  if (currentGameTime >= 18 || currentGameTime < 6) {
+    gameTitle.style.color = "white";
+    gameTime.style.color = "black";
+    gameDay1.style.color = "white";
+    gameDay2.style.color = "white";
+    taskTexts.forEach((text) => {
+      text.style.color = "white";
+    });
 
-      if (volumeLabel) volumeLabel.style.color = "white";
+    if (volumeLabel) volumeLabel.style.color = "white";
   } else {
-      gameTitle.style.color = "";
-      gameTime.style.color = "";
-      gameDay1.style.color = "";
-      gameDay2.style.color = "";
-      taskTexts.forEach(text => {
-          text.style.color = "black";
-      });
+    gameTitle.style.color = "";
+    gameTime.style.color = "";
+    gameDay1.style.color = "";
+    gameDay2.style.color = "";
+    taskTexts.forEach((text) => {
+      text.style.color = "black";
+    });
 
-      if (volumeLabel) volumeLabel.style.color = "";
+    if (volumeLabel) volumeLabel.style.color = "";
   }
 }
 
@@ -62,7 +115,9 @@ updateTheme();
 let position = { x: 435, y: 260 };
 let step = 15;
 
-let hole = document.querySelector("img[src='./assets/logo-and-character/hole.png']");
+let hole = document.querySelector(
+  "img[src='./assets/logo-and-character/hole.png']"
+);
 let player = document.getElementById("player");
 player.style.opacity = "0";
 player.style.transform = "scale(0.2) translateY(20px)";
@@ -79,52 +134,9 @@ function closePopup() {
   }, 500);
 }
 
-//Time and Date
-function updateTime() {
-  let realStartTime = new Date();
-  let offsetSeconds = 0;
-  let gameTime = new Date(realStartTime.getTime() + offsetSeconds * 60);
-
-  const optionsTime = {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true,
-  };
-
-  document.getElementById("game-time").innerHTML = `
-      ${gameTime.toLocaleTimeString("en-US", optionsTime)}
-    `;
-
-  offsetSeconds += 360;
-}
-
-function updateDate() {
-  let gameDate = new Date();
-  const optionsDate = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-
-  let hours = gameDate.getHours();
-  let greeting = hours < 12 ? "Good Morning!" : hours < 18 ? "Good Afternoon!" : "Good Evening!";
-
-  document.getElementById("game-day1").innerHTML = `
-    ${gameDate.toLocaleDateString("en-US", optionsDate)}
-  `;
-  document.getElementById("game-day2").innerHTML = `
-    ${greeting}
-  `;
-}
-
-setInterval(updateTime, 1000);
-setInterval(updateDate, 1000);
-updateTime();
-updateDate();
-
 //Movement and Energy
+let stepCount = 0;
+
 function move(direction) {
   const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
   let player = document.getElementById("player");
@@ -165,7 +177,7 @@ function move(direction) {
 
   player.style.left = position.x + "px";
   player.style.top = position.y + "px";
-  
+
   const style = document.createElement("style");
   style.innerHTML = `
       @keyframes shake {
@@ -176,16 +188,20 @@ function move(direction) {
         100% { transform: translateX(0); }
       }`;
   document.head.appendChild(style);
-  
+
   setTimeout(() => {
     player.style.transform = "scale(1)";
   }, 200);
-  
+
   updateButtonsAndThemes();
 
   if (position.x !== prevX || position.y !== prevY) {
-    statusValues.energy = Math.max(statusValues.energy - 1, 0);
-    updateBars();
+    lastMoveTime = Date.now();
+    stepCount++;
+    if (stepCount % 2 === 0) {
+      statusValues.energy = Math.max(statusValues.energy - 1, 0);
+      updateBars();
+    }
   }
 }
 
@@ -213,30 +229,36 @@ let statusValues = {
   energy: 50,
   hygiene: 50,
   happiness: 50,
-  money: 100000
+  money: 100000,
 };
 
 function updateBars() {
   document.getElementById("health-bar").style.width = statusValues.health + "%";
   document.getElementById("energy-bar").style.width = statusValues.energy + "%";
-  document.getElementById("hygiene-bar").style.width = statusValues.hygiene + "%";
-  document.getElementById("happiness-bar").style.width = statusValues.happiness + "%";
+  document.getElementById("hygiene-bar").style.width =
+    statusValues.hygiene + "%";
+  document.getElementById("happiness-bar").style.width =
+    statusValues.happiness + "%";
 
-  document.getElementById("health-text").textContent = statusValues.health + "%";
-  document.getElementById("energy-text").textContent = statusValues.energy + "%";
-  document.getElementById("hygiene-text").textContent = statusValues.hygiene + "%";
-  document.getElementById("happiness-text").textContent = statusValues.happiness + "%";
-  
+  document.getElementById("health-text").textContent =
+    statusValues.health + "%";
+  document.getElementById("energy-text").textContent =
+    statusValues.energy + "%";
+  document.getElementById("hygiene-text").textContent =
+    statusValues.hygiene + "%";
+  document.getElementById("happiness-text").textContent =
+    statusValues.happiness + "%";
+
   updateMoneyDisplay();
 }
 
 function updateMoneyDisplay() {
   const moneySpan = document.getElementById("money");
   if (moneySpan) {
-    moneySpan.textContent = new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0
+    moneySpan.textContent = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
     }).format(statusValues.money);
   }
 }
@@ -292,18 +314,24 @@ function performAction(action) {
       showPhotoPopup();
       break;
     case "buyFood":
-      statusValues.health = Math.min(statusValues.health + 2, 100);
-      statusValues.happiness = Math.min(statusValues.happiness + 1, 100);
-      statusValues.energy = Math.min(statusValues.energy + 2, 100);
-      statusValues.money = Math.max(statusValues.money - 50000, 0);
+      if (statusValues.money >= 50000) {
+        statusValues.money = Math.max(statusValues.money - 50000, 0);
+        statusValues.health = Math.min(statusValues.health + 2, 100);
+        statusValues.happiness = Math.min(statusValues.happiness + 1, 100);
+        statusValues.energy = Math.min(statusValues.energy + 2, 100);
+      }
       break;
     case "buySouvenir":
-      statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
-      statusValues.money = Math.max(statusValues.money - 30000, 0);
+      if (statusValues.money >= 30000) {
+        statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
+        statusValues.money = Math.max(statusValues.money - 30000, 0);
+      }
       break;
     case "rentCostume":
-      statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
-      statusValues.money = Math.max(statusValues.money - 80000, 0);
+      if (statusValues.money >= 80000) {
+        statusValues.happiness = Math.min(statusValues.happiness + 3, 100);
+        statusValues.money = Math.max(statusValues.money - 80000, 0);
+      }
       break;
     case "takeShower":
       statusValues.hygiene = Math.min(statusValues.hygiene + 20, 100);
@@ -333,8 +361,9 @@ function performAction(action) {
 
 function updateButtonsAndThemes() {
   let locationText = document.getElementById("location-text");
-  let actions = ["action1", "action2", "action3", "action4"].map(id => document.getElementById(id));
-  let currentHour = new Date().getHours();
+  let actions = ["action1", "action2", "action3", "action4"].map((id) =>
+    document.getElementById(id)
+  );
   let body = document.body;
 
   if (Math.abs(position.x - 60) < 50 && Math.abs(position.y - 90) < 50) {
@@ -352,6 +381,17 @@ function updateButtonsAndThemes() {
       "url('./assets/background/default-night.jpg')" : "url('./assets/background/default.jpg')";
   } 
   else if (Math.abs(position.x - 280) < 60 && Math.abs(position.y - 440) < 60) {
+
+
+    body.style.backgroundImage =
+      currentGameTime >= 18 && currentGameTime < 6
+        ? "url('./assets/background/default-night.jpg')"
+        : "url('./assets/background/default.jpg')";
+  } else if (
+    Math.abs(position.x - 280) < 60 &&
+    Math.abs(position.y - 440) < 60
+  ) {
+
     locationText.innerHTML = "You're at Kuta Beach";
     localStorage.setItem("currentLocation", "kuta");
     actions[0].innerHTML = "Sand Play";
@@ -362,9 +402,14 @@ function updateButtonsAndThemes() {
     actions[2].onclick = () => performAction("buySnack");
     actions[3].innerHTML = "🛈 Pick-up Trash";
     actions[3].onclick = () => performAction("pickTrash");
-    body.style.backgroundImage = "url('./assets/background/kuta.jpg')";
-  }
-  else if (Math.abs(position.x - 690) < 60 && Math.abs(position.y - 210) < 60) {
+
+    currentGameTime >= 18 && currentGameTime < 6
+      ? "url('./assets/background/kuta-night.jpg')"
+      : "url('./assets/background/kuta.jpg')";
+  } else if (
+    Math.abs(position.x - 690) < 60 &&
+    Math.abs(position.y - 210) < 60
+  ) {
     locationText.innerHTML = "You're at Borobudur Temple";
     localStorage.setItem("currentLocation", "borobudur");
     actions[0].innerHTML = "Take a Picture";
@@ -375,10 +420,15 @@ function updateButtonsAndThemes() {
     actions[2].onclick = () => performAction("buySouvenir");
     actions[3].innerHTML = "🛈 Rent Local Costume";
     actions[3].onclick = () => performAction("rentCostume");
-    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
-      "url('./assets/background/borobudur-night.jpg')" : "url('./assets/background/borobudur.jpg')";
-  }
-  else if (Math.abs(position.x - 770) < 60 && Math.abs(position.y - 460) < 60) {
+
+    body.style.backgroundImage =
+      currentGameTime >= 18 && currentGameTime < 6
+        ? "url('./assets/background/borobudur-night.jpg')"
+        : "url('./assets/background/borobudur.jpg')";
+  } else if (
+    Math.abs(position.x - 770) < 60 &&
+    Math.abs(position.y - 460) < 60
+  ) {
     locationText.innerHTML = "You're at Bromo Mountain";
     localStorage.setItem("currentLocation", "bromo");
     actions[0].innerHTML = "Make a Cinematic Video";
@@ -389,10 +439,15 @@ function updateButtonsAndThemes() {
     actions[2].onclick = () => performAction("plantFlag");
     actions[3].innerHTML = "Pray to God";
     actions[3].onclick = () => performAction("pray");
-    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
-      "url('./assets/background/bromo-night.jpg')" : "url('./assets/background/bromo.jpg')";
-  }
-  else if (Math.abs(position.x - 385) < 60 && Math.abs(position.y - 25) < 15) {
+
+    body.style.backgroundImage =
+      currentGameTime >= 18 && currentGameTime < 6
+        ? "url('./assets/background/bromo-night.jpg')"
+        : "url('./assets/background/bromo.jpg')";
+  } else if (
+    Math.abs(position.x - 385) < 60 &&
+    Math.abs(position.y - 35) < 60
+  ) {
     locationText.innerHTML = "You're at Toba Lake";
     localStorage.setItem("currentLocation", "lake-toba");
     actions[0].innerHTML = "Take a Shower";
@@ -403,18 +458,25 @@ function updateButtonsAndThemes() {
     actions[2].onclick = () => performAction("takePicture");
     actions[3].innerHTML = "Wash Clothes";
     actions[3].onclick = () => performAction("washClothes");
-    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
-      "url('./assets/background/toba-night.jpg')" : "url('./assets/background/toba.jpg')";
-  }
-  else {
+
+    body.style.backgroundImage =
+      currentGameTime >= 18 && currentGameTime < 6
+        ? "url('./assets/background/toba-night.jpg')"
+        : "url('./assets/background/toba.jpg')";
+  } else {
     locationText.innerHTML = "You're Lost!";
+
     localStorage.setItem("currentLocation", "unknown");
     actions.forEach(action => {
+
+    actions.forEach((action) => {
       action.innerHTML = "";
       action.onclick = null;
     });
-    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
-      "url('./assets/background/default-night.jpg')" : "url('./assets/background/default.jpg')";
+    body.style.backgroundImage =
+      currentGameTime >= 18 && currentGameTime < 6
+        ? "url('./assets/background/default-night.jpg')"
+        : "url('./assets/background/default.jpg')";
   }
 }
 
@@ -422,7 +484,7 @@ function updateButtonsAndThemes() {
 const trap = document.getElementById("trap-net");
 function moveTrapRandomly() {
   const x = Math.floor(Math.random() * (850 - 64));
-  const y = Math.floor(Math.random() * (680 - 64));
+  const y = Math.floor(Math.random() * (630 - 64));
   trap.style.left = `${x}px`;
   trap.style.top = `${y}px`;
 }
@@ -433,14 +495,15 @@ const volumeSlider = document.getElementById("volumeSlider");
 function updateVolume() {
   bgMusic.volume = volumeSlider.value;
 }
-volumeSlider.addEventListener('input', updateVolume);
+volumeSlider.value = 0.1;
+bgMusic.volume = 0.1;
+volumeSlider.addEventListener("input", updateVolume);
 
 // Decay System
 function decay() {
-  statusValues.health = Math.max(statusValues.health - 1, 0);
-  statusValues.energy = Math.max(statusValues.energy - 1, 0);
-  statusValues.hygiene = Math.max(statusValues.hygiene - 1, 0);
-  statusValues.happiness = Math.max(statusValues.happiness - 1, 0);
+  statusValues.health = Math.max(statusValues.health - 5, 0);
+  statusValues.hygiene = Math.max(statusValues.hygiene - 5, 0);
+  statusValues.happiness = Math.max(statusValues.happiness - 5, 0);
   updateBars();
 }
 setInterval(decay, 60000);
@@ -448,6 +511,7 @@ setInterval(decay, 60000);
 // Initial setup
 updateBars();
 updateButtonsAndThemes();
+
 
 function showPhotoPopup() {
   const popup = document.getElementById("photo-popup");
@@ -506,3 +570,13 @@ function showShowerPopup() {
     document.getElementById("shower-popup").classList.add("hidden");
   }, 3000); 
 }
+
+//Energy Regeneration
+function energyRegeneration() {
+  const currentTime = Date.now();
+  if (currentTime - lastMoveTime >= 30000) {
+    statusValues.energy = Math.min(statusValues.energy + 1, 50);
+    updateBars();
+  }
+}
+setInterval(energyRegeneration, 1000);

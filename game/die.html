@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAME OVER!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <style>
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px red; }
+            50% { text-shadow: 0 0 20px red; }
+            100% { text-shadow: 0 0 10px red; }
+        }
+        .glow-text {
+            animation: glow 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .pulse-button {
+            animation: pulse 1s infinite;
+            transition: background-color 0.2s;
+        }
+        .pulse-button:hover {
+            background-color: #2d7a39;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen text-green-800 text-center transition-opacity" 
+      style="background-image: url('assets/background/rain.gif'); background-size: cover; background-position: center;">
+
+    <div id="gameContainer" class="flex flex-col items-center justify-center text-center mt-[-20px] sm:mt-[-30px]">
+        <div class="flex flex-col">
+            <h2 class="text-4xl text-black font-bold glow-text">GAME OVER!</h2>
+        </div>
+        <button onclick="startGame()" 
+                class="px-4 py-2.5 text-lg font-semibold text-white bg-gray-500 rounded-lg shadow-md 
+                       transition mt-6 sm:mt-8 mt-4 pulse-button">
+            Exit
+        </button>
+    </div>
+
+    <script>
+        function startGame() {
+            const gameContainer = document.getElementById('gameContainer');
+            gameContainer.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href ="homepage.html";
+            }, 1000);
+        }
+    </script> 
+</body>
+</html>
