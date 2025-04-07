@@ -46,6 +46,12 @@ function checkPlayerLocation(px, py) {
 }
 
 //Click Backsound
+function setDieSound() {
+  const sound = document.getElementById("hole-death-sound");
+  sound.currentTime = 0; 
+  sound.play();
+}
+
 function setClickSoundForLocation() {
   const sound = document.getElementById("location-sound");
   sound.currentTime = 0; 
@@ -256,6 +262,7 @@ function move(direction) {
   }
 }
 
+
 function checkIfDead() {
   if (
     statusValues.health <= 0 ||
@@ -273,6 +280,8 @@ function checkIfDead() {
     holeDeath.style.top = `${playerTop + 25}px`;
     holeDeath.classList.remove("hidden");
     holeDeath.classList.add("hole-fade-in");
+
+    setDieSound(); 
 
     setTimeout(() => {
       player.classList.add("sink");
@@ -455,6 +464,7 @@ function performAction(action) {
       statusValues.hygiene = Math.min(statusValues.hygiene + 30, 100);
       statusValues.happiness = Math.min(statusValues.happiness + 10, 100);
       gainExp(20);
+      showShowerPopup()
       break;
     case "sleep":
       statusValues.energy = Math.min(statusValues.energy + 40, 100);
@@ -503,6 +513,7 @@ function performAction(action) {
       statusValues.happiness = Math.min(statusValues.happiness + 4, 100);
       statusValues.energy = Math.max(statusValues.energy - 2, 0);
       gainExp(15);
+      showPhotoPopup();
       break;
     case "buyFood":
       if (statusValues.money >= 50000) {
@@ -529,6 +540,7 @@ function performAction(action) {
       break;
     case "takeShower":
       statusValues.hygiene = Math.min(statusValues.hygiene + 20, 100);
+      showShowerPopup()
       gainExp(20);
       break;
     case "catchFish":
@@ -721,6 +733,13 @@ setInterval(decay, 60000);
 updateBars();
 updateButtonsAndThemes();
 
+//Pop Up
+function playShower() {
+  const sound = document.getElementById("shower-sound");
+  sound.currentTime = 0; 
+  sound.play();
+}
+
 function showPhotoPopup() {
   const popup = document.getElementById("photo-popup");
   const flash = document.getElementById("camera-flash");
@@ -760,6 +779,7 @@ function showPhotoPopup() {
 }
 
 function showShowerPopup() {
+  playShower()
   document.getElementById("shower-popup").classList.remove("hidden");
   const sound = document.getElementById("shower-sound");
   sound.currentTime = 0;
