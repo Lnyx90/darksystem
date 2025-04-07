@@ -477,9 +477,8 @@ function updateButtonsAndThemes() {
       currentGameTime >= 18 && currentGameTime < 6
         ? "url('./assets/background/default-night.jpg')"
         : "url('./assets/background/default.jpg')";
-  }
-}
-
+  });
+  
 // Trap and Music
 const trap = document.getElementById("trap-net");
 function moveTrapRandomly() {
