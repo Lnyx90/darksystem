@@ -273,6 +273,7 @@ function performAction(action) {
     case "takeBath":
       statusValues.hygiene = Math.min(statusValues.hygiene + 30, 100);
       statusValues.happiness = Math.min(statusValues.happiness + 10, 100);
+      showShowerPopup()
       break;
     case "sleep":
       statusValues.energy = Math.min(statusValues.energy + 40, 100);
@@ -310,6 +311,7 @@ function performAction(action) {
     case "takePicture":
       statusValues.happiness = Math.min(statusValues.happiness + 4, 100);
       statusValues.energy = Math.max(statusValues.energy - 2, 0);
+      showPhotoPopup();
       break;
     case "buyFood":
       if (statusValues.money >= 50000) {
@@ -357,7 +359,6 @@ function performAction(action) {
   updateBars();
 }
 
-// Location and Button Updates
 function updateButtonsAndThemes() {
   let locationText = document.getElementById("location-text");
   let actions = ["action1", "action2", "action3", "action4"].map((id) =>
@@ -367,6 +368,7 @@ function updateButtonsAndThemes() {
 
   if (Math.abs(position.x - 60) < 50 && Math.abs(position.y - 90) < 50) {
     locationText.innerHTML = "You're at Tangerang";
+    localStorage.setItem("currentLocation", "tangerang");
     actions[0].innerHTML = "Get Some Meal";
     actions[0].onclick = () => performAction("getMeal");
     actions[1].innerHTML = "Take a Bath";
@@ -375,6 +377,11 @@ function updateButtonsAndThemes() {
     actions[2].onclick = () => performAction("sleep");
     actions[3].innerHTML = "🛈 Do Chores";
     actions[3].onclick = () => performAction("chores");
+    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
+      "url('./assets/background/default-night.jpg')" : "url('./assets/background/default.jpg')";
+  } 
+  else if (Math.abs(position.x - 280) < 60 && Math.abs(position.y - 440) < 60) {
+
 
     body.style.backgroundImage =
       currentGameTime >= 18 && currentGameTime < 6
@@ -384,7 +391,9 @@ function updateButtonsAndThemes() {
     Math.abs(position.x - 280) < 60 &&
     Math.abs(position.y - 440) < 60
   ) {
+
     locationText.innerHTML = "You're at Kuta Beach";
+    localStorage.setItem("currentLocation", "kuta");
     actions[0].innerHTML = "Sand Play";
     actions[0].onclick = () => performAction("sandPlay");
     actions[1].innerHTML = "🛈 Buy Drink";
@@ -402,6 +411,7 @@ function updateButtonsAndThemes() {
     Math.abs(position.y - 210) < 60
   ) {
     locationText.innerHTML = "You're at Borobudur Temple";
+    localStorage.setItem("currentLocation", "borobudur");
     actions[0].innerHTML = "Take a Picture";
     actions[0].onclick = () => performAction("takePicture");
     actions[1].innerHTML = "🛈 Buy Local Food";
@@ -420,6 +430,7 @@ function updateButtonsAndThemes() {
     Math.abs(position.y - 460) < 60
   ) {
     locationText.innerHTML = "You're at Bromo Mountain";
+    localStorage.setItem("currentLocation", "bromo");
     actions[0].innerHTML = "Make a Cinematic Video";
     actions[0].onclick = () => performAction("makeVideo");
     actions[1].innerHTML = "🛈 Buy Drink";
@@ -438,6 +449,7 @@ function updateButtonsAndThemes() {
     Math.abs(position.y - 35) < 60
   ) {
     locationText.innerHTML = "You're at Toba Lake";
+    localStorage.setItem("currentLocation", "lake-toba");
     actions[0].innerHTML = "Take a Shower";
     actions[0].onclick = () => performAction("takeShower");
     actions[1].innerHTML = "Catch a Fish";
@@ -453,6 +465,10 @@ function updateButtonsAndThemes() {
         : "url('./assets/background/toba.jpg')";
   } else {
     locationText.innerHTML = "You're Lost!";
+
+    localStorage.setItem("currentLocation", "unknown");
+    actions.forEach(action => {
+
     actions.forEach((action) => {
       action.innerHTML = "";
       action.onclick = null;
@@ -495,6 +511,65 @@ setInterval(decay, 60000);
 // Initial setup
 updateBars();
 updateButtonsAndThemes();
+
+
+function showPhotoPopup() {
+  const popup = document.getElementById("photo-popup");
+  const flash = document.getElementById("camera-flash");
+  const bg = document.getElementById("popup-bg");
+  const characterImg = document.getElementById("popup-character-img");
+
+  const isNight = new Date().getHours() >= 18 || new Date().getHours() < 6;
+
+
+  const currentLocation = localStorage.getItem("currentLocation"); 
+
+
+  if (currentLocation === "lake-toba") {
+    bg.src = isNight
+      ? "assets/background/toba-night.jpg"
+      : "assets/background/toba.jpg";
+  } else {
+    bg.src = isNight
+      ? "assets/background/borobudur-night.jpg"
+      : "assets/background/borobudur.jpg";
+  }
+
+
+  const selectedCharacterImage = localStorage.getItem("selectedCharacterImage");
+  if (selectedCharacterImage && characterImg) {
+    characterImg.src = selectedCharacterImage;
+    characterImg.classList.remove("hidden");
+  }
+
+
+  popup.classList.remove("hidden");
+
+
+  setTimeout(() => {
+    flash.classList.add("opacity-100");
+  }, 300);
+
+  setTimeout(() => {
+    flash.classList.remove("opacity-100");
+  }, 600);
+
+
+  setTimeout(() => {
+    popup.classList.add("hidden");
+  }, 2000);
+}
+
+function showShowerPopup() {
+  document.getElementById("shower-popup").classList.remove("hidden");
+  const sound = document.getElementById("shower-sound");
+  sound.currentTime = 0;
+  sound.play();
+
+  setTimeout(() => {
+    document.getElementById("shower-popup").classList.add("hidden");
+  }, 3000); 
+}
 
 //Energy Regeneration
 function energyRegeneration() {
