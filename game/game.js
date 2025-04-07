@@ -467,11 +467,12 @@ function updateButtonsAndThemes() {
     locationText.innerHTML = "You're Lost!";
 
     localStorage.setItem("currentLocation", "unknown");
-    actions.forEach(action => {
+    actions.forEach((action) => {
 
     actions.forEach((action) => {
       action.innerHTML = "";
       action.onclick = null;
+    });
     });
     body.style.backgroundImage =
       currentGameTime >= 18 && currentGameTime < 6
@@ -568,7 +569,7 @@ function showShowerPopup() {
 
   setTimeout(() => {
     document.getElementById("shower-popup").classList.add("hidden");
-  }, 3000); 
+  }, 9000); 
 }
 
 //Energy Regeneration
@@ -580,3 +581,4 @@ function energyRegeneration() {
   }
 }
 setInterval(energyRegeneration, 1000);
+
