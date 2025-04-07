@@ -37,6 +37,7 @@
     <div
       class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20 ">
       <span><strong>Archipelago Adventure</strong></span>
+      <button id="profile-btn" class="profile z-50">Level <span id="level1">1</span></button>
       <div class="flex-col">
         <div class="flex items-center">
           <img src="./assets/logo-and-character/day.png" alt="day" class="w-10 h-10">
@@ -47,6 +48,52 @@
         </div>
       </div>
     </div>
+
+    <div id="profile-box" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white w-100 rounded-lg p-6 shadow-2xl relative">
+          <button id="close-profile" class="absolute top-2 right-2 text-gray-600 hover:text-red-500 text-xl font-bold">&times;</button>
+          
+          <h2 class="text-xl font-bold mb-2 text-center">Player Profile</h2>
+          
+          <img id="player-character-img" src="" alt="Character Image"
+               class="w-24 h-40 mx-auto mb-4 rounded-lg shadow hidden">
+          
+          <p><strong>Name:</strong> <span id="player-name-profile"></span></p>
+          <p><strong>Level:</strong> <span id="level2">1</span></p>
+          
+          <div class="mt-3">
+            <p class="text-sm mb-1">EXP: <span id="exp">0</span>/100</p>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div id="exp-bar" class="bg-blue-500 h-3 rounded-full transition-all duration-300" style="width: 0%;"></div>
+            </div>
+          </div>
+      
+          <div class="mt-4">
+            <p class="font-semibold mb-2">Achievements:</p>
+            <div id="achievement-list" class="grid grid-cols-3 gap-2">
+              <div class="achievement-item opacity-40 cursor-pointer transition" data-achievement="photography">
+                <img src="assets/logo-and-character/capture-more.jpg" alt="Skill Photography" class="w-12 h-12 rounded-full mx-auto">
+                <p class="text-xs text-center mt-1">Photography</p>
+              </div>
+              <div class="achievement-item opacity-40 cursor-pointer transition" data-achievement="map">
+                <img src="assets/logo-and-character/explorer.jpg" alt="Map Explorer" class="w-12 h-12 rounded-full mx-auto">
+                <p class="text-xs text-center mt-1">Map Explorer</p>
+              </div>
+              <div class="achievement-item opacity-40 cursor-pointer transition" data-achievement="artifact">
+                <img src="assets/logo-and-character/treasure.jpg" alt="Artifact Collector" class="w-12 h-12 rounded-full mx-auto">
+                <p class="text-xs text-center mt-1">Collector</p>
+              </div>
+            </div>
+            <div id="achievement-list" class="grid grid-cols-3 mt-4 gap-2">
+                <div class="achievement-item opacity-40 cursor-pointer transition" data-achievement="Composting">
+                  <img src="assets/logo-and-character/composting.jpg" alt="Composting" class="w-12 h-12 rounded-full mx-auto">
+                  <p class="text-xs text-center mt-1">Composting</p>
+                </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
 
     <div class="bar-container">
         <div class="flex items-center gap-2 p-5 mt-20">
@@ -115,6 +162,7 @@
           </div>
           <img id="trap-net" src="./assets/logo-and-character/trap.png" class="absolute w-16 h-16 transition-all duration-500 ease-in-out" style="left: 150px; top: 200px; z-index: 6;">
           <img src="./assets/logo-and-character/hole.png" class="absolute w-16 h-16" style="left: 425px; top: 300px; z-index: 5;">
+          <img id="hole-death" src="./assets/logo-and-character/hole.png" class="absolute w-16 h-16 hidden" style="z-index: 5;">
           <img src="./assets/logo-and-character/home.png" class="absolute w-16 h-16" style="left: 60px; top: 90px; z-index: 5;">
           <img src="./assets/logo-and-character/bromo.png" class="absolute w-16 h-16" style="left: 760px; top: 470px; z-index: 5;">
           <img src="./assets/logo-and-character/kuta.png" class="absolute w-16 h-16" style="left: 270px; top: 445px; z-index: 5;">
@@ -145,6 +193,7 @@
             <button id="action2" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
             <button id="action3" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg mb-2 hover:bg-blue-600"></button>
             <button id="action4" class="w-full bg-blue-500 text-xs text-white p-2 mt-4 rounded-lg hover:bg-yellow-600"></button>
+            <audio id="location-sound" src="./assets/bg-music/location.mp4" preload="auto"></audio>
             <audio id="click-sound" src="./assets/bg-music/click.mp4" preload="auto"></audio>
             <div class="gift bg-yellow-300 p-2 rounded-lg mt-4 text-center mb-10"></div>
 
@@ -162,8 +211,8 @@
                 </div>
                     <button onclick="move('down')" class="mt-2">
                         <img src="./assets/logo-and-character/down.png" alt="down" class="bg-blue-200 w-12 h-12 flex items-center justify-center rounded-full hover:bg-pink-200">
-
                     </button>
+                    <audio id="click-sound" src="./assets/bg-music/click.mp4" preload="auto"></audio>
             </div>
     </div>
     
