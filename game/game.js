@@ -806,4 +806,4 @@ function energyRegeneration() {
     updateBars();
   }
 }
-setInterval(energyRegeneration, 1000);
+setInterval(energyRegeneration, 1000); 
