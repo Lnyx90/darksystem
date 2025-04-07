@@ -202,6 +202,7 @@ function move(direction) {
       statusValues.energy = Math.max(statusValues.energy - 1, 0);
       updateBars();
     }
+    checkTrapCollision();
   }
 }
 
@@ -273,7 +274,7 @@ function performAction(action) {
     case "takeBath":
       statusValues.hygiene = Math.min(statusValues.hygiene + 30, 100);
       statusValues.happiness = Math.min(statusValues.happiness + 10, 100);
-      showShowerPopup()
+      showShowerPopup();
       break;
     case "sleep":
       statusValues.energy = Math.min(statusValues.energy + 40, 100);
@@ -359,116 +360,101 @@ function performAction(action) {
   updateBars();
 }
 
-function updateButtonsAndThemes() {
-  let locationText = document.getElementById("location-text");
-  let actions = ["action1", "action2", "action3", "action4"].map((id) =>
-    document.getElementById(id)
-  );
-  let body = document.body;
+function updateButtonsAndThemes() {}
+let locationText = document.getElementById("location-text");
+let actions = ["action1", "action2", "action3", "action4"].map((id) =>
+  document.getElementById(id)
+);
+let body = document.body;
 
-  if (Math.abs(position.x - 60) < 50 && Math.abs(position.y - 90) < 50) {
-    locationText.innerHTML = "You're at Tangerang";
-    localStorage.setItem("currentLocation", "tangerang");
-    actions[0].innerHTML = "Get Some Meal";
-    actions[0].onclick = () => performAction("getMeal");
-    actions[1].innerHTML = "Take a Bath";
-    actions[1].onclick = () => performAction("takeBath");
-    actions[2].innerHTML = "Sleep";
-    actions[2].onclick = () => performAction("sleep");
-    actions[3].innerHTML = "🛈 Do Chores";
-    actions[3].onclick = () => performAction("chores");
-    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
-      "url('./assets/background/default-night.jpg')" : "url('./assets/background/default.jpg')";
-  } 
-  else if (Math.abs(position.x - 280) < 60 && Math.abs(position.y - 440) < 60) {
-
-
-    body.style.backgroundImage =
-      currentGameTime >= 18 && currentGameTime < 6
-        ? "url('./assets/background/default-night.jpg')"
-        : "url('./assets/background/default.jpg')";
-  } else if (
-    Math.abs(position.x - 280) < 60 &&
-    Math.abs(position.y - 440) < 60
-  ) {
-
-    locationText.innerHTML = "You're at Kuta Beach";
-    localStorage.setItem("currentLocation", "kuta");
-    actions[0].innerHTML = "Sand Play";
-    actions[0].onclick = () => performAction("sandPlay");
-    actions[1].innerHTML = "🛈 Buy Drink";
-    actions[1].onclick = () => performAction("buyDrink");
-    actions[2].innerHTML = "🛈 Buy Snack";
-    actions[2].onclick = () => performAction("buySnack");
-    actions[3].innerHTML = "🛈 Pick-up Trash";
-    actions[3].onclick = () => performAction("pickTrash");
-
+if (Math.abs(position.x - 60) < 50 && Math.abs(position.y - 90) < 50) {
+  locationText.innerHTML = "You're at Tangerang";
+  localStorage.setItem("currentLocation", "tangerang");
+  actions[0].innerHTML = "Get Some Meal";
+  actions[0].onclick = () => performAction("getMeal");
+  actions[1].innerHTML = "Take a Bath";
+  actions[1].onclick = () => performAction("takeBath");
+  actions[2].innerHTML = "Sleep";
+  actions[2].onclick = () => performAction("sleep");
+  actions[3].innerHTML = "🛈 Do Chores";
+  actions[3].onclick = () => performAction("chores");
+  body.style.backgroundImage =
+    currentHour >= 18 || currentHour < 6
+      ? "url('./assets/background/default-night.jpg')"
+      : "url('./assets/background/default.jpg')";
+} else if (Math.abs(position.x - 280) < 60 && Math.abs(position.y - 440) < 60) {
+  body.style.backgroundImage =
     currentGameTime >= 18 && currentGameTime < 6
-      ? "url('./assets/background/kuta-night.jpg')"
-      : "url('./assets/background/kuta.jpg')";
-  } else if (
-    Math.abs(position.x - 690) < 60 &&
-    Math.abs(position.y - 210) < 60
-  ) {
-    locationText.innerHTML = "You're at Borobudur Temple";
-    localStorage.setItem("currentLocation", "borobudur");
-    actions[0].innerHTML = "Take a Picture";
-    actions[0].onclick = () => performAction("takePicture");
-    actions[1].innerHTML = "🛈 Buy Local Food";
-    actions[1].onclick = () => performAction("buyFood");
-    actions[2].innerHTML = "🛈 Buy Souvenir";
-    actions[2].onclick = () => performAction("buySouvenir");
-    actions[3].innerHTML = "🛈 Rent Local Costume";
-    actions[3].onclick = () => performAction("rentCostume");
+      ? "url('./assets/background/default-night.jpg')"
+      : "url('./assets/background/default.jpg')";
+} else if (Math.abs(position.x - 280) < 60 && Math.abs(position.y - 440) < 60) {
+  locationText.innerHTML = "You're at Kuta Beach";
+  localStorage.setItem("currentLocation", "kuta");
+  actions[0].innerHTML = "Sand Play";
+  actions[0].onclick = () => performAction("sandPlay");
+  actions[1].innerHTML = "🛈 Buy Drink";
+  actions[1].onclick = () => performAction("buyDrink");
+  actions[2].innerHTML = "🛈 Buy Snack";
+  actions[2].onclick = () => performAction("buySnack");
+  actions[3].innerHTML = "🛈 Pick-up Trash";
+  actions[3].onclick = () => performAction("pickTrash");
 
-    body.style.backgroundImage =
-      currentGameTime >= 18 && currentGameTime < 6
-        ? "url('./assets/background/borobudur-night.jpg')"
-        : "url('./assets/background/borobudur.jpg')";
-  } else if (
-    Math.abs(position.x - 770) < 60 &&
-    Math.abs(position.y - 460) < 60
-  ) {
-    locationText.innerHTML = "You're at Bromo Mountain";
-    localStorage.setItem("currentLocation", "bromo");
-    actions[0].innerHTML = "Make a Cinematic Video";
-    actions[0].onclick = () => performAction("makeVideo");
-    actions[1].innerHTML = "🛈 Buy Drink";
-    actions[1].onclick = () => performAction("buyDrink");
-    actions[2].innerHTML = "🛈 Plant a Flag";
-    actions[2].onclick = () => performAction("plantFlag");
-    actions[3].innerHTML = "Pray to God";
-    actions[3].onclick = () => performAction("pray");
+  currentGameTime >= 18 && currentGameTime < 6
+    ? "url('./assets/background/kuta-night.jpg')"
+    : "url('./assets/background/kuta.jpg')";
+} else if (Math.abs(position.x - 690) < 60 && Math.abs(position.y - 210) < 60) {
+  locationText.innerHTML = "You're at Borobudur Temple";
+  localStorage.setItem("currentLocation", "borobudur");
+  actions[0].innerHTML = "Take a Picture";
+  actions[0].onclick = () => performAction("takePicture");
+  actions[1].innerHTML = "🛈 Buy Local Food";
+  actions[1].onclick = () => performAction("buyFood");
+  actions[2].innerHTML = "🛈 Buy Souvenir";
+  actions[2].onclick = () => performAction("buySouvenir");
+  actions[3].innerHTML = "🛈 Rent Local Costume";
+  actions[3].onclick = () => performAction("rentCostume");
 
-    body.style.backgroundImage =
-      currentGameTime >= 18 && currentGameTime < 6
-        ? "url('./assets/background/bromo-night.jpg')"
-        : "url('./assets/background/bromo.jpg')";
-  } else if (
-    Math.abs(position.x - 385) < 60 &&
-    Math.abs(position.y - 35) < 60
-  ) {
-    locationText.innerHTML = "You're at Toba Lake";
-    localStorage.setItem("currentLocation", "lake-toba");
-    actions[0].innerHTML = "Take a Shower";
-    actions[0].onclick = () => performAction("takeShower");
-    actions[1].innerHTML = "Catch a Fish";
-    actions[1].onclick = () => performAction("catchFish");
-    actions[2].innerHTML = "Take a Picture";
-    actions[2].onclick = () => performAction("takePicture");
-    actions[3].innerHTML = "Wash Clothes";
-    actions[3].onclick = () => performAction("washClothes");
+  body.style.backgroundImage =
+    currentGameTime >= 18 && currentGameTime < 6
+      ? "url('./assets/background/borobudur-night.jpg')"
+      : "url('./assets/background/borobudur.jpg')";
+} else if (Math.abs(position.x - 770) < 60 && Math.abs(position.y - 460) < 60) {
+  locationText.innerHTML = "You're at Bromo Mountain";
+  localStorage.setItem("currentLocation", "bromo");
+  actions[0].innerHTML = "Make a Cinematic Video";
+  actions[0].onclick = () => performAction("makeVideo");
+  actions[1].innerHTML = "🛈 Buy Drink";
+  actions[1].onclick = () => performAction("buyDrink");
+  actions[2].innerHTML = "🛈 Plant a Flag";
+  actions[2].onclick = () => performAction("plantFlag");
+  actions[3].innerHTML = "Pray to God";
+  actions[3].onclick = () => performAction("pray");
 
-    body.style.backgroundImage =
-      currentGameTime >= 18 && currentGameTime < 6
-        ? "url('./assets/background/toba-night.jpg')"
-        : "url('./assets/background/toba.jpg')";
-  } else {
-    locationText.innerHTML = "You're Lost!";
+  body.style.backgroundImage =
+    currentGameTime >= 18 && currentGameTime < 6
+      ? "url('./assets/background/bromo-night.jpg')"
+      : "url('./assets/background/bromo.jpg')";
+} else if (Math.abs(position.x - 385) < 60 && Math.abs(position.y - 35) < 60) {
+  locationText.innerHTML = "You're at Toba Lake";
+  localStorage.setItem("currentLocation", "lake-toba");
+  actions[0].innerHTML = "Take a Shower";
+  actions[0].onclick = () => performAction("takeShower");
+  actions[1].innerHTML = "Catch a Fish";
+  actions[1].onclick = () => performAction("catchFish");
+  actions[2].innerHTML = "Take a Picture";
+  actions[2].onclick = () => performAction("takePicture");
+  actions[3].innerHTML = "Wash Clothes";
+  actions[3].onclick = () => performAction("washClothes");
 
-    localStorage.setItem("currentLocation", "unknown");
-    actions.forEach(action => {
+  body.style.backgroundImage =
+    currentGameTime >= 18 && currentGameTime < 6
+      ? "url('./assets/background/toba-night.jpg')"
+      : "url('./assets/background/toba.jpg')";
+} else {
+  locationText.innerHTML = "You're Lost!";
 
+  localStorage.setItem("currentLocation", "unknown");
+  actions.forEach((action) => {
     actions.forEach((action) => {
       action.innerHTML = "";
       action.onclick = null;
@@ -478,16 +464,46 @@ function updateButtonsAndThemes() {
         ? "url('./assets/background/default-night.jpg')"
         : "url('./assets/background/default.jpg')";
   });
-  
+}
+
 // Trap and Music
 const trap = document.getElementById("trap-net");
+const x = Math.floor(Math.random() * (850 - 64));
+const y = Math.floor(Math.random() * (630 - 64));
 function moveTrapRandomly() {
-  const x = Math.floor(Math.random() * (850 - 64));
-  const y = Math.floor(Math.random() * (630 - 64));
   trap.style.left = `${x}px`;
   trap.style.top = `${y}px`;
 }
 setInterval(moveTrapRandomly, 20000);
+
+function checkTrapCollision() {
+  const trapRect = trap.getBoundingClientRect();
+  const playerRect = player.getBoundingClientRect();
+
+  const shrinkTrap = 2;
+
+  const trapHitbox = {
+    left: trapRect.left + shrinkTrap,
+    right: trapRect.right - shrinkTrap,
+    top: trapRect.top + shrinkTrap,
+    bottom: trapRect.bottom - shrinkTrap,
+  };
+
+  const isColliding =
+    trapRect.left < playerRect.right &&
+    trapRect.right > playerRect.left &&
+    trapRect.top < playerRect.bottom &&
+    trapRect.bottom > playerRect.top;
+
+  if (isColliding) {
+    statusValues.health = Math.max(statusValues.health - 2, 0);
+    updateBars();
+    player.style.animation = "shake 0.2s";
+    setTimeout(() => {
+      player.style.animation = "";
+    }, 200);
+  }
+}
 
 const bgMusic = document.getElementById("bgMusic");
 const volumeSlider = document.getElementById("volumeSlider");
@@ -511,7 +527,6 @@ setInterval(decay, 60000);
 updateBars();
 updateButtonsAndThemes();
 
-
 function showPhotoPopup() {
   const popup = document.getElementById("photo-popup");
   const flash = document.getElementById("camera-flash");
@@ -520,9 +535,7 @@ function showPhotoPopup() {
 
   const isNight = new Date().getHours() >= 18 || new Date().getHours() < 6;
 
-
-  const currentLocation = localStorage.getItem("currentLocation"); 
-
+  const currentLocation = localStorage.getItem("currentLocation");
 
   if (currentLocation === "lake-toba") {
     bg.src = isNight
@@ -534,16 +547,13 @@ function showPhotoPopup() {
       : "assets/background/borobudur.jpg";
   }
 
-
   const selectedCharacterImage = localStorage.getItem("selectedCharacterImage");
   if (selectedCharacterImage && characterImg) {
     characterImg.src = selectedCharacterImage;
     characterImg.classList.remove("hidden");
   }
 
-
   popup.classList.remove("hidden");
-
 
   setTimeout(() => {
     flash.classList.add("opacity-100");
@@ -552,7 +562,6 @@ function showPhotoPopup() {
   setTimeout(() => {
     flash.classList.remove("opacity-100");
   }, 600);
-
 
   setTimeout(() => {
     popup.classList.add("hidden");
@@ -567,7 +576,7 @@ function showShowerPopup() {
 
   setTimeout(() => {
     document.getElementById("shower-popup").classList.add("hidden");
-  }, 3000); 
+  }, 3000);
 }
 
 //Energy Regeneration
