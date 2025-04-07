@@ -662,3 +662,33 @@ setInterval(decay, 60000);
 updateBars();
 updateButtonsAndThemes();
 
+
+
+const ProfileManager = {
+  init() {
+      const characterImage = localStorage.getItem('selectedCharacterImage') || 
+                           './assets/logo-and-character/wayang1.png';
+      const playerName = localStorage.getItem('playerName') || 'Player';
+     
+      document.getElementById('wayang-image').src = characterImage;
+      document.getElementById('wayang-name').textContent = characterDesc;
+      document.getElementById('player-name-profile').textContent = playerName;
+  },
+
+  showProfile() {
+      this.init(); 
+      document.getElementById('profile-box').classList.remove('hidden');
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  ProfileManager.init();
+  
+  document.getElementById('close-profile').addEventListener('click', () => {
+      document.getElementById('profile-box').classList.add('hidden');
+  });
+});
+
+function showProfile() {
+  ProfileManager.showProfile();
+}
