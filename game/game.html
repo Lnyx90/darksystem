@@ -34,17 +34,16 @@
     </div>
 
 
-    <div
-      class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-20 ">
-      <span><strong>Archipelago Adventure</strong></span>
-      <button id="profile-btn" class="profile z-50">Level <span id="level1">1</span></button>
-      <div class="flex-col">
+    <div class="status-bar fixed top-2 left-1/2 transform -translate-x-1/2 w-11/12 bg-blue-900 text-white p-3 rounded-lg flex justify-between items-center shadow-lg gap-4 sm:gap-20">
+      <span class="text-xs sm:text-base"><strong>Archipelago Adventure</strong></span>
+      <button id="profile-btn" class="profile z-50 text-xs sm:text-base">Level <span id="level1">1</span></button>
+      <div class="flex-col min-w-max">
         <div class="flex items-center">
-          <img src="./assets/logo-and-character/day.png" alt="day" class="w-10 h-10">
-          <span id="game-day1"></span>
+          <img src="./assets/logo-and-character/day.png" alt="day" class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10">
+          <span id="game-day1" class="text-xs sm:text-sm md:text-base"></span>
         </div>
         <div>
-          <span id="game-day2" class="ml-28"></span>
+          <span id="game-day2" class="text-xs sm:text-sm md:text-base ml-12 sm:ml-20 md:ml-28"></span>
         </div>
       </div>
     </div>
