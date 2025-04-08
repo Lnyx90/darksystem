@@ -1,6 +1,4 @@
-
 .character-container {
-
   transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
@@ -52,7 +50,6 @@ body {
   }
 }
 
-
 #player {
   transition: left 0.3s ease-out, top 0.3s ease-out;
 }
@@ -77,12 +74,10 @@ body {
   }
   75% {
     transform: translate(5px, 0px);
-
   }
   100% {
     transform: translate(0px, 0px);
   }
-
 }
 
 .damage-effect {
@@ -107,7 +102,6 @@ body {
   animation: shake 0.3s ease;
   background-color: rgba(255, 0, 0, 0.4);
 }
-
 
 .opacity-100 {
   opacity: 1 !important;
@@ -148,6 +142,4 @@ body {
 
 .hole-fade-in {
   animation: holeFadeIn 0.5s ease forwards;
-
 }
-
