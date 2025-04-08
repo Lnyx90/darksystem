@@ -1,4 +1,4 @@
-//Player, Hole, and PopUp
+// Player, Hole, and PopUp
 document.addEventListener("DOMContentLoaded", function () {
   let playerName = localStorage.getItem("playerName");
   let selectedCharacterImage = localStorage.getItem("selectedCharacterImage");
@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("player-welcome-name").textContent = playerName;
   document.getElementById("player-name-profile").textContent = playerName;
   document.getElementById("player-img").src = selectedCharacterImage;
+  document.getElementById("wayang-image").src = selectedCharacterImage;
 
   if (selectedCharacterImage) {
     let imgElement = document.getElementById("player-character-img");
@@ -14,14 +15,43 @@ document.addEventListener("DOMContentLoaded", function () {
     imgElement.classList.remove("hidden");
   }
 
+
+  document.getElementById("profile-btn").addEventListener("click", function() {
+    document.getElementById("profile-box").classList.remove("hidden");
+  });
+
+  document.getElementById("close-profile").addEventListener("click", function() {
+    document.getElementById("profile-box").classList.add("hidden");
+  });
+
+
   updateMoneyDisplay();
-  updateTime();
+  updateGameClock();
+
   updateDate();
   updateBars();
+  initGame();
 });
 
-let visitedLocations = new Set();
+// Coordinate conversion functions
+function getPositionInPixels(percentX, percentY) {
+  const mapContainer = document.querySelector('.map-container');
+  return {
+    x: (percentX / 100) * mapContainer.offsetWidth,
+    y: (percentY / 100) * mapContainer.offsetHeight
+  };
+}
 
+function getPositionInPercent(pixelX, pixelY) {
+  const mapContainer = document.querySelector('.map-container');
+  return {
+    x: (pixelX / mapContainer.offsetWidth) * 100,
+    y: (pixelY / mapContainer.offsetHeight) * 100
+  };
+}
+
+// Location system
+let visitedLocations = new Set();
 const locationPoints = {
   home: { x: 60, y: 90 },
   bromo: { x: 760, y: 470 },
@@ -30,99 +60,13 @@ const locationPoints = {
   lake_toba: { x: 380, y: 60 },
 };
 
-function checkPlayerLocation(px, py) {
-  for (let [name, point] of Object.entries(locationPoints)) {
-    let dx = point.x - px;
-    let dy = point.y - py;
-    let distance = Math.sqrt(dx * dx + dy * dy);
+// Player movement
+let position = { x: 50, y: 40 }; // Percentage-based starting position
+let step = 2; // Percentage-based step size
+let stepCount = 0;
+let lastMoveTime = Date.now();
 
-    if (distance < 50 && !visitedLocations.has(name)) {
-      visitedLocations.add(name);
-      console.log(`Visited: ${name}`);
-    }
-  }
-}
-
-//Click Backsound
-function setDieSound() {
-  const sound = document.getElementById("hole-death-sound");
-  sound.currentTime = 0;
-  sound.play();
-}
-
-function setClickSoundForLocation() {
-  const sound = document.getElementById("location-sound");
-  sound.currentTime = 0;
-  sound.play();
-}
-
-function playClickSound() {
-  const sound = document.getElementById("click-sound");
-  sound.currentTime = 0;
-  sound.play();
-}
-document.querySelectorAll("button[id^='action']").forEach((btn) => {
-  btn.addEventListener("click", playClickSound);
-});
-window.addEventListener("load", () => {
-  const sound = document.getElementById("click-sound");
-  sound
-    .play()
-    .then(() => {
-      sound.pause();
-      sound.currentTime = 0;
-    })
-    .catch(() => {});
-});
-
-//Theme
-function updateTheme() {
-  let currentHour = new Date().getHours();
-  let body = document.body;
-  let statusBar = document.querySelector(".status-bar");
-  let taskTexts = document.querySelectorAll(
-    "#health-text, #energy-text, #hygiene-text, #happiness-text"
-  );
-
-  let gameTitle = document.querySelector(".status-bar strong");
-  let gameTime = document.getElementById("game-time");
-  let gameDay1 = document.getElementById("game-day1");
-  let gameDay2 = document.getElementById("game-day2");
-  let volumeLabel = document.querySelector("label[for='volumeSlider']");
-
-  if (currentHour >= 18 || currentHour < 6) {
-    gameTitle.style.color = "white";
-    gameTime.style.color = "black";
-    gameDay1.style.color = "white";
-    gameDay2.style.color = "white";
-    taskTexts.forEach((text) => {
-      text.style.color = "white";
-    });
-
-    if (volumeLabel) volumeLabel.style.color = "white";
-  } else {
-    gameTitle.style.color = "";
-    gameTime.style.color = "";
-    gameDay1.style.color = "";
-    gameDay2.style.color = "";
-    taskTexts.forEach((text) => {
-      text.style.color = "black";
-    });
-
-    if (volumeLabel) volumeLabel.style.color = "";
-  }
-}
-
-setInterval(updateTheme, 1000);
-updateTheme();
-
-//Player movement & position
-let position = { x: 50, y: 40 };
-let step = 2; 
-
-let hole = document.querySelector(
-  "img[src='./assets/logo-and-character/hole.png']"
-);
+let hole = document.querySelector("img[src='./assets/logo-and-character/hole.png']");
 let player = document.getElementById("player");
 player.style.opacity = "0";
 player.style.transform = "scale(0.2) translateY(20px)";
@@ -140,16 +84,10 @@ function closePopup() {
   }, 500);
 }
 
-//Time and Date
+// Time and Date
 const realStartTime = performance.now();
 const gameStartTime = new Date();
 const timeSpeedMultiplier = 10;
-let lastMoveTime = Date.now();
-
-const now = performance.now();
-const elapsedReal = now - realStartTime;
-const elapsedGame = elapsedReal * timeSpeedMultiplier;
-const currentGameTime = new Date(gameStartTime.getTime() + elapsedGame);
 
 function updateGameClock() {
   const now = performance.now();
@@ -188,26 +126,15 @@ function updateGameClock() {
   document.getElementById("game-day2").innerHTML = greeting;
 
   requestAnimationFrame(updateGameClock);
+
+
 }
 
-requestAnimationFrame(updateGameClock);
-
-//Movement and Energy
-let stepCount = 0;
-
-function getMapBounds() {
-  const mapContainer = document.querySelector('.map-container');
-  return {
-    width: mapContainer.offsetWidth,
-    height: mapContainer.offsetHeight
-  };
-}
-
+// Movement functions
 function updatePlayerPosition() {
   const player = document.getElementById('player');
   if (!player) return;
 
-  // Clamp position between 0% and 100%
   position.x = Math.max(0, Math.min(100, position.x));
   position.y = Math.max(0, Math.min(100, position.y));
 
@@ -223,17 +150,17 @@ function move(direction) {
   if (statusValues.energy != 0) {
     switch (direction) {
       case "up":
-        if (position.y - step >= 0) position.y -= step;
+        position.y = Math.max(0, position.y - step);
         break;
       case "down":
-        if (position.y + step <= 100) position.y += step;
+        position.y = Math.min(100, position.y + step);
         break;
       case "left":
-        if (position.x - step >= 0) position.x -= step;
+        position.x = Math.max(0, position.x - step);
         document.getElementById('player-img').style.transform = 'scaleX(-1)';
         break;
       case "right":
-        if (position.x + step <= 100) position.x += step;
+        position.x = Math.min(100, position.x + step);
         document.getElementById('player-img').style.transform = 'scaleX(1)';
         break;
     }
@@ -246,6 +173,7 @@ function move(direction) {
 
   updatePlayerPosition();
   updateButtonsAndThemes();
+  checkPlayerLocation();
 
   if (position.x !== prevX || position.y !== prevY) {
     stepCount++;
@@ -254,40 +182,37 @@ function move(direction) {
       updateBars();
     }
     checkTrapCollision();
+    lastMoveTime = Date.now();
   }
 }
 
-function checkIfDead() {
-  if (
-    statusValues.health <= 0 ||
-    statusValues.energy <= 0 ||
-    statusValues.hygiene <= 0 ||
-    statusValues.happiness <= 0
-  ) {
-    const player = document.getElementById("player");
-    const holeDeath = document.getElementById("hole-death");
+function checkPlayerLocation() {
+  const playerPixels = getPositionInPixels(position.x, position.y);
+  
+  for (let [name, point] of Object.entries(locationPoints)) {
+    let dx = point.x - playerPixels.x;
+    let dy = point.y - playerPixels.y;
+    let distance = Math.sqrt(dx * dx + dy * dy);
 
-    const playerLeft = player.offsetLeft;
-    const playerTop = player.offsetTop;
-
-    holeDeath.style.left = `${playerLeft}px`;
-    holeDeath.style.top = `${playerTop + 25}px`;
-    holeDeath.classList.remove("hidden");
-    holeDeath.classList.add("hole-fade-in");
-
-    setDieSound();
-
-    setTimeout(() => {
-      player.classList.add("sink");
-    }, 200);
-
-    setTimeout(() => {
-      window.location.href = "die.html";
-    }, 2000);
+    if (distance < 50 && !visitedLocations.has(name)) {
+      visitedLocations.add(name);
+      console.log(`Visited: ${name}`);
+      
+      switch(name) {
+        case 'home': uniqueLocations1 = true; break;
+        case 'kuta': uniqueLocations2 = true; break;
+        case 'borobudur': uniqueLocations3 = true; break;
+        case 'bromo': uniqueLocations4 = true; break;
+        case 'lake_toba': uniqueLocations5 = true; break;
+      }
+      
+      if (uniqueLocations1 && uniqueLocations2 && uniqueLocations3 && 
+          uniqueLocations4 && uniqueLocations5) {
+        unlockAchievement("map");
+      }
+    }
   }
-  updateBars();
 }
-setInterval(checkIfDead, 1000);
 
 document.addEventListener("keydown", function (event) {
   const keyMap = {
@@ -299,111 +224,7 @@ document.addEventListener("keydown", function (event) {
   if (keyMap[event.key]) move(keyMap[event.key]);
 });
 
-// Level
-const profileBtn = document.getElementById("profile-btn");
-const profileBox = document.getElementById("profile-box");
-const closeProfile = document.getElementById("close-profile");
-const expBar = document.getElementById("exp-bar");
-const expText = document.getElementById("exp");
-const levelText1 = document.getElementById("level1");
-const levelText2 = document.getElementById("level2");
-const addExpBtn = document.getElementById("add-exp");
-let achievements = {
-  photography: false,
-  map: false,
-  artifact: false,
-  Composting: false,
-};
-
-document.getElementById("profile-btn").addEventListener("click", () => {
-  document.getElementById("profile-box").classList.remove("hidden");
-});
-
-document.getElementById("close-profile").addEventListener("click", () => {
-  document.getElementById("profile-box").classList.add("hidden");
-});
-
-function updateAchievementsDisplay() {
-  document.querySelectorAll(".achievement-item").forEach((item) => {
-    const key = item.dataset.achievement;
-    if (achievements[key]) {
-      item.classList.remove("opacity-40");
-    } else {
-      item.classList.add("opacity-40");
-    }
-  });
-}
-
-document.querySelectorAll(".achievement-item").forEach((item) => {
-  item.addEventListener("click", () => {
-    const key = item.dataset.achievement;
-
-    let taskMessage = "";
-    switch (key) {
-      case "photography":
-        taskMessage = "Take 2 pictures around the map."; //tlg kasi tampilan
-        break;
-      case "map":
-        taskMessage = "Explore at least 5 unique locations."; //tlg kasi tampilan
-        break;
-      case "artifact":
-        taskMessage = "Collect 3.000.000 IDR."; //tlg kasi tampilan
-        break;
-      case "Composting":
-        taskMessage = "Collect 10 trash at Beach."; //tlg kasi tampilan
-        break;
-    }
-
-    alert(`Task to unlock "${key}":\n${taskMessage}`);
-  });
-});
-
-function unlockAchievement(key) {
-  if (achievements.hasOwnProperty(key) && !achievements[key]) {
-    achievements[key] = true;
-    updateAchievementsDisplay();
-    console.log(`Achievement "${key}" unlocked!`);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  updateAchievementsDisplay();
-});
-const maxExp = 100;
-
-profileBtn.addEventListener("click", () => {
-  profileBox.classList.remove("hidden");
-});
-
-closeProfile.addEventListener("click", () => {
-  profileBox.classList.add("hidden");
-});
-
-profileBox.addEventListener("click", (event) => {
-  if (event.target === profileBox) {
-    profileBox.classList.add("hidden");
-  }
-});
-
-function addAchievement(name) {
-  const li = document.createElement("li");
-  li.textContent = name;
-}
-
-function updateExpBar() {
-  const expPercentage = (statusValues.exp / maxExp) * 100;
-  expBar.style.width = `${expPercentage}%`;
-  expText.textContent = `${statusValues.exp}`;
-  if (statusValues.exp >= maxExp) {
-    statusValues.exp = 0;
-    statusValues.level++;
-    alert(`Congratulations! You've leveled up to Level ${statusValues.level}!`); //tlg kasi tampilan
-  }
-  levelText1.textContent = `${statusValues.level}`;
-  levelText2.textContent = `${statusValues.level}`;
-}
-
-// Status and Money System
+// Status system
 let statusValues = {
   health: 50,
   energy: 50,
@@ -434,14 +255,6 @@ function updateBars() {
   updateMoneyDisplay();
 }
 
-function gainExp(amount) {
-  statusValues.exp += amount;
-  if (statusValues.exp >= 100) {
-    statusValues.exp -= 100;
-    statusValues.level++;
-  }
-}
-
 function updateMoneyDisplay() {
   const moneySpan = document.getElementById("money");
   if (moneySpan) {
@@ -451,6 +264,57 @@ function updateMoneyDisplay() {
       minimumFractionDigits: 0,
     }).format(statusValues.money);
   }
+}
+
+// Level and achievements
+const maxExp = 100;
+let achievements = {
+  photography: false,
+  map: false,
+  artifact: false,
+  Composting: false,
+};
+let uniqueLocations1 = false;
+let uniqueLocations2 = false;
+let uniqueLocations3 = false;
+let uniqueLocations4 = false;
+let uniqueLocations5 = false;
+
+function updateExpBar() {
+  const expPercentage = (statusValues.exp / maxExp) * 100;
+  document.getElementById("exp-bar").style.width = `${expPercentage}%`;
+  document.getElementById("exp").textContent = `${statusValues.exp}`;
+  if (statusValues.exp >= maxExp) {
+    statusValues.exp = 0;
+    statusValues.level++;
+    alert(`Congratulations! You've leveled up to Level ${statusValues.level}!`);
+  }
+  document.getElementById("level1").textContent = `${statusValues.level}`;
+  document.getElementById("level2").textContent = `${statusValues.level}`;
+}
+
+function gainExp(amount) {
+  statusValues.exp += amount;
+  updateExpBar();
+}
+
+function unlockAchievement(key) {
+  if (achievements.hasOwnProperty(key) && !achievements[key]) {
+    achievements[key] = true;
+    updateAchievementsDisplay();
+    console.log(`Achievement "${key}" unlocked!`);
+  }
+}
+
+function updateAchievementsDisplay() {
+  document.querySelectorAll(".achievement-item").forEach((item) => {
+    const key = item.dataset.achievement;
+    if (achievements[key]) {
+      item.classList.remove("opacity-40");
+    } else {
+      item.classList.add("opacity-40");
+    }
+  });
 }
 
 // Actions
@@ -532,7 +396,6 @@ function performAction(action) {
         unlockAchievement("photography");
       }
       showPhotoPopup();
-
       break;
     case "takePicture2":
       statusValues.happiness = Math.min(statusValues.happiness + 4, 100);
@@ -543,7 +406,6 @@ function performAction(action) {
         unlockAchievement("photography");
       }
       showPhotoPopup();
-
       break;
     case "buyFood":
       if (statusValues.money >= 50000) {
@@ -599,19 +461,13 @@ function performAction(action) {
       break;
   }
   updateBars();
-  updateExpBar();
 }
 
-// Location and Button Updates
-let uniqueLocations1 = false;
-let uniqueLocations2 = false;
-let uniqueLocations3 = false;
-let uniqueLocations4 = false;
-let uniqueLocations5 = false;
-
+// Location and button updates
 function updateButtonsAndThemes() {
+  const playerPixels = getPositionInPixels(position.x, position.y);
+  let currentLocation = null;
   let locationText = document.getElementById("location-text");
-  let locationBox = document.getElementById("location");
   let actions = ["action1", "action2", "action3", "action4"].map((id) =>
     document.getElementById(id)
   );
@@ -621,136 +477,121 @@ function updateButtonsAndThemes() {
   ).getHours();
   let body = document.body;
 
-  const locationChecks = [
-    {
-      name: "Tangerang",
-      x: 7.06,
-      y: 13.24,
-      radius: 6,
-      night: './assets/background/default-night.jpg',
-      day: './assets/background/default.jpg',
-      actions: [
-        { text: "Get Some Meal", action: "getMeal" },
-        { text: "Take a Bath", action: "takeBath" },
-        { text: "Sleep", action: "sleep" },
-        { text: "🛈 Do Chores", action: "chores" }
-      ]
-    },
-    {
-      name: "Kuta Beach",
-      x: 31.76,
-      y: 65.44,
-      radius: 6,
-      night: './assets/background/kuta-night.jpg',
-      day: './assets/background/kuta.jpg',
-      actions: [
-        { text: "Sand Play", action: "sandPlay" },
-        { text: "🛈 Buy Drink", action: "buyDrink" },
-        { text: "🛈 Buy Snack", action: "buySnack" },
-        { text: "🛈 Pick-up Trash", action: "pickTrash" }
-      ]
-    },
-    {
-      name: "Lake Toba",
-      x: 44.7,
-      y: 8.82,
-      radius: 6,
-      night: './assets/background/toba-night.jpg',
-      day: './assets/background/toba.jpg',
-      actions: [
-        { text: "Take Picture", action: "takePicture" },
-        { text: "Buy Food", action: "buyFood" },
-        { text: "Buy Souvenir", action: "buySouvenir" },
-        { text: "Catch Fish", action: "catchFish" }
-      ]
-    },
-    {
-      name: "Borobudur Temple",
-      x: 80,
-      y: 35.29,
-      radius: 6,
-      night: './assets/background/borobudur-night.jpg',
-      day: './assets/background/borobudur.jpg',
-      actions: [
-        { text: "Take Picture", action: "takePicture" },
-        { text: "Rent Costume", action: "rentCostume" },
-        { text: "Make Video", action: "makeVideo" },
-        { text: "Pray", action: "pray" }
-      ]
-    },
-    {
-      name: "Mount Bromo",
-      x: 89.41,
-      y: 69.12,
-      radius: 6,
-      night: './assets/background/bromo-night.jpg',
-      day: './assets/background/bromo.jpg',
-      actions: [
-        { text: "Take Picture", action: "takePicture" },
-        { text: "Plant Flag", action: "plantFlag" },
-        { text: "Buy Souvenir", action: "buySouvenir" },
-        { text: "Make Video", action: "makeVideo" }
-      ]
+  // Check against original pixel coordinates
+  for (let [name, point] of Object.entries(locationPoints)) {
+    let dx = point.x - playerPixels.x;
+    let dy = point.y - playerPixels.y;
+    let distance = Math.sqrt(dx * dx + dy * dy);
+    
+    if (distance < 50) {
+      currentLocation = name;
+      break;
     }
-  ];
+  }
 
-  let currentLocation = locationChecks.find(loc => 
-    Math.abs(position.x - loc.x) < loc.radius && 
-    Math.abs(position.y - loc.y) < loc.radius
-  );
-
-  if (currentLocation) {
-    locationText.innerHTML = `You're at ${currentLocation.name}`;
-    localStorage.setItem("currentLocation", currentLocation.name.toLowerCase().replace(" ", "-"));
-    
-    // Add the at-location class for larger box
-    locationBox.classList.add('at-location');
-    
-    currentLocation.actions.forEach((action, index) => {
-      actions[index].innerHTML = action.text;
-      actions[index].onclick = () => performAction(action.action);
-    });
-
-    body.style.backgroundImage = `url('${
-      currentGameTime >= 18 || currentGameTime < 6 
-        ? currentLocation.night 
-        : currentLocation.day
-    }')`;
-  } else {
+  if (currentLocation === "home") {
+    setClickSoundForLocation();
+    locationText.innerHTML = "You're at Tangerang";
+    actions[0].innerHTML = "Get Some Meal";
+    actions[0].onclick = () => performAction("getMeal");
+    actions[1].innerHTML = "Take a Bath";
+    actions[1].onclick = () => performAction("takeBath");
+    actions[2].innerHTML = "Sleep";
+    actions[2].onclick = () => performAction("sleep");
+    actions[3].innerHTML = "🛈 Do Chores";
+    actions[3].onclick = () => performAction("chores");
+    body.style.backgroundImage =
+      currentGameTime >= 18 || currentGameTime < 6
+        ? "url('./assets/background/default-night.jpg')"
+        : "url('./assets/background/default.jpg')";
+  } 
+  else if (currentLocation === "kuta") {
+    setClickSoundForLocation();
+    locationText.innerHTML = "You're at Kuta Beach";
+    actions[0].innerHTML = "Sand Play";
+    actions[0].onclick = () => performAction("sandPlay");
+    actions[1].innerHTML = "🛈 Buy Drink";
+    actions[1].onclick = () => performAction("buyDrink");
+    actions[2].innerHTML = "🛈 Buy Snack";
+    actions[2].onclick = () => performAction("buySnack");
+    actions[3].innerHTML = "🛈 Pick-up Trash";
+    actions[3].onclick = () => performAction("pickTrash");
+    body.style.backgroundImage =
+      currentGameTime >= 18 || currentGameTime < 6
+        ? "url('./assets/background/kuta-night.jpg')"
+        : "url('./assets/background/kuta.jpg')";
+  }
+  else if (currentLocation === "borobudur") {
+    setClickSoundForLocation();
+    locationText.innerHTML = "You're at Borobudur Temple";
+    localStorage.setItem("currentLocation", "borobudur");
+    actions[0].innerHTML = "Take a Picture";
+    actions[0].onclick = () => performAction("takePicture1");
+    actions[1].innerHTML = "🛈 Buy Local Food";
+    actions[1].onclick = () => performAction("buyFood");
+    actions[2].innerHTML = "🛈 Buy Souvenir";
+    actions[2].onclick = () => performAction("buySouvenir");
+    actions[3].innerHTML = "🛈 Rent Local Costume";
+    actions[3].onclick = () => performAction("rentCostume");
+    body.style.backgroundImage =
+      currentGameTime >= 18 || currentGameTime < 6
+        ? "url('./assets/background/borobudur-night.jpg')"
+        : "url('./assets/background/borobudur.jpg')";
+  }
+  else if (currentLocation === "bromo") {
+    setClickSoundForLocation();
+    locationText.innerHTML = "You're at Bromo Mountain";
+    actions[0].innerHTML = "Make a Cinematic Video";
+    actions[0].onclick = () => performAction("makeVideo");
+    actions[1].innerHTML = "🛈 Buy Drink";
+    actions[1].onclick = () => performAction("buyDrink");
+    actions[2].innerHTML = "🛈 Plant a Flag";
+    actions[2].onclick = () => performAction("plantFlag");
+    actions[3].innerHTML = "Pray to God";
+    actions[3].onclick = () => performAction("pray");
+    body.style.backgroundImage =
+      currentGameTime >= 18 || currentGameTime < 6
+        ? "url('./assets/background/bromo-night.jpg')"
+        : "url('./assets/background/bromo.jpg')";
+  }
+  else if (currentLocation === "lake_toba") {
+    setClickSoundForLocation();
+    locationText.innerHTML = "You're at Toba Lake";
+    localStorage.setItem("currentLocation", "lake-toba");
+    actions[0].innerHTML = "Take a Shower";
+    actions[0].onclick = () => performAction("takeShower");
+    actions[1].innerHTML = "Catch a Fish";
+    actions[1].onclick = () => performAction("catchFish");
+    actions[2].innerHTML = "Take a Picture";
+    actions[2].onclick = () => performAction("takePicture2");
+    actions[3].innerHTML = "Wash Clothes";
+    actions[3].onclick = () => performAction("washClothes");
+    body.style.backgroundImage =
+      currentGameTime >= 18 || currentGameTime < 6
+        ? "url('./assets/background/toba-night.jpg')"
+        : "url('./assets/background/toba.jpg')";
+  }
+  else {
     locationText.innerHTML = "You're Lost!";
-    localStorage.setItem("currentLocation", "unknown");
-    // Remove the at-location class when not at a location
-    locationBox.classList.remove('at-location');
-    actions.forEach(action => {
+    actions.forEach((action) => {
       action.innerHTML = "";
       action.onclick = null;
     });
-    body.style.backgroundImage = `url('${
+    body.style.backgroundImage =
       currentGameTime >= 18 || currentGameTime < 6
-        ? './assets/background/default-night.jpg'
-        : './assets/background/default.jpg'
-    }')`;
-
+        ? "url('./assets/background/default-night.jpg')"
+        : "url('./assets/background/default.jpg')";
   }
 }
 
-// Trap and Music
+// Trap system
 const trap = document.getElementById("trap-net");
 function moveTrapRandomly() {
-
-  const randomXPercent = Math.random() * 100;
-  const randomYPercent = Math.random() * 100;
-  const trap = document.getElementById("trap-net");
-  if (trap) {
-    trap.style.left = `${randomXPercent}%`;
-    trap.style.top = `${randomYPercent}%`;
-  }
-  const randomXPixel = Math.floor(Math.random() * (850 - 64));
-  const randomYPixel = Math.floor(Math.random() * (600 - 64));
-  trap.style.left = `${randomXPixel}px`;
-  trap.style.top = `${randomYPixel}px`;
+  const xPercent = (Math.random() * 80) + 10;
+  const yPercent = (Math.random() * 80) + 10;
+  trap.style.left = `${xPercent}%`;
+  trap.style.top = `${yPercent}%`;
 }
-setInterval(moveTrapRandomly, 20000);
 
 function checkTrapCollision() {
   const trapRect = trap.getBoundingClientRect();
@@ -780,33 +621,97 @@ function checkTrapCollision() {
   }
 }
 
-const bgMusic = document.getElementById("bgMusic");
-const volumeSlider = document.getElementById("volumeSlider");
-function updateVolume() {
-  bgMusic.volume = volumeSlider.value;
-}
-volumeSlider.addEventListener("input", updateVolume);
+// Death check
+function checkIfDead() {
+  if (
+    statusValues.health <= 0 ||
+    statusValues.energy <= 0 ||
+    statusValues.hygiene <= 0 ||
+    statusValues.happiness <= 0
+  ) {
+    const player = document.getElementById("player");
+    const holeDeath = document.getElementById("hole-death");
 
-// Decay System
-function decay() {
-  statusValues.health = Math.max(statusValues.health - 5, 0);
-  statusValues.hygiene = Math.max(statusValues.hygiene - 5, 0);
-  statusValues.happiness = Math.max(statusValues.happiness - 5, 0);
+    holeDeath.style.left = `${position.x}%`;
+    holeDeath.style.top = `${position.y}%`;
+    holeDeath.classList.remove("hidden");
+    holeDeath.classList.add("hole-fade-in");
+
+    setDieSound();
+
+    setTimeout(() => {
+      player.classList.add("sink");
+    }, 200);
+
+    setTimeout(() => {
+      window.location.href = "die.html";
+    }, 2000);
+  }
   updateBars();
 }
-setInterval(decay, 60000);
+setInterval(checkIfDead, 1000);
 
-// Initial setup
-updateBars();
-updateButtonsAndThemes();
-
-//Pop Up
-function playShower() {
-  const sound = document.getElementById("shower-sound");
+// Sound system
+function setDieSound() {
+  const sound = document.getElementById("hole-death-sound");
   sound.currentTime = 0;
   sound.play();
 }
 
+function setClickSoundForLocation() {
+  const sound = document.getElementById("location-sound");
+  sound.currentTime = 0;
+  sound.play();
+}
+
+function playClickSound() {
+  const sound = document.getElementById("click-sound");
+  sound.currentTime = 0;
+  sound.play();
+}
+
+// Theme system
+function updateTheme() {
+  let currentHour = new Date().getHours();
+  let body = document.body;
+  let statusBar = document.querySelector(".status-bar");
+  let taskTexts = document.querySelectorAll(
+    "#health-text, #energy-text, #hygiene-text, #happiness-text"
+  );
+
+  let gameTitle = document.querySelector(".status-bar strong");
+  let gameTime = document.getElementById("game-time");
+  let gameDay1 = document.getElementById("game-day1");
+  let gameDay2 = document.getElementById("game-day2");
+  let volumeLabel = document.querySelector("label[for='volumeSlider']");
+
+  if (currentHour >= 18 || currentHour < 6) {
+    gameTitle.style.color = "white";
+    gameTime.style.color = "black";
+    gameDay1.style.color = "white";
+    gameDay2.style.color = "white";
+    taskTexts.forEach((text) => {
+      text.style.color = "white";
+    });
+
+    if (volumeLabel) volumeLabel.style.color = "white";
+  } else {
+    gameTitle.style.color = "";
+    gameTime.style.color = "";
+    gameDay1.style.color = "";
+    gameDay2.style.color = "";
+    taskTexts.forEach((text) => {
+      text.style.color = "black";
+    });
+
+    if (volumeLabel) volumeLabel.style.color = "";
+  }
+}
+
+setInterval(updateTheme, 1000);
+updateTheme();
+
+// Popups
 function showPhotoPopup() {
   const popup = document.getElementById("photo-popup");
   const flash = document.getElementById("camera-flash");
@@ -854,54 +759,94 @@ function showShowerPopup() {
 
   setTimeout(() => {
     document.getElementById("shower-popup").classList.add("hidden");
-
-  }, 9000);
-}
- 
-
-const ProfileManager = {
-  init() {
-    const characterImage =
-      localStorage.getItem("selectedCharacterImage") ||
-      "./assets/logo-and-character/wayang1.png";
-    const playerName = localStorage.getItem("playerName") || "Player";
-
-    document.getElementById("wayang-image").src = characterImage;
-    document.getElementById("wayang-name").textContent = characterDesc;
-    document.getElementById("player-name-profile").textContent = playerName;
-  },
-
-  showProfile() {
-    this.init();
-    document.getElementById("profile-box").classList.remove("hidden");
-  },
-};
-
-document.addEventListener("DOMContentLoaded", () => {
-  ProfileManager.init();
-
-  document.getElementById("close-profile").addEventListener("click", () => {
-    document.getElementById("profile-box").classList.add("hidden");
-  });
-});
-
-function showProfile() {
-  ProfileManager.showProfile();
+  }, 3000);
 }
 
-//Energy Regeneration
+function playShower() {
+  const sound = document.getElementById("shower-sound");
+  sound.currentTime = 0;
+  sound.play();
+}
+
+// Energy regeneration
 function energyRegeneration() {
   const currentTime = Date.now();
   if (currentTime - lastMoveTime >= 30000) {
     if (statusValues.energy < 50) {
       statusValues.energy = Math.min(statusValues.energy + 1, 50);
+      updateBars();
     }
-    updateBars();
   }
 }
 setInterval(energyRegeneration, 1000);
 
+// Decay system
+function decay() {
+  statusValues.health = Math.max(statusValues.health - 5, 0);
+  statusValues.hygiene = Math.max(statusValues.hygiene - 5, 0);
+  statusValues.happiness = Math.max(statusValues.happiness - 5, 0);
+  updateBars();
+}
+setInterval(decay, 60000);
 
+// Initialize game
+function initGame() {
+  // Convert starting position from original pixels to percentages
+  const startPos = getPositionInPercent(435, 260);
+  position = { x: startPos.x, y: startPos.y };
+  step = 2; // Percentage-based step size
+  
+  updatePlayerPosition();
+  moveTrapRandomly();
+  setInterval(moveTrapRandomly, 20000);
+  
+  // Set up button sounds
+  document.querySelectorAll("button[id^='action']").forEach((btn) => {
+    btn.addEventListener("click", playClickSound);
+  });
+  
+  // Initialize achievements display
+  updateAchievementsDisplay();
+  
+  // Start game systems
+  requestAnimationFrame(updateGameClock);
+  setInterval(checkIfDead, 1000);
+  setInterval(energyRegeneration, 1000);
+  setInterval(decay, 60000);
+  
+  // Initialize volume control
+  const volumeSlider = document.getElementById("volumeSlider");
+  function updateVolume() {
+    document.getElementById("bgMusic").volume = volumeSlider.value;
+  }
+  volumeSlider.addEventListener("input", updateVolume);
+  updateVolume();
+}
+
+// Handle window resize
 window.addEventListener('resize', () => {
   updatePlayerPosition();
+});
+
+// Initialize achievements click handlers
+document.querySelectorAll(".achievement-item").forEach((item) => {
+  item.addEventListener("click", () => {
+    const key = item.dataset.achievement;
+    let taskMessage = "";
+    switch (key) {
+      case "photography":
+        taskMessage = "Take 2 pictures around the map.";
+        break;
+      case "map":
+        taskMessage = "Explore at least 5 unique locations.";
+        break;
+      case "artifact":
+        taskMessage = "Collect 3.000.000 IDR.";
+        break;
+      case "Composting":
+        taskMessage = "Collect 10 trash at Beach.";
+        break;
+    }
+    alert(`Task to unlock "${key}":\n${taskMessage}`);
+  });
 });
