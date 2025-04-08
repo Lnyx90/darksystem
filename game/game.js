@@ -112,8 +112,8 @@ setInterval(updateTheme, 1000);
 updateTheme();
 
 //Player movement & position
-let position = { x: 435, y: 260 };
-let step = 15;
+let position = { x: 50, y: 40 }; // Starting position in percentage
+let step = 2; // Step size in percentage
 
 let hole = document.querySelector(
   "img[src='./assets/logo-and-character/hole.png']"
@@ -137,29 +137,46 @@ function closePopup() {
 //Movement and Energy
 let stepCount = 0;
 
+function getMapBounds() {
+  const mapContainer = document.querySelector('.map-container');
+  return {
+    width: mapContainer.offsetWidth,
+    height: mapContainer.offsetHeight
+  };
+}
+
+function updatePlayerPosition() {
+  const player = document.getElementById('player');
+  if (!player) return;
+
+  // Clamp position between 0% and 100%
+  position.x = Math.max(0, Math.min(100, position.x));
+  position.y = Math.max(0, Math.min(100, position.y));
+
+  player.style.left = `${position.x}%`;
+  player.style.top = `${position.y}%`;
+}
+
 function move(direction) {
-  const mapBounds = { left: 0, right: 800, top: 0, bottom: 500 };
-  let player = document.getElementById("player");
-  let playerImg = document.getElementById("player-img");
+  if (!player) return;
   let prevX = position.x;
   let prevY = position.y;
-  if (!player) return;
 
   if (statusValues.energy != 0) {
     switch (direction) {
       case "up":
-        if (position.y - step >= mapBounds.top) position.y -= step;
+        if (position.y - step >= 0) position.y -= step;
         break;
       case "down":
-        if (position.y + step <= mapBounds.bottom) position.y += step;
+        if (position.y + step <= 100) position.y += step;
         break;
       case "left":
-        if (position.x - step >= mapBounds.left) position.x -= step;
-        playerImg.style.transform = "scaleX(-1)";
+        if (position.x - step >= 0) position.x -= step;
+        document.getElementById('player-img').style.transform = 'scaleX(-1)';
         break;
       case "right":
-        if (position.x + step <= mapBounds.right) position.x += step;
-        playerImg.style.transform = "scaleX(1)";
+        if (position.x + step <= 100) position.x += step;
+        document.getElementById('player-img').style.transform = 'scaleX(1)';
         break;
     }
   }
@@ -169,30 +186,7 @@ function move(direction) {
     setTimeout(() => (player.style.animation = ""), 200);
   }
 
-  if (Math.abs(position.x - 435) > 10 || Math.abs(position.y - 260) > 10) {
-    hole.style.transition = "opacity 0.5s";
-    hole.style.opacity = "0";
-    setTimeout(() => hole.remove(), 500);
-  }
-
-  player.style.left = position.x + "px";
-  player.style.top = position.y + "px";
-
-  const style = document.createElement("style");
-  style.innerHTML = `
-      @keyframes shake {
-        0% { transform: translateX(0); }
-        25% { transform: translateX(-3px); }
-        50% { transform: translateX(3px); }
-        75% { transform: translateX(-3px); }
-        100% { transform: translateX(0); }
-      }`;
-  document.head.appendChild(style);
-
-  setTimeout(() => {
-    player.style.transform = "scale(1)";
-  }, 200);
-
+  updatePlayerPosition();
   updateButtonsAndThemes();
 
   if (position.x !== prevX || position.y !== prevY) {
@@ -361,133 +355,135 @@ function performAction(action) {
 
 function updateButtonsAndThemes() {
   let locationText = document.getElementById("location-text");
+  let locationBox = document.getElementById("location");
   let actions = ["action1", "action2", "action3", "action4"].map((id) =>
     document.getElementById(id)
   );
   let body = document.body;
 
-  if (Math.abs(position.x - 60) < 50 && Math.abs(position.y - 90) < 50) {
-    locationText.innerHTML = "You're at Tangerang";
-    localStorage.setItem("currentLocation", "tangerang");
-    actions[0].innerHTML = "Get Some Meal";
-    actions[0].onclick = () => performAction("getMeal");
-    actions[1].innerHTML = "Take a Bath";
-    actions[1].onclick = () => performAction("takeBath");
-    actions[2].innerHTML = "Sleep";
-    actions[2].onclick = () => performAction("sleep");
-    actions[3].innerHTML = "🛈 Do Chores";
-    actions[3].onclick = () => performAction("chores");
-    body.style.backgroundImage = currentHour >= 18 || currentHour < 6 ?
-      "url('./assets/background/default-night.jpg')" : "url('./assets/background/default.jpg')";
-  } 
-  else if (Math.abs(position.x - 280) < 60 && Math.abs(position.y - 440) < 60) {
 
+  const locationChecks = [
+    {
+      name: "Tangerang",
+      x: 7.06,
+      y: 13.24,
+      radius: 6,
+      night: './assets/background/default-night.jpg',
+      day: './assets/background/default.jpg',
+      actions: [
+        { text: "Get Some Meal", action: "getMeal" },
+        { text: "Take a Bath", action: "takeBath" },
+        { text: "Sleep", action: "sleep" },
+        { text: "🛈 Do Chores", action: "chores" }
+      ]
+    },
+    {
+      name: "Kuta Beach",
+      x: 31.76,
+      y: 65.44,
+      radius: 6,
+      night: './assets/background/kuta-night.jpg',
+      day: './assets/background/kuta.jpg',
+      actions: [
+        { text: "Sand Play", action: "sandPlay" },
+        { text: "🛈 Buy Drink", action: "buyDrink" },
+        { text: "🛈 Buy Snack", action: "buySnack" },
+        { text: "🛈 Pick-up Trash", action: "pickTrash" }
+      ]
+    },
+    {
+      name: "Lake Toba",
+      x: 44.7,
+      y: 8.82,
+      radius: 6,
+      night: './assets/background/toba-night.jpg',
+      day: './assets/background/toba.jpg',
+      actions: [
+        { text: "Take Picture", action: "takePicture" },
+        { text: "Buy Food", action: "buyFood" },
+        { text: "Buy Souvenir", action: "buySouvenir" },
+        { text: "Catch Fish", action: "catchFish" }
+      ]
+    },
+    {
+      name: "Borobudur Temple",
+      x: 80,
+      y: 35.29,
+      radius: 6,
+      night: './assets/background/borobudur-night.jpg',
+      day: './assets/background/borobudur.jpg',
+      actions: [
+        { text: "Take Picture", action: "takePicture" },
+        { text: "Rent Costume", action: "rentCostume" },
+        { text: "Make Video", action: "makeVideo" },
+        { text: "Pray", action: "pray" }
+      ]
+    },
+    {
+      name: "Mount Bromo",
+      x: 89.41,
+      y: 69.12,
+      radius: 6,
+      night: './assets/background/bromo-night.jpg',
+      day: './assets/background/bromo.jpg',
+      actions: [
+        { text: "Take Picture", action: "takePicture" },
+        { text: "Plant Flag", action: "plantFlag" },
+        { text: "Buy Souvenir", action: "buySouvenir" },
+        { text: "Make Video", action: "makeVideo" }
+      ]
+    }
+  ];
 
-    body.style.backgroundImage =
-      currentGameTime >= 18 && currentGameTime < 6
-        ? "url('./assets/background/default-night.jpg')"
-        : "url('./assets/background/default.jpg')";
-  } else if (
-    Math.abs(position.x - 280) < 60 &&
-    Math.abs(position.y - 440) < 60
-  ) {
+  let currentLocation = locationChecks.find(loc => 
+    Math.abs(position.x - loc.x) < loc.radius && 
+    Math.abs(position.y - loc.y) < loc.radius
+  );
 
-    locationText.innerHTML = "You're at Kuta Beach";
-    localStorage.setItem("currentLocation", "kuta");
-    actions[0].innerHTML = "Sand Play";
-    actions[0].onclick = () => performAction("sandPlay");
-    actions[1].innerHTML = "🛈 Buy Drink";
-    actions[1].onclick = () => performAction("buyDrink");
-    actions[2].innerHTML = "🛈 Buy Snack";
-    actions[2].onclick = () => performAction("buySnack");
-    actions[3].innerHTML = "🛈 Pick-up Trash";
-    actions[3].onclick = () => performAction("pickTrash");
+  if (currentLocation) {
+    locationText.innerHTML = `You're at ${currentLocation.name}`;
+    localStorage.setItem("currentLocation", currentLocation.name.toLowerCase().replace(" ", "-"));
+    
+    // Add the at-location class for larger box
+    locationBox.classList.add('at-location');
+    
+    currentLocation.actions.forEach((action, index) => {
+      actions[index].innerHTML = action.text;
+      actions[index].onclick = () => performAction(action.action);
+    });
 
-    currentGameTime >= 18 && currentGameTime < 6
-      ? "url('./assets/background/kuta-night.jpg')"
-      : "url('./assets/background/kuta.jpg')";
-  } else if (
-    Math.abs(position.x - 690) < 60 &&
-    Math.abs(position.y - 210) < 60
-  ) {
-    locationText.innerHTML = "You're at Borobudur Temple";
-    localStorage.setItem("currentLocation", "borobudur");
-    actions[0].innerHTML = "Take a Picture";
-    actions[0].onclick = () => performAction("takePicture");
-    actions[1].innerHTML = "🛈 Buy Local Food";
-    actions[1].onclick = () => performAction("buyFood");
-    actions[2].innerHTML = "🛈 Buy Souvenir";
-    actions[2].onclick = () => performAction("buySouvenir");
-    actions[3].innerHTML = "🛈 Rent Local Costume";
-    actions[3].onclick = () => performAction("rentCostume");
-
-    body.style.backgroundImage =
-      currentGameTime >= 18 && currentGameTime < 6
-        ? "url('./assets/background/borobudur-night.jpg')"
-        : "url('./assets/background/borobudur.jpg')";
-  } else if (
-    Math.abs(position.x - 770) < 60 &&
-    Math.abs(position.y - 460) < 60
-  ) {
-    locationText.innerHTML = "You're at Bromo Mountain";
-    localStorage.setItem("currentLocation", "bromo");
-    actions[0].innerHTML = "Make a Cinematic Video";
-    actions[0].onclick = () => performAction("makeVideo");
-    actions[1].innerHTML = "🛈 Buy Drink";
-    actions[1].onclick = () => performAction("buyDrink");
-    actions[2].innerHTML = "🛈 Plant a Flag";
-    actions[2].onclick = () => performAction("plantFlag");
-    actions[3].innerHTML = "Pray to God";
-    actions[3].onclick = () => performAction("pray");
-
-    body.style.backgroundImage =
-      currentGameTime >= 18 && currentGameTime < 6
-        ? "url('./assets/background/bromo-night.jpg')"
-        : "url('./assets/background/bromo.jpg')";
-  } else if (
-    Math.abs(position.x - 385) < 60 &&
-    Math.abs(position.y - 35) < 60
-  ) {
-    locationText.innerHTML = "You're at Toba Lake";
-    localStorage.setItem("currentLocation", "lake-toba");
-    actions[0].innerHTML = "Take a Shower";
-    actions[0].onclick = () => performAction("takeShower");
-    actions[1].innerHTML = "Catch a Fish";
-    actions[1].onclick = () => performAction("catchFish");
-    actions[2].innerHTML = "Take a Picture";
-    actions[2].onclick = () => performAction("takePicture");
-    actions[3].innerHTML = "Wash Clothes";
-    actions[3].onclick = () => performAction("washClothes");
-
-    body.style.backgroundImage =
-      currentGameTime >= 18 && currentGameTime < 6
-        ? "url('./assets/background/toba-night.jpg')"
-        : "url('./assets/background/toba.jpg')";
+    body.style.backgroundImage = `url('${
+      currentGameTime >= 18 || currentGameTime < 6 
+        ? currentLocation.night 
+        : currentLocation.day
+    }')`;
   } else {
     locationText.innerHTML = "You're Lost!";
-
     localStorage.setItem("currentLocation", "unknown");
-    actions.forEach((action) => {
-
-    actions.forEach((action) => {
+    // Remove the at-location class when not at a location
+    locationBox.classList.remove('at-location');
+    actions.forEach(action => {
       action.innerHTML = "";
       action.onclick = null;
     });
-    });
-    body.style.backgroundImage =
-      currentGameTime >= 18 && currentGameTime < 6
-        ? "url('./assets/background/default-night.jpg')"
-        : "url('./assets/background/default.jpg')";
+    body.style.backgroundImage = `url('${
+      currentGameTime >= 18 || currentGameTime < 6
+        ? './assets/background/default-night.jpg'
+        : './assets/background/default.jpg'
+    }')`;
   }
 }
 
 // Trap and Music
 const trap = document.getElementById("trap-net");
 function moveTrapRandomly() {
-  const x = Math.floor(Math.random() * (850 - 64));
-  const y = Math.floor(Math.random() * (630 - 64));
-  trap.style.left = `${x}px`;
-  trap.style.top = `${y}px`;
+  const x = Math.random() * 100;
+  const y = Math.random() * 100;
+  const trap = document.getElementById("trap-net");
+  if (trap) {
+    trap.style.left = `${x}%`;
+    trap.style.top = `${y}%`;
+  }
 }
 setInterval(moveTrapRandomly, 20000);
 
@@ -582,3 +578,7 @@ function energyRegeneration() {
 }
 setInterval(energyRegeneration, 1000);
 
+
+window.addEventListener('resize', () => {
+  updatePlayerPosition();
+});

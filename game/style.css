@@ -1,4 +1,4 @@
-.character-container {
+character-container {
   transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
@@ -31,7 +31,6 @@ body {
   font-family: "Press Start 2P", cursive;
 }
 
-
 .choosetext h1 {
   position: absolute;
   top: 5%;
@@ -39,7 +38,6 @@ body {
   transform: translateX(-50%);
   text-align: center;
 }
-
 
 @keyframes emergeFromHole {
   0% {
@@ -54,42 +52,32 @@ body {
 
 #player {
   transition: left 0.3s ease-out, top 0.3s ease-out;
-
-  }
-
-  #location{
-      top: -40px;
-  }
-
-  .map{
-      margin-top: -20px;
-  }
-
-@keyframes shake {
-  0% { transform: translate(0px, 0px); }
-  25% { transform: translate(5px, 0px); }
-  50% { transform: translate(-5px, 0px); }
-  75% { transform: translate(5px, 0px); }
-  100% { transform: translate(0px, 0px); }
 }
 
-.damage-effect {
-  animation: shake 0.3s ease;
-  background-color: rgba(255, 0, 0, 0.4);
-}
-
-#location{
+#location {
   top: -40px;
 }
 
-.map{
+.map {
   margin-top: -20px;
-
 }
 
-.money{
-width: 5px;
-height: 3px;
+@keyframes shake {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  25% {
+    transform: translate(5px, 0px);
+  }
+  50% {
+    transform: translate(-5px, 0px);
+  }
+  75% {
+    transform: translate(5px, 0px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
 }
 
 .damage-effect {
@@ -97,9 +85,30 @@ height: 3px;
   background-color: rgba(255, 0, 0, 0.4);
 }
 
+#location {
+  top: -40px;
+}
+
+.map {
+  margin-top: -20px;
+}
+
+.money {
+  width: 5px;
+  height: 3px;
+}
+
+.damage-effect {
+  animation: shake 0.3s ease;
+  background-color: rgba(255, 0, 0, 0.4);
+}
 
 .opacity-100 {
   opacity: 1 !important;
+}
+
+.opacity-40 {
+  opacity: 0.4;
 }
 
 @keyframes sinkIntoHole {
@@ -119,15 +128,18 @@ height: 3px;
 }
 
 @keyframes holeFadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-  .sink {
+.sink {
   animation: sinkIntoHole 1s ease forwards;
 }
 
 .hole-fade-in {
   animation: holeFadeIn 0.5s ease forwards;
 }
-
