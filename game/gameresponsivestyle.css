@@ -36,7 +36,6 @@ scale-factor {
   min-width: 250px;
 }
 
-/* Map assets */
 .map-asset {
   position: absolute;
   width: 28px;
@@ -73,7 +72,7 @@ scale-factor {
   font-size: clamp(8px, 1.2vw, 12px);
 }
 
-/* Desktop layout (normal screen) */
+
 @media screen and (min-width: 1193px) {
   .controls-container {
     background: rgba(255, 255, 255, 0.95);
@@ -117,7 +116,7 @@ scale-factor {
   }
 }
 
-/* Tablet and mobile layout */
+
 @media screen and (max-width: 1192px) {
   .map {
     flex-direction: column;
@@ -173,7 +172,6 @@ scale-factor {
     margin-top: 0.25rem;
   }
 
-  /* Mobile specific adjustments */
   @media screen and (max-width: 640px) {
     .bar-container {
       margin-top: 3rem;

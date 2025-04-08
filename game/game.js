@@ -117,8 +117,8 @@ setInterval(updateTheme, 1000);
 updateTheme();
 
 //Player movement & position
-let position = { x: 50, y: 40 }; // Starting position in percentage
-let step = 2; // Step size in percentage
+let position = { x: 50, y: 40 };
+let step = 2; 
 
 let hole = document.querySelector(
   "img[src='./assets/logo-and-character/hole.png']"
