@@ -738,17 +738,17 @@ function updateButtonsAndThemes() {
 const trap = document.getElementById("trap-net");
 function moveTrapRandomly() {
 
-  const x = Math.random() * 100;
-  const y = Math.random() * 100;
+  const randomXPercent = Math.random() * 100;
+  const randomYPercent = Math.random() * 100;
   const trap = document.getElementById("trap-net");
   if (trap) {
-    trap.style.left = `${x}%`;
-    trap.style.top = `${y}%`;
+    trap.style.left = `${randomXPercent}%`;
+    trap.style.top = `${randomYPercent}%`;
   }
-  const x = Math.floor(Math.random() * (850 - 64));
-  const y = Math.floor(Math.random() * (600 - 64));
-  trap.style.left = `${x}px`;
-  trap.style.top = `${y}px`;
+  const randomXPixel = Math.floor(Math.random() * (850 - 64));
+  const randomYPixel = Math.floor(Math.random() * (600 - 64));
+  trap.style.left = `${randomXPixel}px`;
+  trap.style.top = `${randomYPixel}px`;
 }
 setInterval(moveTrapRandomly, 20000);
 
@@ -855,7 +855,8 @@ function showShowerPopup() {
   setTimeout(() => {
     document.getElementById("shower-popup").classList.add("hidden");
 
-  }, 9000); 
+  }, 9000);
+}
  
 
 const ProfileManager = {
