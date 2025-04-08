@@ -47,6 +47,11 @@
         >
           ❯
         </button>
+        <audio
+          id="click-sound"
+          src="./assets/bg-music/click.mp4"
+          preload="auto"
+        ></audio>
       </div>
       <input
         type="text"
@@ -60,6 +65,11 @@
       >
         Select Character
       </button>
+      <audio
+        id="click-sound"
+        src="./assets/bg-music/click.mp4"
+        preload="auto"
+      ></audio>
     </div>
 
     <div
@@ -73,12 +83,21 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         let existingMusic = document.getElementById("bgMusic");
+
+        let characters = [
+          "assets/wayang1.png",
+          "assets/wayang2.png",
+          "assets/wayang3.png",
+        ];
+
+        let currentIndex = 0;
+        let characterImg = document.getElementById("character");
+
         if (!existingMusic) {
           let newMusic = document.createElement("audio");
 
           newMusic.id = "bgMusic";
           newMusic.loop = true;
-          newMusic.volume = 0.1;
           newMusic.innerHTML = `<source src="./assets/bg-music/background-music.mp3" type="audio/mpeg">`;
 
           document.body.appendChild(newMusic);
@@ -110,17 +129,24 @@
         }, 300);
       }
 
+      function playClickSound() {
+        const sound = document.getElementById("click-sound");
+        sound.currentTime = 0;
+        sound.play();
+      }
+
       function prevCharacter() {
+        playClickSound();
         currentIndex =
           (currentIndex - 1 + characters.length) % characters.length;
         updateCharacter();
       }
 
       function nextCharacter() {
+        playClickSound();
         currentIndex = (currentIndex + 1) % characters.length;
         updateCharacter();
       }
-
       function showNotification(message) {
         let notification = document.getElementById("notification");
         notification.innerHTML = `<div class="flex items-center"><img src="./assets/logo-and-character/alert.png" class="w-8 h-8 mr-2"> <span>${message}</span></div>`;
@@ -133,6 +159,7 @@
       }
 
       function selectCharacter() {
+        playClickSound();
         let playerName = document.getElementById("playerName").value.trim();
         if (playerName === "") {
           showNotification(" Please enter your name!");

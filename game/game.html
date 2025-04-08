@@ -213,6 +213,7 @@
             Welcome to Archipelago
           </div>
 
+
           <div class="flex items-center justify-center gap-3 mb-4">
             <img src="./assets/logo-and-character/time.png" alt="day" class="w-6 h-6 sm:w-8 sm:h-8">
             <span id="game-time" class="text-xs sm:text-sm"></span>
@@ -223,8 +224,30 @@
             <button id="action2" class="w-full bg-blue-500 text-white p-2 text-xs sm:text-sm rounded-lg hover:bg-blue-600 transition-colors"></button>
             <button id="action3" class="w-full bg-blue-500 text-white p-2 text-xs sm:text-sm rounded-lg hover:bg-blue-600 transition-colors"></button>
             <button id="action4" class="w-full bg-yellow-500 text-white p-2 text-xs sm:text-sm rounded-lg hover:bg-yellow-600 transition-colors"></button>
+          <img id="trap-net" src="./assets/logo-and-character/trap.png" class="absolute w-16 h-16 transition-all duration-500 ease-in-out" style="left: 150px; top: 200px; z-index: 6;">
+          <img src="./assets/logo-and-character/hole.png" class="absolute w-16 h-16" style="left: 425px; top: 300px; z-index: 5;">
+          <img id="hole-death" src="./assets/logo-and-character/hole.png" class="absolute w-16 h-16 hidden" style="z-index: 5;">
+          <audio id="hole-death-sound" src="./assets/bg-music/die.mp4" preload="auto"></audio>
+          <img src="./assets/logo-and-character/home.png" class="absolute w-16 h-16" style="left: 60px; top: 90px; z-index: 5;">
+          <img src="./assets/logo-and-character/bromo.png" class="absolute w-16 h-16" style="left: 760px; top: 470px; z-index: 5;">
+          <img src="./assets/logo-and-character/kuta.png" class="absolute w-16 h-16" style="left: 270px; top: 445px; z-index: 5;">
+          <img src="./assets/logo-and-character/borobudur.png" class="absolute w-16 h-16" style="left: 680px; top: 240px; z-index: 5;">
+          <img src="./assets/logo-and-character/lake_toba.png" class="absolute w-16 h-16" style="left: 380px; top: 60px; z-index: 5;">
+          <div class="mt-4 flex items-center space-x-3 w-64">
+            <label for="volumeSlider" class="text-sm font-medium text-gray-700">Volume</label>
+            <input
+              type="range"
+              id="volumeSlider"
+              min="0"
+              max="1"
+              step="0.01"
+              value="1"
+              class="w-full accent-blue-500"
+              onchange="updateVolume()"
+            />
+
           </div>
-        </div>
+        </div> 
 
         <div class="flex flex-col items-center gap-4">
           <div class="game-controls">
@@ -291,9 +314,12 @@
 
 
     <audio id="shower-sound" src="assets/bg-music/shower-14461.mp3" preload="auto"></audio>
-  </div>
+    </div>
+      
+      
+      
+      
+   <script src="./game.js"></script>
 
-
-  <script src="./game.js"></script>
-
-</body>
+  </body>
+</html>
