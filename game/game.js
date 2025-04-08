@@ -99,7 +99,7 @@ function updateTheme() {
       text.style.color = "white";
     });
 
-    if (volumeLabel) volumeLabel.style.color = "white";
+    if (volumeLabel) volumeLabel.style.color = "black";
   } else {
     gameTitle.style.color = "";
     gameTime.style.color = "";
@@ -215,6 +215,26 @@ function updatePlayerPosition() {
   player.style.top = `${position.y}%`;
 }
 
+function getMapBounds() {
+  const mapContainer = document.querySelector('.map-container');
+  return {
+    width: mapContainer.offsetWidth,
+    height: mapContainer.offsetHeight
+  };
+}
+
+function updatePlayerPosition() {
+  const player = document.getElementById('player');
+  if (!player) return;
+
+  // Clamp position between 0% and 100%
+  position.x = Math.max(0, Math.min(100, position.x));
+  position.y = Math.max(0, Math.min(100, position.y));
+
+  player.style.left = `${position.x}%`;
+  player.style.top = `${position.y}%`;
+}
+
 function move(direction) {
   if (!player) return;
   let prevX = position.x;
@@ -239,15 +259,45 @@ function move(direction) {
     }
   }
 
+  setTimeout(() => {
+    player.style.transform = "scale(1)";
+  }, 200);
+
+  player.style.left = position.x + "px";
+  player.style.top = position.y + "px";
+
   if (position.x === prevX && position.y === prevY) {
     player.style.animation = "shake 0.2s";
     setTimeout(() => (player.style.animation = ""), 200);
   }
+  
+  if (Math.abs(position.x - 450) > 10 || Math.abs(position.y - 260) > 10) {
+    hole.style.transition = "opacity 0.5s";
+    hole.style.opacity = "0";
+    setTimeout(() => hole.remove(), 500);
+  }
+
+  const style = document.createElement("style");
+  style.innerHTML = `
+      @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-3px); }
+        50% { transform: translateX(3px); }
+        75% { transform: translateX(-3px); }
+        100% { transform: translateX(0); }
+      }`;
+  document.head.appendChild(style);
+
+  setTimeout(() => {
+    player.style.transform = "scale(1)";
+  }, 200);
+
 
   updatePlayerPosition();
   updateButtonsAndThemes();
 
   if (position.x !== prevX || position.y !== prevY) {
+    lastMoveTime = Date.now();
     stepCount++;
     if (stepCount % 2 === 0) {
       statusValues.energy = Math.max(statusValues.energy - 1, 0);
@@ -732,6 +782,7 @@ function updateButtonsAndThemes() {
     }')`;
 
   }
+  updateBars();
 }
 
 // Trap and Music
@@ -785,6 +836,8 @@ const volumeSlider = document.getElementById("volumeSlider");
 function updateVolume() {
   bgMusic.volume = volumeSlider.value;
 }
+volumeSlider.value = 0.1;
+bgMusic.volume = 0.1;
 volumeSlider.addEventListener("input", updateVolume);
 
 // Decay System

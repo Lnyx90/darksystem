@@ -1,7 +1,5 @@
-
 .character-container {
-
-  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 .floating {
@@ -33,6 +31,7 @@ body {
   font-family: "Press Start 2P", cursive;
 }
 
+
 .choosetext h1 {
   position: absolute;
   top: 5%;
@@ -40,6 +39,7 @@ body {
   transform: translateX(-50%);
   text-align: center;
 }
+
 
 @keyframes emergeFromHole {
   0% {
@@ -51,7 +51,6 @@ body {
     transform: scale(1) translateY(0);
   }
 }
-
 
 #player {
   transition: left 0.3s ease-out, top 0.3s ease-out;
