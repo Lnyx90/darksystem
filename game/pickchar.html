@@ -46,9 +46,12 @@
           class="px-3 sm:px-6 py-2 sm:py-3 bg-blue-800 text-white text-sm sm:text-lg rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-110"
         >
           ❯
-
         </button>
-        <audio id="click-sound" src="./assets/bg-music/click.mp4" preload="auto"></audio>
+        <audio
+          id="click-sound"
+          src="./assets/bg-music/click.mp4"
+          preload="auto"
+        ></audio>
       </div>
       <input
         type="text"
@@ -62,7 +65,11 @@
       >
         Select Character
       </button>
-      <audio id="click-sound" src="./assets/bg-music/click.mp4" preload="auto"></audio>
+      <audio
+        id="click-sound"
+        src="./assets/bg-music/click.mp4"
+        preload="auto"
+      ></audio>
     </div>
 
     <div
@@ -78,17 +85,16 @@
         let existingMusic = document.getElementById("bgMusic");
 
         let characters = [
-            "assets/wayang1.png",
-            "assets/wayang2.png",
-            "assets/wayang3.png"
+          "assets/wayang1.png",
+          "assets/wayang2.png",
+          "assets/wayang3.png",
         ];
-        
+
         let currentIndex = 0;
         let characterImg = document.getElementById("character");
 
         if (!existingMusic) {
           let newMusic = document.createElement("audio");
-
 
           newMusic.id = "bgMusic";
           newMusic.loop = true;
@@ -111,7 +117,6 @@
         "./assets/logo-and-character/wayang3.png",
       ];
 
-
       let currentIndex = 0;
       let characterImg = document.getElementById("character");
 
@@ -126,18 +131,19 @@
 
       function playClickSound() {
         const sound = document.getElementById("click-sound");
-        sound.currentTime = 0; 
+        sound.currentTime = 0;
         sound.play();
       }
 
       function prevCharacter() {
-        playClickSound(); 
-        currentIndex = (currentIndex - 1 + characters.length) % characters.length;
+        playClickSound();
+        currentIndex =
+          (currentIndex - 1 + characters.length) % characters.length;
         updateCharacter();
       }
 
       function nextCharacter() {
-        playClickSound(); 
+        playClickSound();
         currentIndex = (currentIndex + 1) % characters.length;
         updateCharacter();
       }
