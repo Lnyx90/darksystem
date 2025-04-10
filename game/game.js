@@ -308,6 +308,8 @@ const expText = document.getElementById("exp");
 const levelText1 = document.getElementById("level1");
 const levelText2 = document.getElementById("level2");
 const addExpBtn = document.getElementById("add-exp");
+
+// Achievement system
 let achievements = {
   photography: false,
   map: false,
@@ -315,14 +317,18 @@ let achievements = {
   Composting: false,
 };
 
-document.getElementById("profile-btn").addEventListener("click", () => {
-  document.getElementById("profile-box").classList.remove("hidden");
+// Profile button events
+profileBtn.addEventListener("click", () => {
+  profileBox.classList.remove("hidden");
+  playClickSound();
 });
 
-document.getElementById("close-profile").addEventListener("click", () => {
-  document.getElementById("profile-box").classList.add("hidden");
+closeProfile.addEventListener("click", () => {
+  profileBox.classList.add("hidden");
+  playClickSound();
 });
 
+// Achievement display functions
 function updateAchievementsDisplay() {
   document.querySelectorAll(".achievement-item").forEach((item) => {
     const key = item.dataset.achievement;
@@ -334,23 +340,25 @@ function updateAchievementsDisplay() {
   });
 }
 
+// Achievement click handlers
 document.querySelectorAll(".achievement-item").forEach((item) => {
   item.addEventListener("click", () => {
     const key = item.dataset.achievement;
-
+    playClickSound();
+    
     let taskMessage = "";
     switch (key) {
       case "photography":
-        taskMessage = "Take 2 pictures around the map."; //tlg kasi tampilan
+        taskMessage = "Take 2 pictures around the map.";
         break;
       case "map":
-        taskMessage = "Explore at least 5 unique locations."; //tlg kasi tampilan
+        taskMessage = "Explore at least 5 unique locations.";
         break;
       case "artifact":
-        taskMessage = "Collect 3.000.000 IDR."; //tlg kasi tampilan
+        taskMessage = "Collect 3.000.000 IDR.";
         break;
       case "Composting":
-        taskMessage = "Collect 10 trash at Beach."; //tlg kasi tampilan
+        taskMessage = "Collect 10 trash at Beach.";
         break;
     }
 
@@ -358,18 +366,103 @@ document.querySelectorAll(".achievement-item").forEach((item) => {
   });
 });
 
+// Achievement unlock function with popup
+// Achievement unlock function with popup - only shows once when first unlocked
 function unlockAchievement(key) {
   if (achievements.hasOwnProperty(key) && !achievements[key]) {
     achievements[key] = true;
     updateAchievementsDisplay();
+    showAchievementPopup(key);
+    saveAchievements();
     console.log(`Achievement "${key}" unlocked!`);
   }
 }
 
+
+// Achievement popup functions
+function showAchievementPopup(achievement) {
+  const popup = document.getElementById("achievement-popup");
+  const icon = document.getElementById("achievement-icon");
+  const title = document.getElementById("achievement-title");
+  const desc = document.getElementById("achievement-desc");
+  
+  // Set achievement details
+  switch(achievement) {
+    case 'photography':
+      icon.src = 'assets/logo-and-character/capture-more.jpg';
+      title.textContent = 'Photographer';
+      desc.textContent = 'Captured your first photo!';
+      break;
+    case 'map':
+      icon.src = 'assets/logo-and-character/explorer.jpg';
+      title.textContent = 'Map Explorer';
+      desc.textContent = 'Visited all locations!';
+      break;
+    case 'artifact':
+      icon.src = 'assets/logo-and-character/treasure.jpg';
+      title.textContent = 'Collector';
+      desc.textContent = 'Found your first artifact!';
+      break;
+    case 'Composting':
+      icon.src = 'assets/logo-and-character/composting.jpg';
+      title.textContent = 'Eco Warrior';
+      desc.textContent = 'Completed composting!';
+      break;
+  }
+  
+  // Play achievement sound
+  const sound = new Audio('./assets/bg-music/achievement.mp3');
+  sound.volume = 0.3;
+  sound.play();
+  
+  // Show popup
+  popup.classList.remove("hidden");
+  popup.classList.remove("translate-x-full");
+  
+  // Hide after 5 seconds
+  setTimeout(() => {
+    popup.classList.add("translate-x-full");
+    setTimeout(() => popup.classList.add("hidden"), 300);
+  }, 5000);
+}
+
+
+function saveAchievements() {
+ 
+}
+
+function loadAchievements() {
+ 
+}
+
+// Helper function for click sounds
+function playClickSound() {
+  const clickSound = document.getElementById("click-sound");
+  if (clickSound) {
+    clickSound.currentTime = 0;
+    clickSound.play();
+  }
+}
+
+// Initialize on load
+window.addEventListener('load', loadAchievements);
+
+// Helper function for click sounds
+function playClickSound() {
+  const clickSound = document.getElementById("click-sound");
+  if (clickSound) {
+    clickSound.currentTime = 0;
+    clickSound.play();
+  }
+}
+
+// Initialize on load
+window.addEventListener('load', loadAchievements);
+
 document.addEventListener("DOMContentLoaded", () => {
   updateAchievementsDisplay();
 });
-const maxExp = 100;
+const maxExp = 100; 
 
 profileBtn.addEventListener("click", () => {
   profileBox.classList.remove("hidden");
